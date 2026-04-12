@@ -2,24 +2,452 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UpServ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+  <title>Upserv</title>
+  <meta name="description" content="Placeholder description — branding to be defined.">
+
+  <!-- Fonts: Geist (display) + Inter (body/UI) -->
+  <link href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
+
   <link rel="stylesheet" href="css/styles.css">
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is AI visibility for a business?","acceptedAnswer":{"@type":"Answer","text":"AI visibility refers to how accurately AI systems can read, understand, and represent a business when answering user queries."}},{"@type":"Question","name":"How is AI visibility different from SEO?","acceptedAnswer":{"@type":"Answer","text":"Traditional SEO optimises for Google search rankings. AI visibility optimises so AI systems can understand and recommend a business directly in their answers."}},{"@type":"Question","name":"How does ChatGPT decide who to recommend?","acceptedAnswer":{"@type":"Answer","text":"ChatGPT recommends businesses based on the quality, clarity, and structure of information available about them across the internet."}},{"@type":"Question","name":"What does Upserv do exactly?","acceptedAnswer":{"@type":"Answer","text":"Upserv builds AI-optimised websites for small and medium sized businesses, implements schema markup, creates training documents, and pushes business data across 19 AI platforms."}},{"@type":"Question","name":"How much does Upserv cost?","acceptedAnswer":{"@type":"Answer","text":"Upserv offers three tiers: Launch at $1,000 + $150/mo, Grow at $5,000, and Dominate at $10,000."}},{"@type":"Question","name":"Is there a free audit available?","acceptedAnswer":{"@type":"Answer","text":"Yes. Upserv offers a free AI visibility audit that queries 19 AI platforms and documents how your business is currently represented."}}]}
+  </script>
 </head>
-<body>
-  <header>
-    <nav>
-      <!-- Navigation links go here -->
-    </nav>
+
+<body data-header-format="centered-logo-between-menu-alt"
+      data-permanent-transparent="1"
+      data-smooth-scrolling="1"
+      data-button-style="rounded_shadow"
+      data-header-color="custom"
+      data-force-header-trans-color="dark">
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- HEADER — centered-logo-between-menu-alt -->
+  <header id="top" class="site-header" data-theme="dark">
+    <div class="header-container">
+      <nav class="header-nav-left">
+        <ul>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+        </ul>
+      </nav>
+      <a href="#" class="header-logo" id="logo">
+        <img src="assets/upserv-logo.png" alt="Upserv" class="logo-img">
+      </a>
+      <nav class="header-nav-right">
+        <ul>
+          <li><a href="#">Industries</a></li>
+        </ul>
+      </nav>
+      <button class="slide-out-toggle" id="slideOutToggle" aria-label="Open menu">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+      </button>
+    </div>
   </header>
 
-  <main>
-    <!-- Main content goes here -->
-  </main>
+  <!-- Slide-out mobile menu (slide-out-from-right) -->
+  <div class="slide-out-bg" id="slideOutBg"></div>
+  <div class="slide-out-menu" id="slideOutMenu" role="dialog" aria-modal="true" aria-label="Off Canvas Menu">
+    <a href="#" class="slide-out-close" id="slideOutClose">
+      <span class="close-line"></span>
+      <span class="close-line"></span>
+    </a>
+    <nav class="slide-out-nav">
+      <ul>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#">Industries</a></li>
+      </ul>
+    </nav>
+  </div>
 
-  <footer>
-    <!-- Footer content goes here -->
-  </footer>
+  <!-- MAIN CONTENT -->
+  <div id="ajax-content-wrap">
+    <div class="container-wrap">
+
+      <!-- S01: HERO — FIXED/PINNED behind content (nectar-sticky-row-wrap pattern)
+           The hero is position:fixed, z-index:-1, with padding-bottom:100vh spacer
+           Everything after scrolls OVER it, creating the parallax reveal effect -->
+      <div class="nectar-sticky-row-wrap nectar-sticky-row-wrap--top" style="z-index: -1;">
+        <section class="landing-section" data-midnight="dark">
+          <!-- Gradient orbs -->
+          <div class="hero-orb-main"></div>
+          <div class="hero-orb-sec"></div>
+
+          <div class="hero-grid">
+            <!-- Left: messaging -->
+            <div class="hero-grid__text">
+              <div class="hero-stitch-headline">
+                <span class="hs-line hs-kicker hero-part">We Create Modern</span>
+                <span class="hs-line hs-bold hero-part">AI Friendly Websites.</span>
+                <span class="hs-line hs-accent hero-part">Yep! They're amazing.</span>
+              </div>
+
+              <div class="hero-supporting hero-part">
+                <p class="hero-supporting-label">Built for service businesses</p>
+                <p class="hero-supporting-copy">So AI can find you, understand you, and recommend you to the people already looking for what you do.</p>
+              </div>
+
+              <div class="hero-cta-group hero-part">
+                <a href="#products" class="hero-cta-primary">
+                  <span>See industries</span>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <a href="#how-it-works" class="hero-cta-secondary">How it works</a>
+              </div>
+
+              <div class="hero-scroll-line"></div>
+            </div>
+
+          </div>
+        </section>
+      </div>
+
+      <!-- S02: CLIP-PATH REVEAL — scrolls over fixed hero
+           Everything inside row-bg-wrap gets clipped together.
+           The column padding defines the height. -->
+      <section class="clip-reveal-section" data-midnight="dark">
+        <div class="clip-reveal-inner" id="clipReveal">
+          <!-- This entire wrap gets clip-path: bg + image + overlays all clipped -->
+          <div class="row-bg-wrap" id="clipBgWrap" data-bg-animation="clip-path">
+            <div class="row-bg"></div>
+            <div class="clip-bg-image" id="clipImage">
+              <img src="assets/section2-bg.png" alt="" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <div class="clip-overlay"></div>
+            <div class="clip-gradient-bottom"></div>
+          </div>
+          <!-- Column defines the section height via padding -->
+          <div class="clip-reveal-column" id="clipColumn"></div>
+        </div>
+      </section>
+
+      <!-- S03: DARK STATEMENT + TERMINAL DEMO -->
+      <section class="hero-text-section" id="how-it-works" data-midnight="light">
+        <div class="s3-grid">
+          <!-- Left column: text -->
+          <div class="s3-left s3-reveal">
+            <div class="s3-headline">
+              <h2>The internet changed.<br>Most websites didn't.</h2>
+            </div>
+            <div class="s3-body">
+              <p>Search used to show lists. AI gives answers. And it doesn't include everyone. Only the businesses it understands get recommended.</p>
+            </div>
+            <div class="s3-punchline">
+              <p>If AI can't understand your website, you don't exist in its answers.</p>
+            </div>
+          </div>
+
+          <!-- Right column: terminal -->
+          <div class="s3-right s3-reveal" data-reveal-delay="200">
+            <div class="terminal" id="aiTerminal">
+              <div class="terminal-bar">
+                <div class="terminal-bar-left">
+                  <span class="dot dot-red"></span>
+                  <span class="dot dot-yellow"></span>
+                  <span class="dot dot-green"></span>
+                  <span class="terminal-label">ChatGPT Search</span>
+                </div>
+                <div class="terminal-badge">LIVE</div>
+              </div>
+              <div class="terminal-body">
+                <div class="terminal-search">
+                  <div class="terminal-icon"><span class="terminal-icon-dot"></span></div>
+                  <div class="terminal-query" id="terminalQuery"></div>
+                </div>
+                <div class="terminal-results" id="terminalResults">
+                  <div class="terminal-section-label" id="terminalLabel">Top recommendations</div>
+                  <div class="terminal-result" data-idx="0">
+                    <span class="result-num">1</span>
+                    <div class="result-info">
+                      <div class="result-name" id="r1Name"></div>
+                      <div class="result-desc" id="r1Desc"></div>
+                      <div class="result-status"><span class="status-check">✔</span> Recommended by AI</div>
+                    </div>
+                  </div>
+                  <div class="terminal-result" data-idx="1">
+                    <span class="result-num">2</span>
+                    <div class="result-info">
+                      <div class="result-name" id="r2Name"></div>
+                      <div class="result-desc" id="r2Desc"></div>
+                      <div class="result-status"><span class="status-check">✔</span> Recommended by AI</div>
+                    </div>
+                  </div>
+                  <div class="terminal-result" data-idx="2">
+                    <span class="result-num">3</span>
+                    <div class="result-info">
+                      <div class="result-name" id="r3Name"></div>
+                      <div class="result-desc" id="r3Desc"></div>
+                      <div class="result-status"><span class="status-check">✔</span> Recommended by AI</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="terminal-missing" id="terminalMissing">
+                  <div class="missing-header">
+                    <span class="missing-x">✖</span>
+                    <span class="missing-label">Your business</span>
+                  </div>
+                  <p class="missing-not-rec">Not recommended.</p>
+                  <p class="missing-body">Your website exists. But AI cannot confidently understand it — so it does not include you in results. Your competitors are being chosen instead.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S04: PRODUCTS — 5 scroll-pinned sticky stacking cards -->
+      <section class="products-section" id="products" data-midnight="dark">
+        <div class="nectar-sticky-media-sections type--scroll-pinned-sections effect-scale media-border-radius-15px content-alignment-bottom section-height-90vh has-navigation" style="--section-count:5">
+
+          <!-- Navigation -->
+          <div class="nectar-sticky-media-section__navigation">
+            <div class="nectar-sticky-media-section__navigation__inner">
+              <button class="nectar-sticky-media-section__navigation-button active" data-target="0">1</button>
+              <button class="nectar-sticky-media-section__navigation-button" data-target="1">2</button>
+              <button class="nectar-sticky-media-section__navigation-button" data-target="2">3</button>
+              <button class="nectar-sticky-media-section__navigation-button" data-target="3">4</button>
+              <button class="nectar-sticky-media-section__navigation-button" data-target="4">5</button>
+            </div>
+          </div>
+
+          <!-- Card 1 -->
+          <div class="nectar-sticky-media-section" data-index="0">
+            <div class="panel-bg-container">
+              <img id="panel1-bg" src="assets/panel1-healthcare.png" alt="Healthcare professional" class="panel-bg-img">
+              <div class="panel-bg-fallback placeholder-image-1" style="display:none;"></div>
+              <div class="panel-bg-overlay"></div>
+            </div>
+            <a href="#" class="panel-link" target="_blank"></a>
+            <div class="nectar-badge">
+              <div class="nectar-badge__inner">Most searched category on AI</div>
+            </div>
+            <p class="panel-fact">Upserv structures dental and medical websites so that ChatGPT, Gemini, and Perplexity can accurately read, understand, and recommend them to patients searching for care.</p>
+            <div class="nectar-sticky-media-section__content-section-inner">
+              <div class="nectar-scrolling-text" data-style="default" data-s-dir="ltr" data-spacing="true" data-s-speed="slow" data-overflow="hidden">
+                <div class="nectar-scrolling-text-inner">
+                  <div class="nectar-scrolling-text-inner__text-chunk">HEALTHCARE & WELLNESS</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">HEALTHCARE & WELLNESS</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">HEALTHCARE & WELLNESS</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">HEALTHCARE & WELLNESS</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="nectar-sticky-media-section" data-index="1">
+            <div class="panel-bg-container">
+              <img id="panel2-bg" src="assets/panel2-legal.png" alt="Legal professional" class="panel-bg-img">
+              <div class="panel-bg-fallback placeholder-image-2" style="display:none;"></div>
+              <div class="panel-bg-overlay"></div>
+            </div>
+            <a href="#" class="panel-link" target="_blank"></a>
+            <div class="nectar-badge">
+              <div class="nectar-badge__inner">Highest value AI referrals</div>
+            </div>
+            <p class="panel-fact">Upserv builds law firm and accounting websites with the structured content and schema markup that AI systems need to accurately represent their services and specialities.</p>
+            <div class="nectar-sticky-media-section__content-section-inner">
+              <div class="nectar-scrolling-text" data-style="default" data-s-dir="ltr" data-spacing="true" data-s-speed="slow" data-overflow="hidden">
+                <div class="nectar-scrolling-text-inner">
+                  <div class="nectar-scrolling-text-inner__text-chunk">PROFESSIONAL SERVICES</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">PROFESSIONAL SERVICES</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">PROFESSIONAL SERVICES</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">PROFESSIONAL SERVICES</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="nectar-sticky-media-section" data-index="2">
+            <div class="panel-bg-container">
+              <img id="panel3-bg" src="assets/panel3-food.png" alt="Hospitality professional" class="panel-bg-img">
+              <div class="panel-bg-fallback placeholder-image-3" style="display:none;"></div>
+              <div class="panel-bg-overlay"></div>
+            </div>
+            <a href="#" class="panel-link" target="_blank"></a>
+            <div class="nectar-badge">
+              <div class="nectar-badge__inner">3 billion daily AI food queries</div>
+            </div>
+            <p class="panel-fact">Upserv structures restaurant and hospitality websites so that AI systems can accurately read their cuisine, location, and menu, and recommend them when people ask where to eat.</p>
+            <div class="nectar-sticky-media-section__content-section-inner">
+              <div class="nectar-scrolling-text" data-style="default" data-s-dir="ltr" data-spacing="true" data-s-speed="slow" data-overflow="hidden">
+                <div class="nectar-scrolling-text-inner">
+                  <div class="nectar-scrolling-text-inner__text-chunk">FOOD & HOSPITALITY</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">FOOD & HOSPITALITY</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">FOOD & HOSPITALITY</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">FOOD & HOSPITALITY</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="nectar-sticky-media-section" data-index="3">
+            <div class="panel-bg-container">
+              <img id="panel4-bg" src="assets/panel4-trades.png" alt="Home services professional" class="panel-bg-img">
+              <div class="panel-bg-fallback placeholder-image-4" style="display:none;"></div>
+              <div class="panel-bg-overlay"></div>
+            </div>
+            <a href="#" class="panel-link" target="_blank"></a>
+            <div class="nectar-badge">
+              <div class="nectar-badge__inner">Fastest growing AI search segment</div>
+            </div>
+            <p class="panel-fact">Upserv builds trade business websites that clearly communicate services, coverage areas, and availability in the structured format AI systems need to make accurate recommendations.</p>
+            <div class="nectar-sticky-media-section__content-section-inner">
+              <div class="nectar-scrolling-text" data-style="default" data-s-dir="ltr" data-spacing="true" data-s-speed="slow" data-overflow="hidden">
+                <div class="nectar-scrolling-text-inner">
+                  <div class="nectar-scrolling-text-inner__text-chunk">HOME & TRADE SERVICES</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">HOME & TRADE SERVICES</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">HOME & TRADE SERVICES</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">HOME & TRADE SERVICES</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="nectar-sticky-media-section" data-index="4">
+            <div class="panel-bg-container">
+              <img id="panel5-bg" src="assets/panel5-retail.png" alt="Retail professional" class="panel-bg-img">
+              <div class="panel-bg-fallback placeholder-image-5" style="display:none;"></div>
+              <div class="panel-bg-overlay"></div>
+            </div>
+            <a href="#" class="panel-link" target="_blank"></a>
+            <div class="nectar-badge">
+              <div class="nectar-badge__inner">Largest underserved AI market</div>
+            </div>
+            <p class="panel-fact">Upserv builds local business websites with the AI-readable structure that enables ChatGPT, Gemini, and Perplexity to accurately discover and recommend them to nearby customers.</p>
+            <div class="nectar-sticky-media-section__content-section-inner">
+              <div class="nectar-scrolling-text" data-style="default" data-s-dir="ltr" data-spacing="true" data-s-speed="slow" data-overflow="hidden">
+                <div class="nectar-scrolling-text-inner">
+                  <div class="nectar-scrolling-text-inner__text-chunk">RETAIL & LOCAL BUSINESS</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">RETAIL & LOCAL BUSINESS</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">RETAIL & LOCAL BUSINESS</div>
+                  <div class="nectar-scrolling-text-inner__text-chunk" aria-hidden="true">RETAIL & LOCAL BUSINESS</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- S05: ROTATING STATEMENT -->
+      <section class="trusted-section" id="trusted" data-midnight="dark">
+        <div class="trusted-content">
+          <div class="nectar-rotating-words-title" data-rotation="2000" data-mobile="inline">
+            <h3 class="heading">
+              <span class="dynamic-words" data-inherit-heading-family="default">
+                <span class="text-wrap active"><span><span>Your competitors are being found.</span></span></span>
+                <span class="text-wrap"><span><span>Your competitors are being recommended.</span></span></span>
+                <span class="text-wrap"><span><span>Your competitors are being chosen.</span></span></span>
+                <span class="text-wrap"><span><span>Your competitors are winning.</span></span></span>
+                <span class="text-wrap text-wrap--accent"><span><span>Not anymore.</span></span></span>
+              </span>
+            </h3>
+          </div>
+        </div>
+      </section>
+
+      <!-- S06: BRANCHED FAQ -->
+      <section class="faq-section" id="faq" data-midnight="dark">
+        <div class="faq-container">
+          <h2 class="faq-title">Frequently asked questions</h2>
+          <div id="faqAccordion" class="faq-accordion-v2"></div>
+        </div>
+      </section>
+      <script src="js/faq-data.js"></script>
+
+      <!-- FOOTER -->
+      <footer class="site-footer" id="footer-outer" role="contentinfo">
+        <div class="footer-inner-v2">
+
+          <div class="footer-grid-v2">
+            <!-- Col 1: Industries -->
+            <div class="ft-col">
+              <h6 class="ft-heading">INDUSTRIES</h6>
+              <ul>
+                <li><a href="#">Healthcare & Wellness</a></li>
+                <li><a href="#">Professional Services</a></li>
+                <li><a href="#">Food & Hospitality</a></li>
+                <li><a href="#">Home & Trade Services</a></li>
+                <li><a href="#">Retail & Local Business</a></li>
+              </ul>
+            </div>
+
+            <!-- Col 2: Company -->
+            <div class="ft-col">
+              <h6 class="ft-heading">COMPANY</h6>
+              <ul>
+                <li><a href="#">How It Works</a></li>
+                <li><a href="#">Pricing</a></li>
+                <li><a href="#">Free AI Audit</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#">Contact</a></li>
+              </ul>
+            </div>
+
+            <!-- Col 3: Connect -->
+            <div class="ft-col">
+              <h6 class="ft-heading">CONNECT</h6>
+              <ul>
+                <li><a href="#">LinkedIn</a></li>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">Facebook</a></li>
+              </ul>
+              <ul class="ft-legal-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Legal</a></li>
+              </ul>
+            </div>
+
+            <!-- Col 4: Newsletter -->
+            <div class="ft-col ft-col-newsletter">
+              <h6 class="ft-heading">STAY INFORMED</h6>
+              <p class="ft-newsletter-sub">Monthly AI visibility insights for local businesses.</p>
+              <form class="ft-newsletter-form" onsubmit="return false;">
+                <div class="ft-input-wrap">
+                  <input type="email" placeholder="Your email address" required>
+                  <button type="submit" class="ft-submit" aria-label="Subscribe">→</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Bottom bar -->
+          <div class="ft-bottom-bar">
+            <span class="ft-copyright">&copy; 2026 Upserv by Iozera Inc. All rights reserved.</span>
+            <span class="ft-entity">Upserv builds AI-friendly websites for small and medium sized businesses.</span>
+          </div>
+
+          <!-- Watermark -->
+          <div class="ft-watermark">
+            <span>Upserv</span>
+          </div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div>
 
   <script src="js/main.js"></script>
 </body>
