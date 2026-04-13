@@ -420,7 +420,7 @@ input { font: inherit; }
 }
 
 .hs-line.hs-kicker {
-  color: var(--color-ghost);
+  color: var(--color-black);
   font-weight: 600;
   letter-spacing: -0.04em;
   font-size: 1em;
