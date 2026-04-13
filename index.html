@@ -19,6 +19,9 @@
   <!-- Lenis Smooth Scroll -->
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
 
+  <!-- Neat Gradient -->
+  <script src="js/neat.umd.js" defer></script>
+
   <link rel="stylesheet" href="css/styles.css">
 
   <script type="application/ld+json">
@@ -86,9 +89,8 @@
            Everything after scrolls OVER it, creating the parallax reveal effect -->
       <div class="nectar-sticky-row-wrap nectar-sticky-row-wrap--top" style="z-index: -1;">
         <section class="landing-section" data-midnight="dark">
-          <!-- Gradient orbs -->
-          <div class="hero-orb-main"></div>
-          <div class="hero-orb-sec"></div>
+          <!-- Opalescent fluid background -->
+          <canvas id="heroFluid" class="hero-fluid"></canvas>
 
           <div class="hero-grid">
             <!-- Left: messaging -->
@@ -100,19 +102,162 @@
               </div>
 
               <div class="hero-supporting hero-part">
-                <p class="hero-supporting-label">Built for service businesses</p>
-                <p class="hero-supporting-copy">So AI can find you, understand you, and recommend you to the people already looking for what you do.</p>
+                <p class="hero-supporting-copy">Upserv makes business websites visible to AI systems so small and mid-sized companies show up when customers search, instead of being left out entirely.</p>
               </div>
 
               <div class="hero-cta-group hero-part">
-                <a href="#products" class="hero-cta-primary">
-                  <span>See industries</span>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <a href="#contact" class="hero-cta" id="heroCta">
+                  <span class="hero-cta__label">Book Strategy Call</span>
+                  <span class="hero-cta__icon">→</span>
                 </a>
-                <a href="#how-it-works" class="hero-cta-secondary">How it works</a>
               </div>
 
               <div class="hero-scroll-line"></div>
+            </div>
+
+            <!-- Right: living selection asset -->
+            <div class="hero-asset" aria-hidden="true">
+
+              <!-- L1: Background field — discarded digital structure -->
+              <div class="asset-field">
+                <!-- Lines -->
+                <div class="field-el field-line" style="--y:5%;--w:58%;--x:20%;--dur:44s;--del:0s"></div>
+                <div class="field-el field-line" style="--y:18%;--w:45%;--x:8%;--dur:38s;--del:-14s"></div>
+                <div class="field-el field-line" style="--y:35%;--w:65%;--x:15%;--dur:42s;--del:-22s"></div>
+                <div class="field-el field-line" style="--y:52%;--w:50%;--x:28%;--dur:46s;--del:-6s"></div>
+                <div class="field-el field-line" style="--y:68%;--w:55%;--x:10%;--dur:40s;--del:-30s"></div>
+                <div class="field-el field-line" style="--y:82%;--w:62%;--x:22%;--dur:48s;--del:-18s"></div>
+                <!-- Rectangles -->
+                <div class="field-el field-rect" style="--y:12%;--w:42%;--h:28px;--x:35%;--dur:50s;--del:-4s"></div>
+                <div class="field-el field-rect" style="--y:45%;--w:38%;--h:35px;--x:42%;--dur:52s;--del:-16s"></div>
+                <div class="field-el field-rect" style="--y:75%;--w:48%;--h:22px;--x:18%;--dur:46s;--del:-28s"></div>
+                <!-- Frames (partial card outlines) -->
+                <div class="field-el field-frame" style="--y:25%;--w:36%;--h:65px;--x:40%;--dur:55s;--del:-8s"></div>
+                <div class="field-el field-frame" style="--y:58%;--w:32%;--h:50px;--x:12%;--dur:50s;--del:-20s"></div>
+                <div class="field-el field-frame" style="--y:88%;--w:40%;--h:72px;--x:30%;--dur:54s;--del:-12s"></div>
+                <!-- Mini card ghosts (new: card-like shapes with a top bar) -->
+                <div class="field-el field-ghost-card" style="--y:8%;--w:28%;--h:55px;--x:5%;--dur:52s;--del:-10s"></div>
+                <div class="field-el field-ghost-card" style="--y:40%;--w:25%;--h:48px;--x:55%;--dur:48s;--del:-25s"></div>
+                <div class="field-el field-ghost-card" style="--y:72%;--w:30%;--h:60px;--x:48%;--dur:56s;--del:-3s"></div>
+                <div class="field-el field-ghost-card" style="--y:92%;--w:22%;--h:42px;--x:8%;--dur:44s;--del:-35s"></div>
+              </div>
+
+              <!-- L2: Candidates — 3 structured cards being evaluated -->
+              <div class="asset-candidates">
+                <div class="cand-card" data-cand="0" style="--cy:12%">
+                  <div class="cand-bar"></div>
+                  <div class="cand-block"></div>
+                  <div class="cand-heading"></div>
+                  <div class="cand-line" style="--lw:78%"></div>
+                  <div class="cand-line" style="--lw:62%"></div>
+                  <div class="cand-cta"></div>
+                </div>
+                <div class="cand-card" data-cand="1" style="--cy:40%">
+                  <div class="cand-bar"></div>
+                  <div class="cand-block"></div>
+                  <div class="cand-heading"></div>
+                  <div class="cand-line" style="--lw:70%"></div>
+                  <div class="cand-line" style="--lw:85%"></div>
+                  <div class="cand-cta"></div>
+                </div>
+                <div class="cand-card" data-cand="2" style="--cy:68%">
+                  <div class="cand-bar"></div>
+                  <div class="cand-block"></div>
+                  <div class="cand-heading"></div>
+                  <div class="cand-line" style="--lw:82%"></div>
+                  <div class="cand-line" style="--lw:58%"></div>
+                  <div class="cand-cta"></div>
+                </div>
+              </div>
+
+              <!-- Atmospheric tint behind asset -->
+              <div class="asset-atmosphere"></div>
+
+              <!-- L3: Selected cluster -->
+              <div class="asset-selected">
+                <div class="sel-glow"></div>
+                <div class="sel-card">
+                  <!-- Abstract layer — visible initially -->
+                  <div class="sel-abstract">
+                    <div class="sel-nav">
+                      <div class="sel-nav__logo"></div>
+                      <div class="sel-nav__links">
+                        <span></span><span></span><span></span>
+                      </div>
+                    </div>
+                    <div class="sel-img"></div>
+                    <div class="sel-content">
+                      <div class="sel-heading"></div>
+                      <div class="sel-sub"></div>
+                      <div class="sel-body">
+                        <div class="sel-text" style="--tw:92%"></div>
+                        <div class="sel-text" style="--tw:78%"></div>
+                        <div class="sel-text" style="--tw:65%"></div>
+                      </div>
+                      <div class="sel-cta"></div>
+                    </div>
+                    <div class="sel-schema-bar">
+                      <span></span><span></span><span></span>
+                    </div>
+                  </div>
+
+                  <!-- Real layer — resolves during crystallization -->
+                  <div class="sel-real">
+                    <div class="sel-real__nav">
+                      <span class="sel-real__brand">Clarity <span class="sel-real__brand-sub">wellness</span></span>
+                      <div class="sel-real__nav-r">
+                        <span class="sel-real__link">About</span>
+                        <span class="sel-real__link">Services</span>
+                        <span class="sel-real__link">Contact</span>
+                        <span class="sel-real__link sel-real__link--cta">Book</span>
+                      </div>
+                    </div>
+                    <div class="sel-real__hero">
+                      <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=460&h=260&fit=crop&crop=top&q=80" alt="" class="sel-real__img" loading="lazy">
+                    </div>
+                    <div class="sel-real__content">
+                      <p class="sel-real__eyebrow">Wellness Clinic · Melbourne</p>
+                      <h4 class="sel-real__h">Preventive care and diagnostics for adults and families.</h4>
+                      <p class="sel-real__p">Consultations, health screenings, and ongoing wellness management across three clinic locations.</p>
+                    </div>
+                    <div class="sel-real__info-band">
+                      <div class="sel-real__info-col">
+                        <span class="sel-real__info-val">GP · Diagnostics · Physio</span>
+                        <span class="sel-real__info-key">Services</span>
+                      </div>
+                      <div class="sel-real__info-col">
+                        <span class="sel-real__info-val">Melbourne · 3 clinics</span>
+                        <span class="sel-real__info-key">Location</span>
+                      </div>
+                    </div>
+                    <div class="sel-real__footer">
+                      <span class="sel-real__btn">Book Consultation</span>
+                      <span class="sel-real__trust-line">4.9 · Licensed Specialists</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="sel-frag sel-frag--card" style="--fx:68%;--fy:6%"><div class="sel-frag--card-inner"></div></div>
+                <div class="sel-frag sel-frag--card sel-frag--card-sm" style="--fx:2%;--fy:72%"><div class="sel-frag--card-inner"></div></div>
+
+                <!-- Signal capsules — 4 pills framing the card -->
+                <div class="ai-chip" data-chip="0" style="--cx:4%;--cy:14%;--ox:-70px;--oy:25px">
+                  <span class="ai-chip__mote"></span>
+                  <span class="ai-chip__label"><span class="ai-chip__orb"></span>Business Category</span>
+                </div>
+                <div class="ai-chip" data-chip="1" style="--cx:66%;--cy:14%;--ox:65px;--oy:-22px">
+                  <span class="ai-chip__mote"></span>
+                  <span class="ai-chip__label"><span class="ai-chip__orb"></span>Trust Signals</span>
+                </div>
+                <div class="ai-chip" data-chip="2" style="--cx:66%;--cy:48%;--ox:70px;--oy:15px">
+                  <span class="ai-chip__mote"></span>
+                  <span class="ai-chip__label"><span class="ai-chip__orb"></span>Services</span>
+                </div>
+                <div class="ai-chip" data-chip="3" style="--cx:4%;--cy:68%;--ox:-60px;--oy:30px">
+                  <span class="ai-chip__mote"></span>
+                  <span class="ai-chip__label"><span class="ai-chip__orb"></span>Location</span>
+                </div>
+              </div>
+
             </div>
 
           </div>

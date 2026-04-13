@@ -7,6 +7,74 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ================================================================
+     HERO BACKGROUND — @firecms/neat gradient
+     Opalescent fluid WebGL gradient, art-directed for light hero.
+     yOffset is tied to ScrollTrigger for scroll-driven evolution.
+     ================================================================ */
+  (function initNeatGradient() {
+    try {
+      const canvas = document.getElementById('heroFluid');
+      if (!canvas) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const GradientClass = (typeof neat !== 'undefined' && neat.NeatGradient)
+        ? neat.NeatGradient
+        : (typeof NeatGradient !== 'undefined') ? NeatGradient : null;
+      if (!GradientClass) return;
+
+      const gradient = new GradientClass({
+        ref: canvas,
+        colors: [
+          { color: "#C8B8FF", enabled: true },
+          { color: "#A0CCFF", enabled: true },
+          { color: "#A8E4FF", enabled: true },
+          { color: "#D8CCFF", enabled: true },
+          { color: "#C0D8FF", enabled: true },
+        ],
+        speed: 3.2,
+        horizontalPressure: 5.5,
+        verticalPressure: 6.5,
+        waveFrequencyX: 1.1,
+        waveFrequencyY: 1.4,
+        waveAmplitude: 6,
+        shadows: 1.2,
+        highlights: 5,
+        colorBrightness: 1.06,
+        colorSaturation: -8,
+        wireframe: false,
+        colorBlending: 18,
+        backgroundColor: "#F5F5FA",
+        backgroundAlpha: 1,
+        grainScale: 3,
+        grainSparsity: 0,
+        grainIntensity: 0.14,
+        grainSpeed: 0.35,
+        resolution: 1,
+        yOffset: 0,
+        yOffsetWaveMultiplier: 3.8,
+        yOffsetColorMultiplier: 3.4,
+        yOffsetFlowMultiplier: 4.2,
+        flowDistortionA: 0.7,
+        flowDistortionB: 0.45,
+        flowScale: 1.3,
+        flowEase: 0.22,
+        flowEnabled: true,
+        enableProceduralTexture: false,
+        domainWarpEnabled: false,
+        vignetteIntensity: 0,
+        vignetteRadius: 0.8,
+        fresnelEnabled: false,
+        iridescenceEnabled: false,
+        bloomIntensity: 0,
+        chromaticAberration: 0,
+      });
+      window.__neatGradient = gradient;
+    } catch (e) {
+      console.warn('Neat gradient failed to initialize:', e);
+    }
+  })();
+
+  /* ================================================================
      SCROLLBAR WIDTH
      ================================================================ */
   document.documentElement.style.setProperty(
@@ -100,6 +168,29 @@ document.addEventListener('DOMContentLoaded', () => {
   updateHeader();
 
   /* ================================================================
+     CTA CLICK ANIMATION
+     ================================================================ */
+  const heroCta = document.getElementById('heroCta');
+  if (heroCta) {
+    function ctaPress() {
+      heroCta.classList.remove('releasing');
+      heroCta.classList.add('pressing');
+    }
+    function ctaRelease() {
+      heroCta.classList.remove('pressing');
+      heroCta.classList.add('releasing');
+      setTimeout(() => heroCta.classList.remove('releasing'), 400);
+    }
+    heroCta.addEventListener('mousedown', ctaPress);
+    heroCta.addEventListener('mouseup', ctaRelease);
+    heroCta.addEventListener('mouseleave', () => {
+      if (heroCta.classList.contains('pressing')) ctaRelease();
+    });
+    heroCta.addEventListener('touchstart', ctaPress, { passive: true });
+    heroCta.addEventListener('touchend', ctaRelease);
+  }
+
+  /* ================================================================
      SLIDE-OUT MOBILE MENU
      ================================================================ */
   const slideToggle = document.getElementById('slideOutToggle');
@@ -137,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
      ================================================================ */
   const heroParts = document.querySelectorAll('.hero-part');
   const heroWords = document.querySelectorAll('.hero-word');
-  const heroCta = document.querySelector('.hero-cta');
+  const heroCtaEl = document.querySelector('.hero-cta');
   const heroTrust = document.querySelector('.hero-trust');
 
   // Animate parts (each line as one unit) — 300ms stagger
@@ -146,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => part.classList.add('visible'), 300 + i * 300);
     });
     const totalTime = 300 + heroParts.length * 300 + 600;
-    if (heroCta) setTimeout(() => heroCta.classList.add('visible'), totalTime);
+    if (heroCtaEl) setTimeout(() => heroCtaEl.classList.add('visible'), totalTime);
     if (heroTrust) setTimeout(() => heroTrust.classList.add('visible'), totalTime + 200);
   } else {
     // Fallback: word-by-word
@@ -154,9 +245,275 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => word.classList.add('visible'), 200 + i * 120);
     });
     const totalWordTime = 200 + heroWords.length * 120 + 600;
-    if (heroCta) setTimeout(() => heroCta.classList.add('visible'), totalWordTime);
+    if (heroCtaEl) setTimeout(() => heroCtaEl.classList.add('visible'), totalWordTime);
     if (heroTrust) setTimeout(() => heroTrust.classList.add('visible'), totalWordTime + 200);
   }
+
+  /* ================================================================
+     S01c: HERO ASSET — Selection Cycle Controller
+     ================================================================ */
+  (function initSelectionCycle() {
+    const candidates = document.querySelectorAll('.cand-card');
+    const selCard = document.querySelector('.sel-card');
+    if (!candidates.length || !selCard) return;
+
+    const EVAL_DUR = 2200;
+    const REJECT_RECOVER = 2000;
+
+    let lastPicked = -1;
+    let cycleCount = 0;
+
+    function pickCandidate() {
+      let idx;
+      do { idx = Math.floor(Math.random() * candidates.length); }
+      while (idx === lastPicked && candidates.length > 1);
+      lastPicked = idx;
+      return idx;
+    }
+
+    function runCycle() {
+      cycleCount++;
+      const idx = pickCandidate();
+      const card = candidates[idx];
+
+      // Phase 1: Evaluate — card rises and brightens
+      card.classList.remove('rejected', 'accepted', 'respawning', 'respawn-in');
+      card.classList.add('evaluating');
+
+      setTimeout(() => {
+        // Phase 2: Resolve — accept every 3rd cycle
+        const accepted = cycleCount % 3 === 0;
+        card.classList.remove('evaluating');
+
+        if (accepted) {
+          card.classList.add('accepted');
+          selCard.classList.add('refreshing');
+          setTimeout(() => selCard.classList.remove('refreshing'), 1200);
+          // Respawn candidate after it fades out
+          setTimeout(() => {
+            card.classList.remove('accepted');
+            card.classList.add('respawning');
+            setTimeout(() => {
+              card.classList.remove('respawning');
+              card.classList.add('respawn-in');
+              setTimeout(() => card.classList.remove('respawn-in'), 1500);
+            }, 60);
+          }, 1300);
+        } else {
+          card.classList.add('rejected');
+          setTimeout(() => card.classList.remove('rejected'), REJECT_RECOVER);
+        }
+      }, EVAL_DUR);
+
+      // Schedule next — first 3 cycles faster so user sees it quickly
+      const delay = cycleCount <= 3
+        ? 4000 + Math.random() * 2000   // 4-6s for first 3
+        : 8000 + Math.random() * 4000;  // 8-12s steady state
+      setTimeout(runCycle, delay);
+    }
+
+    // First cycle starts 2.5s after page load
+    setTimeout(runCycle, 2500);
+  })();
+
+  /* ================================================================
+     S01d: HERO ASSET — Scroll-Driven Resolution Choreography
+     Layers scroll bias on top of ambient animation.
+     4 stages: idle → compress → resolve → settled
+     ================================================================ */
+  (function initScrollChoreography() {
+    const asset = document.querySelector('.hero-asset');
+    const stickyWrap = document.querySelector('.nectar-sticky-row-wrap--top');
+    const field = document.querySelector('.asset-field');
+    const candCards = document.querySelectorAll('.cand-card');
+    const selCard = document.querySelector('.sel-card');
+    const selGlow = document.querySelector('.sel-glow');
+    const frags = document.querySelectorAll('.sel-frag');
+    const chips = document.querySelectorAll('.ai-chip');
+
+    if (!asset || !stickyWrap || !selCard) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Full choreography runs on all screen sizes
+
+    // Lerp helper
+    function lerp(a, b, t) { return a + (b - a) * Math.max(0, Math.min(1, t)); }
+
+    // Stage boundaries — sequence completes by 85%, then holds
+    // 0-15%:  idle (ambient only)
+    // 15-35%: compress (field recedes, candidates align)
+    // 35-55%: resolve (one candidate favored, selected strengthens)
+    // 55-75%: chips appear (AI signals reveal)
+    // 75-85%: settle (final hold begins)
+    // 85-100%: pure hold — resolved state breathes before release
+    const S1 = 0.15, S2 = 0.35, S3 = 0.55;
+
+    // Map progress within a stage to 0-1
+    function stageT(p, start, end) {
+      return Math.max(0, Math.min(1, (p - start) / (end - start)));
+    }
+
+    // Pause candidate CSS animations when scroll takes over
+    let scrollActive = false;
+
+    ScrollTrigger.create({
+      trigger: stickyWrap,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.6,
+      onUpdate: function(self) {
+        const p = self.progress; // 0 to 1
+
+        // Pause CSS breathe animations once scroll engages
+        if (p > 0.05 && !scrollActive) {
+          scrollActive = true;
+          candCards.forEach(c => c.style.animationPlayState = 'paused');
+        } else if (p <= 0.05 && scrollActive) {
+          scrollActive = false;
+          candCards.forEach(c => { c.style.animationPlayState = ''; c.style.transform = ''; c.style.opacity = ''; c.style.filter = ''; });
+          selCard.style.transform = '';
+          selCard.style.boxShadow = '';
+          selCard.classList.remove('resolved', 'crystallized');
+          frags.forEach(f => { f.style.transform = ''; f.style.opacity = ''; });
+          if (selGlow) selGlow.style.opacity = '0';
+          asset.style.setProperty('--scroll-glow', '0');
+          asset.style.setProperty('--scroll-field-opacity', '1');
+          asset.style.setProperty('--scroll-field-compress', '1');
+          chips.forEach(c => { c.classList.remove('drifting', 'condensing'); });
+          if (window.__neatGradient) window.__neatGradient.yOffset = 0;
+        }
+
+        if (p <= 0.05) return; // Stage 1: pure ambient, no scroll influence
+
+        // === NEAT GRADIENT — drive yOffset with scroll for evolving atmosphere ===
+        if (window.__neatGradient) {
+          window.__neatGradient.yOffset = lerp(0, 8000, p);
+        }
+
+        // === BACKGROUND FIELD — fade and scatter outward ===
+        const fieldFade = lerp(1, 0.15, stageT(p, S1, 0.65));
+        const fieldCompress = lerp(1, 0.82, stageT(p, S1, 0.55));
+        asset.style.setProperty('--scroll-field-opacity', fieldFade);
+        asset.style.setProperty('--scroll-field-compress', fieldCompress);
+
+        // === CANDIDATE LAYER — consider, then reject ===
+        // 3 phases per candidate:
+        //   align (S1→S2): candidates pull inward
+        //   consider (S2→0.42): ALL candidates rise slightly — being evaluated
+        //   resolve (0.42→S3): winner keeps rising, losers sink back and fade
+        if (candCards.length >= 3) {
+          const alignT = stageT(p, S1, S2);
+          const considerT = stageT(p, S2, 0.42);
+          const resolveT2 = stageT(p, 0.42, S3);
+
+          candCards.forEach((card, i) => {
+            const isFavored = (i === 1);
+
+            if (resolveT2 > 0) {
+              // RESOLVE: winner rises further, losers rejected
+              if (isFavored) {
+                const ty = lerp(-10, -26, resolveT2);
+                const sc = lerp(1.04, 1.10, resolveT2);
+                const op = lerp(0.72, 0.90, resolveT2);
+                card.style.opacity = op;
+                card.style.transform = `translateX(-50%) translateY(${ty}px) scale(${sc})`;
+                card.style.filter = '';
+              } else {
+                // Losers: sink back, fade, blur slightly
+                const ty = lerp(-8, 12, resolveT2);
+                const sc = lerp(1.02, 0.90, resolveT2);
+                const op = lerp(0.68, 0.18, resolveT2);
+                const bl = lerp(0, 2.5, resolveT2);
+                card.style.opacity = op;
+                card.style.transform = `translateX(-50%) translateY(${ty}px) scale(${sc})`;
+                card.style.filter = `blur(${bl.toFixed(1)}px)`;
+              }
+            } else if (considerT > 0) {
+              // CONSIDER: all candidates rise together — being evaluated
+              const ty = lerp(0, isFavored ? -10 : -8, considerT);
+              const sc = lerp(1, isFavored ? 1.04 : 1.02, considerT);
+              const op = lerp(0.58, isFavored ? 0.72 : 0.68, considerT);
+              card.style.opacity = op;
+              card.style.transform = `translateX(-50%) translateY(${ty}px) scale(${sc})`;
+              card.style.filter = '';
+            } else if (alignT > 0) {
+              const pullX = i === 0 ? 8 : i === 2 ? -8 : 0;
+              card.style.transform = `translateX(calc(-50% + ${lerp(0, pullX, alignT)}px))`;
+              card.style.opacity = lerp(0.6, 0.58, alignT);
+              card.style.filter = '';
+            } else {
+              card.style.filter = '';
+            }
+          });
+        }
+
+        // === SELECTED LAYER ===
+        const resolveT = stageT(p, S1, 0.70);
+        const selScale = lerp(1, 1.06, resolveT);
+        selCard.style.transform = `translate(-50%, -52%) scale(${selScale})`;
+
+        // Card state progression: resolved at 45%, crystallized at 68%
+        if (p > 0.68) {
+          if (!selCard.classList.contains('crystallized')) selCard.classList.add('crystallized');
+        } else if (p > 0.45) {
+          selCard.classList.remove('crystallized');
+          if (!selCard.classList.contains('resolved')) selCard.classList.add('resolved');
+        } else {
+          selCard.classList.remove('resolved', 'crystallized');
+        }
+
+        // === GLOW + ATMOSPHERE ===
+        const glowT = stageT(p, 0.25, 0.60);
+        const crystalGlow = stageT(p, 0.65, 0.78);
+        if (selGlow) {
+          const gScale = lerp(1, 1.08, glowT) + lerp(0, 0.04, crystalGlow);
+          const gOp = lerp(0, 1, glowT) + lerp(0, 0.15, crystalGlow);
+          selGlow.style.opacity = Math.min(1, gOp);
+          selGlow.style.transform = `translate(-50%, -52%) scale(${gScale})`;
+        }
+        asset.style.setProperty('--scroll-glow', lerp(0, 1, stageT(p, 0.15, 0.50)));
+
+        // === CONVERGENCE — fragments tighten, then lock in crystallized state ===
+        const convT = stageT(p, 0.30, 0.55);
+        const lockT = stageT(p, 0.65, 0.75);
+        frags.forEach((frag, i) => {
+          const tx = lerp(0, (i === 0 ? -8 : 8), convT) + lerp(0, (i === 0 ? -3 : 3), lockT);
+          const ty = lerp(0, (i === 0 ? 6 : -6), convT) + lerp(0, (i === 0 ? 2 : -2), lockT);
+          const op = lerp(0.55, 0.78, convT) + lerp(0, 0.12, lockT);
+          frag.style.transform = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px)`;
+          frag.style.opacity = Math.min(0.92, op);
+        });
+
+        // === SIGNAL CONDENSATION — the key cinematic beat ===
+        // Each chip has 3 phases:
+        //   drift start → mote appears, begins drifting inward
+        //   condense start → mote dissolves, label materializes at final position
+        // Staggered across 5 chips for sequential reveal
+        if (chips.length) {
+          const schedule = [
+            { drift: 0.30, condense: 0.44 },  // Business Category (upper-left)
+            { drift: 0.33, condense: 0.48 },  // Trust Signals (upper-right)
+            { drift: 0.38, condense: 0.54 },  // Services (mid-right)
+            { drift: 0.42, condense: 0.60 },  // Location (lower-left)
+          ];
+
+          chips.forEach((chip, i) => {
+            if (i >= schedule.length) return;
+            const s = schedule[i];
+
+            if (p >= s.condense) {
+              chip.classList.remove('drifting');
+              chip.classList.add('condensing');
+            } else if (p >= s.drift) {
+              chip.classList.add('drifting');
+              chip.classList.remove('condensing');
+            } else {
+              chip.classList.remove('drifting', 'condensing');
+            }
+          });
+        }
+      }
+    });
+  })();
 
   /* ================================================================
      S02: CLIP-PATH REVEAL — scroll-driven
