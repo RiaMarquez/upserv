@@ -6,11 +6,7 @@
   <title>Upserv</title>
   <meta name="description" content="Placeholder description — branding to be defined.">
 
-  <!-- Fonts: Geist (display) + Inter (body/UI) -->
-  <link href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.min.css" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Fonts: Söhne loaded via @font-face in styles.css -->
 
   <!-- GSAP + ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
@@ -19,8 +15,8 @@
   <!-- Lenis Smooth Scroll -->
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
 
-  <!-- Neat Gradient -->
-  <script src="js/neat.umd.js" defer></script>
+  <!-- Neat Gradient — no longer used, background is CSS -->
+  <!-- <script src="js/neat.umd.js" defer></script> -->
 
   <link rel="stylesheet" href="css/styles.css">
 
@@ -39,23 +35,23 @@
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
 
-  <!-- HEADER — centered-logo-between-menu-alt -->
+  <!-- HEADER — Logo left, links centered, CTA right -->
   <header id="top" class="site-header" data-theme="dark">
     <div class="header-container">
-      <nav class="header-nav-left">
+      <a href="#" class="header-logo" id="logo">
+        <span class="logo-text">Upserv</span>
+      </a>
+      <nav class="header-nav-center">
         <ul>
           <li><a href="#">Blog</a></li>
           <li><a href="#how-it-works">How It Works</a></li>
-        </ul>
-      </nav>
-      <a href="#" class="header-logo" id="logo">
-        <img src="assets/upserv-logo.png" alt="Upserv" class="logo-img">
-      </a>
-      <nav class="header-nav-right">
-        <ul>
           <li><a href="#">Industries</a></li>
         </ul>
       </nav>
+      <div class="header-actions">
+        <a href="#" class="header-audit-link">Free AI Audit →</a>
+        <a href="#contact" class="header-cta">Book Strategy Call</a>
+      </div>
       <button class="slide-out-toggle" id="slideOutToggle" aria-label="Open menu">
         <span class="toggle-line"></span>
         <span class="toggle-line"></span>
@@ -95,24 +91,44 @@
           <div class="hero-grid">
             <!-- Left: messaging -->
             <div class="hero-grid__text">
-              <div class="hero-stitch-headline">
-                <span class="hs-line hs-kicker hero-part">We Create Modern</span>
-                <span class="hs-line hs-bold hero-part">AI Friendly Websites.</span>
-                <span class="hs-line hs-accent hero-part">Yep! They're amazing.</span>
+              <!-- Mono tag -->
+              <div class="hero-mono-tag">
+                <span class="hero-mono-tag__line"></span>
+                <span class="hero-mono-tag__text">AI Visibility Platform</span>
               </div>
 
-              <div class="hero-supporting hero-part">
+              <!-- Headline: three lines, same size, different colors -->
+              <div class="hero-stitch-headline">
+                <span class="hs-line hs-kicker">We Create Modern</span>
+                <span class="hs-line hs-bold">AI Friendly Websites.</span>
+                <span class="hs-line hs-accent">And businesses love them.</span>
+              </div>
+
+              <!-- Subhead -->
+              <div class="hero-supporting">
                 <p class="hero-supporting-copy">Upserv makes business websites visible to AI systems so small and mid-sized companies show up when customers search, instead of being left out entirely.</p>
               </div>
 
-              <div class="hero-cta-group hero-part">
+              <!-- CTA row -->
+              <div class="hero-cta-group">
                 <a href="#contact" class="hero-cta" id="heroCta">
-                  <span class="hero-cta__label">Book Strategy Call</span>
+                  <span class="hero-cta__label">Get your AI-friendly website</span>
                   <span class="hero-cta__icon">→</span>
                 </a>
+                <a href="#how-it-works" class="hero-ghost-link">See how it works</a>
               </div>
 
-              <div class="hero-scroll-line"></div>
+              <!-- Social proof -->
+              <div class="hero-social-proof">
+                <div class="hero-avatars">
+                  <div class="hero-avatar" style="background: #155E75;">JR</div>
+                  <div class="hero-avatar" style="background: #0369a1;">SK</div>
+                  <div class="hero-avatar" style="background: #047857;">ML</div>
+                  <div class="hero-avatar" style="background: #b45309;">PT</div>
+                  <div class="hero-avatar" style="background: #7c3aed;">AS</div>
+                </div>
+                <span class="hero-social-text"><strong>140+ businesses</strong> now visible across 19 AI systems</span>
+              </div>
             </div>
 
             <!-- Right: living selection asset -->

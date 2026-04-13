@@ -7,72 +7,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ================================================================
-     HERO BACKGROUND — @firecms/neat gradient
-     Opalescent fluid WebGL gradient, art-directed for light hero.
-     yOffset is tied to ScrollTrigger for scroll-driven evolution.
+     HERO BACKGROUND — Neat gradient removed.
+     Background is now CSS: #FAFAFA + two Cold Teal radial blobs + dot grid.
      ================================================================ */
-  (function initNeatGradient() {
-    try {
-      const canvas = document.getElementById('heroFluid');
-      if (!canvas) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      const GradientClass = (typeof neat !== 'undefined' && neat.NeatGradient)
-        ? neat.NeatGradient
-        : (typeof NeatGradient !== 'undefined') ? NeatGradient : null;
-      if (!GradientClass) return;
-
-      const gradient = new GradientClass({
-        ref: canvas,
-        colors: [
-          { color: "#C8B8FF", enabled: true },
-          { color: "#A0CCFF", enabled: true },
-          { color: "#A8E4FF", enabled: true },
-          { color: "#D8CCFF", enabled: true },
-          { color: "#C0D8FF", enabled: true },
-        ],
-        speed: 3.2,
-        horizontalPressure: 5.5,
-        verticalPressure: 6.5,
-        waveFrequencyX: 1.1,
-        waveFrequencyY: 1.4,
-        waveAmplitude: 6,
-        shadows: 1.2,
-        highlights: 5,
-        colorBrightness: 1.06,
-        colorSaturation: -8,
-        wireframe: false,
-        colorBlending: 18,
-        backgroundColor: "#F5F5FA",
-        backgroundAlpha: 1,
-        grainScale: 3,
-        grainSparsity: 0,
-        grainIntensity: 0.14,
-        grainSpeed: 0.35,
-        resolution: 1,
-        yOffset: 0,
-        yOffsetWaveMultiplier: 3.8,
-        yOffsetColorMultiplier: 3.4,
-        yOffsetFlowMultiplier: 4.2,
-        flowDistortionA: 0.7,
-        flowDistortionB: 0.45,
-        flowScale: 1.3,
-        flowEase: 0.22,
-        flowEnabled: true,
-        enableProceduralTexture: false,
-        domainWarpEnabled: false,
-        vignetteIntensity: 0,
-        vignetteRadius: 0.8,
-        fresnelEnabled: false,
-        iridescenceEnabled: false,
-        bloomIntensity: 0,
-        chromaticAberration: 0,
-      });
-      window.__neatGradient = gradient;
-    } catch (e) {
-      console.warn('Neat gradient failed to initialize:', e);
-    }
-  })();
 
   /* ================================================================
      SCROLLBAR WIDTH
@@ -83,53 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
   );
 
   /* ================================================================
-     CUSTOM CURSOR (desktop only)
+     CUSTOM CURSOR — removed per design context (no cursor trails)
      ================================================================ */
-  if (window.matchMedia('(pointer: fine)').matches) {
-    document.body.classList.add('has-custom-cursor');
-
-    const dot = document.getElementById('cursor-dot');
-    const ring = document.getElementById('cursor-ring');
-    let mouseX = 0, mouseY = 0;
-    let ringX = 0, ringY = 0;
-    let isVisible = false;
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.left = mouseX + 'px';
-      dot.style.top = mouseY + 'px';
-      if (!isVisible) {
-        isVisible = true;
-        dot.style.opacity = '1';
-        ring.style.opacity = '1';
-      }
-    });
-
-    function animateRing() {
-      ringX += (mouseX - ringX) * 0.12;
-      ringY += (mouseY - ringY) * 0.12;
-      ring.style.left = ringX + 'px';
-      ring.style.top = ringY + 'px';
-      requestAnimationFrame(animateRing);
-    }
-    animateRing();
-
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        dot.style.opacity = '0';
-        ring.style.width = '56px';
-        ring.style.height = '56px';
-        ring.style.borderColor = 'rgba(168, 95, 32, 0.7)';
-      });
-      el.addEventListener('mouseleave', () => {
-        dot.style.opacity = '1';
-        ring.style.width = '36px';
-        ring.style.height = '36px';
-        ring.style.borderColor = 'rgba(168, 95, 32, 0.4)';
-      });
-    });
-  }
 
   /* ================================================================
      LENIS SMOOTH SCROLL
@@ -224,30 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.registerPlugin(ScrollTrigger);
 
   /* ================================================================
-     S01b: HERO — Sequential word reveal
+     S01b: HERO — Arrival animation now handled by CSS @keyframes fadeUp.
+     No JS-driven .hero-part toggling needed.
      ================================================================ */
-  const heroParts = document.querySelectorAll('.hero-part');
-  const heroWords = document.querySelectorAll('.hero-word');
-  const heroCtaEl = document.querySelector('.hero-cta');
-  const heroTrust = document.querySelector('.hero-trust');
-
-  // Animate parts (each line as one unit) — 300ms stagger
-  if (heroParts.length > 0) {
-    heroParts.forEach((part, i) => {
-      setTimeout(() => part.classList.add('visible'), 300 + i * 300);
-    });
-    const totalTime = 300 + heroParts.length * 300 + 600;
-    if (heroCtaEl) setTimeout(() => heroCtaEl.classList.add('visible'), totalTime);
-    if (heroTrust) setTimeout(() => heroTrust.classList.add('visible'), totalTime + 200);
-  } else {
-    // Fallback: word-by-word
-    heroWords.forEach((word, i) => {
-      setTimeout(() => word.classList.add('visible'), 200 + i * 120);
-    });
-    const totalWordTime = 200 + heroWords.length * 120 + 600;
-    if (heroCtaEl) setTimeout(() => heroCtaEl.classList.add('visible'), totalWordTime);
-    if (heroTrust) setTimeout(() => heroTrust.classList.add('visible'), totalWordTime + 200);
-  }
 
   /* ================================================================
      S01c: HERO ASSET — Selection Cycle Controller
