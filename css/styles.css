@@ -1675,7 +1675,7 @@ input { font: inherit; }
   background: #FAFAFA; position: relative; z-index: 100;
 }
 .faq-container {
-  max-width: 860px; margin: 0 auto; padding: 80px 48px;
+  max-width: 100%; margin: 0; padding: 120px 80px;
 }
 @media (max-width: 690px) { .faq-container { padding: 60px 24px; } }
 
@@ -1748,10 +1748,11 @@ input { font: inherit; }
   font-weight: 400; color: #666666; line-height: 1.7;
   letter-spacing: -0.01em;
   max-width: 660px;
-  background: rgba(21, 94, 117, 0.03);
+  background: transparent;
   border-left: 2px solid #155E75;
+  padding-left: 24px;
   margin-left: 24px; margin-bottom: 4px;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0;
 }
 @media (max-width: 690px) {
   .q-header { padding-left: 16px; }
