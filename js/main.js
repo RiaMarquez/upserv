@@ -196,14 +196,15 @@ document.addEventListener('DOMContentLoaded', () => {
         recommended.classList.remove('visible');
       }
 
-      // Annotations: show for current and all previous stages
+      // Annotations: show via inline styles to override CSS !important
       annotations.forEach(ann => {
         const annStage = parseInt(ann.getAttribute('data-stage'));
         if (annStage <= stage) {
-          ann.classList.add('visible');
-        } else {
-          ann.classList.remove('visible');
+          ann.style.opacity = '1';
+          ann.style.visibility = 'visible';
+          ann.style.transform = 'translateY(0)';
         }
+        // Once visible, never hide again
       });
     }
 
