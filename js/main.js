@@ -128,8 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const browserCard = document.getElementById('browserCard');
     if (!heroPin || !browserCard) return;
 
-    // Skip pin on mobile — show final state
-    if (window.innerWidth <= 768) return;
+    const isMobile = window.innerWidth <= 768;
 
     // Grab elements
     const heroImg = browserCard.querySelector('.bc-hero-img');
@@ -211,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ScrollTrigger.create({
       trigger: heroPin,
       start: 'top top',
-      end: '+=300%',
+      end: isMobile ? '+=200%' : '+=300%',
       pin: true,
       scrub: 0.5,
       onUpdate: function(self) {

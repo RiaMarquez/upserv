@@ -712,6 +712,14 @@ input { font: inherit; }
   .hero-cta {
     padding: 13px 26px;
     font-size: 13px;
+    width: 100%;
+    justify-content: center;
+  }
+  .hero-stitch-headline {
+    text-align: center;
+  }
+  .hero-supporting-copy {
+    text-align: center;
   }
   .hero-social-proof {
     flex-direction: column;
@@ -1162,18 +1170,7 @@ input { font: inherit; }
     width: 100%;
     max-width: 320px;
   }
-  /* Show everything in final state on mobile */
-  .bc-hero-img img { filter: grayscale(0%) !important; }
-  .bc-site-nav .bc-brand { font-weight: 600 !important; color: #0A0A0A !important; }
-  .bc-site-nav .bc-nav-link { color: #555 !important; }
-  .bc-site-nav .bc-nav-book { font-weight: 600 !important; color: #fff !important; background: #0A0A0A !important; }
-  .bc-category { opacity: 1 !important; transform: none !important; }
-  .bc-pulse { animation: pulseDot 3s ease-in-out infinite !important; }
-  .bc-title { font-weight: 600 !important; color: #0A0A0A !important; font-size: 13px !important; }
-  .bc-desc { color: #888 !important; }
-  .bc-meta { opacity: 1 !important; transform: none !important; }
-  .bc-cta-row { opacity: 1 !important; transform: none !important; }
-  .bc-rating { opacity: 1 !important; }
+  /* Hide annotation pills and recommended on mobile */
   .bc-annotation { display: none !important; }
   .bc-recommended { display: none !important; }
 }
