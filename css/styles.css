@@ -304,6 +304,9 @@ input { font: inherit; }
   overflow: visible;
   background: var(--color-bg);
   z-index: -1;
+  display: grid;
+  align-items: center;
+  padding-top: 64px;
 }
 
 /* --- Neat gradient — hidden. Replaced by mesh blobs --- */
@@ -368,9 +371,8 @@ input { font: inherit; }
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  padding: 64px 80px 0 80px;
-  min-height: 100dvh;
-  height: calc(100vh - 64px);
+  padding: 0 80px;
+  height: 100%;
 }
 
 .hero-grid__text {
