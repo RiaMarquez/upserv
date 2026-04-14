@@ -412,7 +412,7 @@ input { font: inherit; }
 /* ---- Headline: three lines, same size, different colors ---- */
 .hero-stitch-headline {
   font-family: var(--font-display);
-  font-size: 56px;
+  font-size: 44px;
   line-height: 1.04;
   letter-spacing: -0.04em;
   margin-bottom: 32px;
