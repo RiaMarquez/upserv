@@ -1617,7 +1617,7 @@ input { font: inherit; }
 [data-s-speed="medium"] .nectar-scrolling-text-inner { animation-duration: 28s; }
 [data-s-speed="slow"] .nectar-scrolling-text-inner { animation-duration: 28s; }
 .nectar-scrolling-text-inner__text-chunk {
-  font-family: 'Bebas Neue', sans-serif; font-weight: 400;
+  font-family: 'Sohne', -apple-system, 'Helvetica Neue', sans-serif; font-weight: 600;
   font-size: 8vw; line-height: 1; letter-spacing: 0.02em;
   color: rgba(230,232,240,0.88); padding-right: 0.3em; flex-shrink: 0;
 }
