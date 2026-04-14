@@ -504,6 +504,20 @@ document.addEventListener('DOMContentLoaded', () => {
   fadeUpEls.forEach(el => fadeObserver.observe(el));
 
   /* ================================================================
+     PRICING — scroll reveal
+     ================================================================ */
+  const pricingReveals = document.querySelectorAll('.pricing-reveal');
+  const pricingObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        pricingObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  pricingReveals.forEach(el => pricingObserver.observe(el));
+
+  /* ================================================================
      SMOOTH SCROLL — Anchor links
      ================================================================ */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
