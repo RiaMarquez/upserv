@@ -1748,7 +1748,7 @@ input { font: inherit; }
    FOOTER
    ============================================================ */
 .site-footer {
-  background: #141210; color: var(--color-text-light);
+  background: #0A0A0A; color: var(--color-text-light);
   position: relative; z-index: 200;
 }
 
@@ -1763,8 +1763,8 @@ input { font: inherit; }
 @media (max-width: 480px) { .footer-grid-v2 { grid-template-columns: 1fr; } }
 
 .ft-heading {
-  font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
-  letter-spacing: 1.5px; color: #4A4540; text-transform: uppercase;
+  font-family: var(--font-mono); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.3); text-transform: uppercase;
   margin-bottom: 16px;
 }
 .ft-col ul { margin-bottom: 0; }
@@ -1794,16 +1794,16 @@ input { font: inherit; }
   transition: border-color 300ms ease;
 }
 .ft-input-wrap input::placeholder { color: #4A4540; }
-.ft-input-wrap input:focus { border-color: #D47C2F; }
+.ft-input-wrap input:focus { border-color: #155E75; }
 .ft-submit {
   width: 48px; height: 48px;
-  background: #D47C2F; color: #fff;
+  background: #155E75; color: #ffffff;
   border: none; border-radius: 0 3px 3px 0;
   font-size: 16px; cursor: pointer;
   transition: background 300ms ease;
   display: flex; align-items: center; justify-content: center;
 }
-.ft-submit:hover { background: #C4721F; }
+.ft-submit:hover { background: #0E4352; }
 
 /* Bottom bar */
 .ft-bottom-bar {
