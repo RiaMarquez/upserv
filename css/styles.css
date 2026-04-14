@@ -1556,12 +1556,7 @@ input { font: inherit; }
 .panel-bg-overlay {
   position: absolute; top: 0; left: 0;
   width: 100%; height: 100%;
-  background: linear-gradient(
-    to right,
-    rgba(20,18,16,0.90) 0%,
-    rgba(20,18,16,0.70) 40%,
-    rgba(20,18,16,0.25) 100%
-  );
+  background: rgba(0, 0, 0, 0.4);
   z-index: 1;
 }
 
@@ -1587,26 +1582,29 @@ input { font: inherit; }
 .placeholder-image-4 { background: linear-gradient(150deg, #3e1a0f 0%, #2e1508 50%, #1a0d05 100%); }
 .placeholder-image-5 { background: linear-gradient(150deg, #1a3e0f 0%, #0f2e08 50%, #0a1a05 100%); }
 
-.nectar-badge { position: absolute; top: 20px; left: 20px; z-index: 3; }
+.nectar-badge { position: absolute; top: 52px; left: 80px; z-index: 3; }
 
 /* Panel fact statement */
 .panel-fact {
-  position: absolute; top: 70px; left: 20px; z-index: 3;
-  font-family: 'Inter', sans-serif;
+  position: absolute; bottom: 52px; left: 80px; z-index: 3;
+  font-family: var(--font-primary);
   font-size: 15px; font-weight: 400;
   color: rgba(230, 232, 240, 0.65);
   line-height: 1.75; max-width: 480px;
   margin-top: 16px;
 }
 @media (max-width: 690px) {
-  .panel-fact { font-size: 13px; max-width: 280px; top: 60px; }
+  .panel-fact { font-size: 13px; max-width: 280px; bottom: 24px; left: 24px; }
+  .nectar-badge { top: 24px; left: 24px; }
 }
 .nectar-badge__inner {
-  font-size: 0.75rem; font-weight: 600;
-  padding: .4em 1em; border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.5);
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px); color: var(--color-text-light);
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: transparent;
+  backdrop-filter: none; color: #ffffff;
 }
 
 .nectar-sticky-media-sections.type--scroll-pinned-sections .nectar-sticky-media-section__content-section-inner { position: static; }
@@ -1618,8 +1616,8 @@ input { font: inherit; }
 [data-s-speed="slow"] .nectar-scrolling-text-inner { animation-duration: 28s; }
 .nectar-scrolling-text-inner__text-chunk {
   font-family: 'Sohne', -apple-system, 'Helvetica Neue', sans-serif; font-weight: 600;
-  font-size: 8vw; line-height: 1; letter-spacing: 0.02em;
-  color: rgba(230,232,240,0.88); padding-right: 0.3em; flex-shrink: 0;
+  font-size: 80px; line-height: 1; letter-spacing: 0.02em;
+  color: rgba(255,255,255,0.06); padding-right: 0.3em; flex-shrink: 0;
 }
 @media (max-width: 690px) {
   .nectar-scrolling-text-inner__text-chunk { font-size: 13vw; }
