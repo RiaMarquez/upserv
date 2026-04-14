@@ -1633,18 +1633,18 @@ input { font: inherit; }
    ============================================================ */
 .trusted-section {
   position: relative; padding: 120px 0;
-  background: #141210; overflow: hidden; z-index: 3;
+  background: #0A0A0A; overflow: hidden; z-index: 3;
   min-height: 50vh; display: flex; align-items: center; justify-content: center;
   color: var(--color-text-light);
 }
 .trusted-content { position: relative; z-index: 2; text-align: center; padding: 0 5%; }
 .nectar-rotating-words-title h3 {
-  font-family: var(--font-primary); font-weight: 700;
-  font-size: 3.5vw; line-height: 1.2; color: rgba(230,232,240,0.88); display: block;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 64px; line-height: 1.2; letter-spacing: -0.04em; color: rgba(230,232,240,0.88); display: block;
 }
-@media (max-width: 690px) { .nectar-rotating-words-title h3 { font-size: 5.6vw; } }
+@media (max-width: 768px) { .nectar-rotating-words-title h3 { font-size: 36px; } }
 /* Accent line (line 5: "Not anymore.") */
-.text-wrap--accent span { color: #D47C2F; }
+.text-wrap--accent span { color: #155E75; }
 .dynamic-words { display: inline-block; position: relative; vertical-align: bottom; }
 .text-wrap {
   display: inline-block; position: absolute; left: 0;
@@ -1891,7 +1891,7 @@ html.lenis, html.lenis body { height: auto; }
   .cat-header { font-weight: 400 !important; }
 
   /* Rotating text — prevent overflow */
-  .nectar-rotating-words-title h3 { font-size: 7vw !important; }
+  .nectar-rotating-words-title h3 { font-size: 36px !important; }
   .text-wrap { white-space: normal !important; }
   .trusted-content { padding: 0 24px; width: 100%; overflow: hidden; text-align: center; }
   .trusted-section { overflow: hidden; }
