@@ -129,7 +129,7 @@ input { font: inherit; }
 .nav-logo {
   font-family: 'Sohne', -apple-system, 'Helvetica Neue', sans-serif;
   font-weight: 600;
-  font-size: 17px;
+  font-size: 19px;
   letter-spacing: -0.04em;
   text-decoration: none;
   line-height: 1;
@@ -306,7 +306,7 @@ input { font: inherit; }
   z-index: -1;
   display: grid;
   align-items: center;
-  padding-top: 64px;
+  padding-top: 40px;
 }
 
 /* --- Neat gradient — hidden. Replaced by mesh blobs --- */
