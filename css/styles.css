@@ -832,6 +832,13 @@ input { font: inherit; }
   transition: color 600ms ease, font-weight 600ms ease;
 }
 
+.bc-brand-sub {
+  font-weight: 400;
+  color: #aaa;
+  letter-spacing: 0.02em;
+  font-size: 0.85em;
+}
+
 .bc-nav-links {
   margin-left: auto;
   display: flex;
