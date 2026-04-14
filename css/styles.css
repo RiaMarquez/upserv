@@ -660,7 +660,7 @@ input { font: inherit; }
   }
 }
 
-@media (max-width: 690px) {
+@media (max-width: 768px) {
   .site-header {
     height: 56px;
   }
@@ -668,58 +668,55 @@ input { font: inherit; }
     padding: 0 16px !important;
     height: 56px;
   }
-  .logo-text {
-    font-size: 14px;
-  }
   .slide-out-toggle {
     right: 16px;
   }
   .hero-grid {
     grid-template-columns: 1fr;
-    padding: 80px 24px 24px 24px;
-    min-height: auto;
-    gap: 32px;
+    padding: 72px 20px 24px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
   }
   .hero-grid__text {
     text-align: center;
     align-items: center;
     max-width: 100%;
     padding-right: 0;
-  }
-  .hero-mono-tag {
-    margin-bottom: 24px;
+    padding-top: 0;
   }
   .hero-stitch-headline {
-    font-size: clamp(28px, 8vw, 40px);
-    line-height: 1.08;
-    margin-bottom: 24px;
+    font-size: 28px;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    text-align: center;
   }
   .hero-supporting {
-    max-width: 90%;
+    max-width: 100%;
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 20px;
   }
   .hero-supporting-copy {
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.55;
     max-width: 100%;
+    text-align: center;
   }
   .hero-cta-group {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
     gap: 16px;
-    margin-bottom: 48px;
+    margin-bottom: 24px;
   }
   .hero-cta {
-    padding: 13px 26px;
+    padding: 11px 20px;
     font-size: 13px;
-    width: 100%;
-    justify-content: center;
-  }
-  .hero-stitch-headline {
-    text-align: center;
-  }
-  .hero-supporting-copy {
-    text-align: center;
+    width: auto;
+    display: inline-flex;
   }
   .hero-social-proof {
     flex-direction: column;
@@ -730,6 +727,14 @@ input { font: inherit; }
     text-align: center;
   }
   .hero-scroll-line { display: none; }
+  /* Card scaled down to fit viewport */
+  .hero-transform {
+    transform: scale(0.72);
+    transform-origin: top center;
+  }
+  .browser-card {
+    max-width: 100%;
+  }
 }
 
 /* ============================================================
