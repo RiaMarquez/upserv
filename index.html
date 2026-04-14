@@ -211,22 +211,14 @@
         </section>
       </div>
 
-      <!-- S02: CLIP-PATH REVEAL — scrolls over fixed hero
-           Everything inside row-bg-wrap gets clipped together.
-           The column padding defines the height. -->
-      <section class="clip-reveal-section" data-midnight="dark">
-        <div class="clip-reveal-inner" id="clipReveal">
-          <!-- This entire wrap gets clip-path: bg + image + overlays all clipped -->
-          <div class="row-bg-wrap" id="clipBgWrap" data-bg-animation="clip-path">
-            <div class="row-bg"></div>
-            <div class="clip-bg-image" id="clipImage">
-              <img src="assets/section2-bg.png" alt="" style="width:100%;height:100%;object-fit:cover;">
-            </div>
-            <div class="clip-overlay"></div>
-            <div class="clip-gradient-bottom"></div>
-          </div>
-          <!-- Column defines the section height via padding -->
-          <div class="clip-reveal-column" id="clipColumn"></div>
+      <!-- S02: DARK TRANSITION STATEMENT -->
+      <section class="s2-transition" data-midnight="light">
+        <div class="s2-accent-bar"></div>
+        <div class="s2-content s2-reveal">
+          <h2 class="s2-headline">
+            <span class="s2-line-light">Someone is using AI right now</span>
+            <span class="s2-line-bold">to find exactly what you offer.</span>
+          </h2>
         </div>
       </section>
 
