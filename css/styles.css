@@ -1556,7 +1556,7 @@ input { font: inherit; }
 .panel-bg-overlay {
   position: absolute; top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.65);
   z-index: 1;
 }
 
@@ -1618,7 +1618,7 @@ input { font: inherit; }
 .nectar-scrolling-text-inner__text-chunk {
   font-family: 'Sohne', -apple-system, 'Helvetica Neue', sans-serif; font-weight: 600;
   font-size: 80px; line-height: 1; letter-spacing: 0.02em;
-  color: rgba(255,255,255,0.12); padding-right: 0.3em; flex-shrink: 0;
+  color: rgba(255,255,255,0.18); padding-right: 0.3em; flex-shrink: 0;
 }
 @media (max-width: 690px) {
   .nectar-scrolling-text-inner__text-chunk { font-size: 13vw; }
