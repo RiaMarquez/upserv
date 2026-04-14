@@ -1251,7 +1251,7 @@ input { font: inherit; }
 .spacer-50 { height: 0; position: relative; z-index: 1; display: none; }
 
 /* ============================================================
-   S02: CLIP-PATH REVEAL WRAPPER
+   S02: CLIP-PATH REVEAL
    ============================================================ */
 .clip-reveal-section { background: transparent; padding: 0; position: relative; z-index: 1; }
 .clip-reveal-inner { position: relative; overflow: hidden; }
@@ -1263,80 +1263,10 @@ input { font: inherit; }
 .clip-reveal-column { position: relative; padding: 29% 0; z-index: 0; }
 @media (max-width: 999px) { .clip-reveal-column { padding: 50% 0; } }
 @media (max-width: 690px) { .clip-reveal-column { padding: 85% 0; } }
-
-/* ============================================================
-   S02: DARK TRANSITION STATEMENT
-   ============================================================ */
-.s2-transition {
-  position: relative;
-  z-index: 1;
-  background: #0A0A0A;
-  width: 100%;
-  height: 100%;
-  min-height: 60vh;
-  display: flex;
-  align-items: center;
-  padding: 140px 80px;
-}
-
-.s2-accent-bar {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 80px;
-  background: #155E75;
-}
-
-.s2-content {
-  max-width: 800px;
-}
-
-.s2-headline {
-  margin: 0;
-}
-
-.s2-line-light,
-.s2-line-bold {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 52px;
-  letter-spacing: -0.04em;
-  line-height: 1.08;
-}
-
-.s2-line-light {
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.35);
-  margin-bottom: 6px;
-}
-
-.s2-line-bold {
-  font-weight: 600;
-  color: #ffffff;
-}
-
-/* Scroll reveal */
-.s2-reveal {
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 800ms ease, transform 800ms ease;
-}
-.s2-reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (max-width: 768px) {
-  .s2-transition {
-    padding: 80px 24px;
-  }
-  .s2-line-light,
-  .s2-line-bold {
-    font-size: 32px;
-  }
-}
+.clip-reveal-inner .row-bg { position: absolute; inset: 0; background-color: #141210; }
+.clip-bg-image { position: absolute; inset: 0; transform: scale(1.3); transform-origin: center center; }
+.clip-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+.clip-gradient-bottom { position: absolute; bottom: 0; left: 0; right: 0; height: 100%; background: linear-gradient(0deg, rgb(0,0,0) 0%, rgba(0,0,0,0) 45%); pointer-events: none; }
 
 /* ============================================================
    S03: HERO TEXT

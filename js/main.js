@@ -240,6 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
      S02: CLIP-PATH REVEAL — scroll-driven
      ================================================================ */
   const clipBgWrap = document.getElementById('clipBgWrap');
+  const clipImage = document.getElementById('clipImage');
   const clipReveal = document.getElementById('clipReveal');
 
   if (clipBgWrap && clipReveal) {
@@ -251,21 +252,13 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollTrigger: { trigger: clipReveal, start: 'top 100%', end: 'top 0%', scrub: 0.3 },
       }
     );
+    if (clipImage) {
+      gsap.fromTo(clipImage, { scale: 1.3 }, {
+        scale: 1, ease: 'none',
+        scrollTrigger: { trigger: clipReveal, start: 'top 100%', end: 'top 0%', scrub: 0.3 },
+      });
+    }
   }
-
-  /* ================================================================
-     S02: DARK TRANSITION — scroll reveal
-     ================================================================ */
-  const s2Reveals = document.querySelectorAll('.s2-reveal');
-  const s2Observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        s2Observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.25 });
-  s2Reveals.forEach(el => s2Observer.observe(el));
 
   /* ================================================================
      S03: DARK STATEMENT — scroll reveal with stagger
