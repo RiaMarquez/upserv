@@ -740,15 +740,20 @@ input { font: inherit; }
 .hero-transform {
   position: relative;
   width: 100%;
+  max-width: 100%;
+  overflow: visible;
   display: flex;
   justify-content: center;
   align-items: center;
+  /* Clip only the right edge; allow left annotations + bottom pill */
+  clip-path: inset(-80px 0 -80px -200px);
 }
 
 
 /* --- Browser card container --- */
 .browser-card {
-  width: 340px;
+  width: 90%;
+  max-width: 340px;
   border-radius: 14px;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.72);
@@ -1052,6 +1057,7 @@ input { font: inherit; }
 /* --- Annotations --- */
 .bc-annotation {
   position: absolute;
+  left: -160px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1063,7 +1069,7 @@ input { font: inherit; }
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
   opacity: 0;
-  transform: translateX(-8px);
+  transform: translateX(8px);
   transition: opacity 600ms ease, transform 600ms ease;
   white-space: nowrap;
   pointer-events: none;
