@@ -479,7 +479,7 @@ input { font: inherit; }
   align-items: center;
   gap: 24px;
   margin-top: 0;
-  margin-bottom: 72px;
+  margin-bottom: 0;
   opacity: 0;
   transform: translateY(16px);
   animation: fadeUp 800ms ease 400ms forwards;
@@ -753,7 +753,7 @@ input { font: inherit; }
 /* --- Browser card container --- */
 .browser-card {
   width: 90%;
-  max-width: 340px;
+  max-width: 420px;
   border-radius: 14px;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.72);
@@ -886,12 +886,12 @@ input { font: inherit; }
   margin: 10px auto 0;
   border-radius: 6px;
   overflow: hidden;
-  height: 160px;
+  height: 200px;
 }
 
 .bc-hero-img img {
   width: 100%;
-  height: 160px;
+  height: 200px;
   object-fit: cover;
   object-position: center top;
   display: block;
