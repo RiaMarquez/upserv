@@ -211,14 +211,21 @@
         </section>
       </div>
 
-      <!-- S02: DARK TRANSITION STATEMENT -->
-      <section class="s2-transition" data-midnight="light">
-        <div class="s2-accent-bar"></div>
-        <div class="s2-content s2-reveal">
-          <h2 class="s2-headline">
-            <span class="s2-line-light">Someone is using AI right now</span>
-            <span class="s2-line-bold">to find exactly what you offer.</span>
-          </h2>
+      <!-- S02: DARK TRANSITION STATEMENT with clip-path reveal -->
+      <section class="clip-reveal-section" data-midnight="light">
+        <div class="clip-reveal-inner" id="clipReveal">
+          <div class="row-bg-wrap" id="clipBgWrap" data-bg-animation="clip-path">
+            <div class="s2-transition">
+              <div class="s2-accent-bar"></div>
+              <div class="s2-content s2-reveal">
+                <h2 class="s2-headline">
+                  <span class="s2-line-light">Someone is using AI right now</span>
+                  <span class="s2-line-bold">to find exactly what you offer.</span>
+                </h2>
+              </div>
+            </div>
+          </div>
+          <div class="clip-reveal-column" id="clipColumn"></div>
         </div>
       </section>
 
@@ -232,9 +239,6 @@
             </div>
             <div class="s3-body">
               <p>Search used to show lists. AI gives answers. And it doesn't include everyone. Only the businesses it understands get recommended.</p>
-            </div>
-            <div class="s3-punchline">
-              <p>If AI can't understand your website, you don't exist in its answers.</p>
             </div>
           </div>
 
@@ -284,7 +288,7 @@
                 </div>
                 <div class="terminal-missing" id="terminalMissing">
                   <div class="missing-header">
-                    <span class="missing-x">✖</span>
+                    <span class="missing-x">—</span>
                     <span class="missing-label">Your business</span>
                   </div>
                   <p class="missing-not-rec">Not recommended.</p>

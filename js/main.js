@@ -237,8 +237,21 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* ================================================================
-     S02: Old clip-path reveal removed — replaced by dark transition
+     S02: CLIP-PATH REVEAL — scroll-driven
      ================================================================ */
+  const clipBgWrap = document.getElementById('clipBgWrap');
+  const clipReveal = document.getElementById('clipReveal');
+
+  if (clipBgWrap && clipReveal) {
+    gsap.fromTo(clipBgWrap,
+      { clipPath: 'inset(15% 25% 15% 25% round 50px)' },
+      {
+        clipPath: 'inset(0% 0% 0% 0% round 0px)',
+        ease: 'power1.inOut',
+        scrollTrigger: { trigger: clipReveal, start: 'top 100%', end: 'top 0%', scrub: 0.3 },
+      }
+    );
+  }
 
   /* ================================================================
      S02: DARK TRANSITION — scroll reveal

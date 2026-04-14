@@ -1251,12 +1251,28 @@ input { font: inherit; }
 .spacer-50 { height: 0; position: relative; z-index: 1; display: none; }
 
 /* ============================================================
+   S02: CLIP-PATH REVEAL WRAPPER
+   ============================================================ */
+.clip-reveal-section { background: transparent; padding: 0; position: relative; z-index: 1; }
+.clip-reveal-inner { position: relative; overflow: hidden; }
+.clip-reveal-inner .row-bg-wrap {
+  position: absolute; inset: 0;
+  clip-path: inset(15% 25% 15% 25% round 50px);
+  z-index: 1; overflow: hidden;
+}
+.clip-reveal-column { position: relative; padding: 29% 0; z-index: 0; }
+@media (max-width: 999px) { .clip-reveal-column { padding: 50% 0; } }
+@media (max-width: 690px) { .clip-reveal-column { padding: 85% 0; } }
+
+/* ============================================================
    S02: DARK TRANSITION STATEMENT
    ============================================================ */
 .s2-transition {
   position: relative;
   z-index: 1;
   background: #0A0A0A;
+  width: 100%;
+  height: 100%;
   min-height: 60vh;
   display: flex;
   align-items: center;
@@ -1328,6 +1344,7 @@ input { font: inherit; }
 .hero-text-section {
   background: #141210; position: relative;
   overflow: hidden; z-index: 1;
+  min-height: 100vh;
 }
 
 /* S3 two-column grid */
@@ -1336,7 +1353,8 @@ input { font: inherit; }
   grid-template-columns: 1fr 1fr;
   gap: 80px;
   align-items: center;
-  padding: 80px 80px;
+  min-height: 100vh;
+  padding: 64px 80px 80px 80px;
 }
 @media (max-width: 999px) {
   .s3-grid { grid-template-columns: 1fr; gap: 48px; padding: 60px 40px; }
@@ -1347,9 +1365,9 @@ input { font: inherit; }
 
 /* S3 headline */
 .s3-headline h2 {
-  font-family: var(--font-primary); font-weight: 700;
+  font-family: var(--font-display); font-weight: 600;
   font-size: 52px; line-height: 1.15;
-  letter-spacing: -1.5px; max-width: 720px;
+  letter-spacing: -0.04em; max-width: 720px;
   color: rgba(230, 232, 240, 0.88);
 }
 @media (max-width: 690px) { .s3-headline h2 { font-size: 36px; } }
@@ -1357,24 +1375,15 @@ input { font: inherit; }
 /* S3 body */
 .s3-body {
   margin-top: 24px; max-width: 480px;
+  margin-bottom: 0;
 }
 .s3-body p {
   font-family: var(--font-primary); font-size: 17px;
   font-weight: 400; line-height: 1.9;
   color: rgba(230, 232, 240, 0.45);
+  margin-bottom: 0;
 }
 @media (max-width: 690px) { .s3-body p { font-size: 15px; } }
-
-/* S3 punchline — the kill shot */
-.s3-punchline {
-  margin-top: 32px; max-width: 480px;
-}
-.s3-punchline p {
-  font-family: var(--font-primary); font-size: 19px;
-  font-weight: 600; line-height: 1.5;
-  color: rgba(230, 232, 240, 0.88);
-}
-@media (max-width: 690px) { .s3-punchline p { font-size: 17px; } }
 
 /* S3 scroll reveal */
 .s3-reveal {
@@ -1491,8 +1500,8 @@ input { font: inherit; }
 
 .terminal-missing {
   margin-top: 16px; padding: 14px 16px;
-  background: #180F0A;
-  border: 0.5px solid #3A1F0A;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   opacity: 0;
   transition: opacity 500ms var(--ease);
@@ -1504,19 +1513,22 @@ input { font: inherit; }
   margin-bottom: 10px;
 }
 .missing-x {
-  font-size: 12px; color: #B84A2E;
+  font-size: 12px; color: rgba(255, 255, 255, 0.3);
 }
 .missing-label {
-  font-size: 10px; color: #B84A2E;
-  letter-spacing: 0.8px; text-transform: uppercase;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 10px; color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  font-weight: 400;
 }
 .missing-not-rec {
-  font-size: 14px; font-weight: 600;
-  color: #B84A2E; margin-bottom: 8px;
+  font-family: var(--font-primary);
+  font-size: 14px; font-weight: 400;
+  color: rgba(255, 255, 255, 0.6); margin-bottom: 8px;
 }
 .missing-body {
-  font-size: 12px; color: rgba(230,232,240,0.3);
+  font-family: var(--font-primary);
+  font-size: 12px; color: rgba(255, 255, 255, 0.35);
   line-height: 1.7;
 }
 
