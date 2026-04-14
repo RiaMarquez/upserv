@@ -315,32 +315,32 @@ input { font: inherit; }
   display: none !important;
 }
 
-/* --- Mesh background: two Cold Teal radial blobs --- */
+/* --- Mesh background: two Cold Teal radial blobs (asymmetric) --- */
 .landing-section::before {
   content: '';
   position: absolute;
-  width: 700px;
-  height: 700px;
-  top: -200px;
-  right: -150px;
+  width: 800px;
+  height: 800px;
+  top: -250px;
+  right: -200px;
   z-index: 0;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(21, 94, 117, 0.09) 0%, transparent 70%);
-  filter: blur(40px);
+  background: radial-gradient(circle, rgba(21, 94, 117, 0.11) 0%, transparent 65%);
+  filter: blur(60px);
   pointer-events: none;
 }
 
 .landing-section::after {
   content: '';
   position: absolute;
-  width: 500px;
-  height: 500px;
-  bottom: -100px;
-  left: 5%;
+  width: 300px;
+  height: 300px;
+  bottom: -80px;
+  left: 3%;
   z-index: 0;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(21, 94, 117, 0.05) 0%, transparent 70%);
-  filter: blur(60px);
+  background: radial-gradient(circle, rgba(21, 94, 117, 0.05) 0%, transparent 65%);
+  filter: blur(80px);
   pointer-events: none;
 }
 
@@ -351,7 +351,7 @@ input { font: inherit; }
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
   background-size: 32px 32px;
   -webkit-mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 70%);
   mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 70%);
@@ -379,7 +379,7 @@ input { font: inherit; }
   text-align: left;
   max-width: 640px;
   padding-right: 60px;
-  padding-top: 40px;
+  padding-top: 0;
 }
 
 /* ---- Mono tag ---- */
@@ -411,7 +411,7 @@ input { font: inherit; }
 /* ---- Headline: three lines, same size, different colors ---- */
 .hero-stitch-headline {
   font-family: var(--font-display);
-  font-size: 52px;
+  font-size: 68px;
   line-height: 1.04;
   letter-spacing: -0.04em;
   margin-bottom: 32px;
@@ -912,7 +912,7 @@ input { font: inherit; }
   width: 100%;
   height: 200px;
   object-fit: cover;
-  object-position: 70% 0%;
+  object-position: 50% 5%;
   display: block;
   border-radius: 0;
   filter: grayscale(100%);
