@@ -83,10 +83,8 @@
       <!-- S01: HERO — FIXED/PINNED behind content (nectar-sticky-row-wrap pattern)
            The hero is position:fixed, z-index:-1, with padding-bottom:100vh spacer
            Everything after scrolls OVER it, creating the parallax reveal effect -->
-      <div class="nectar-sticky-row-wrap nectar-sticky-row-wrap--top" style="z-index: -1;">
+      <div id="heroPin" class="hero-pin-wrap">
         <section class="landing-section" data-midnight="dark">
-          <!-- Opalescent fluid background -->
-          <canvas id="heroFluid" class="hero-fluid"></canvas>
 
           <div class="hero-grid">
             <!-- Left: messaging -->
@@ -115,149 +113,98 @@
 
             </div>
 
-            <!-- Right: living selection asset -->
-            <div class="hero-asset" aria-hidden="true">
-
-              <!-- L1: Background field — discarded digital structure -->
-              <div class="asset-field">
-                <!-- Lines -->
-                <div class="field-el field-line" style="--y:5%;--w:58%;--x:20%;--dur:44s;--del:0s"></div>
-                <div class="field-el field-line" style="--y:18%;--w:45%;--x:8%;--dur:38s;--del:-14s"></div>
-                <div class="field-el field-line" style="--y:35%;--w:65%;--x:15%;--dur:42s;--del:-22s"></div>
-                <div class="field-el field-line" style="--y:52%;--w:50%;--x:28%;--dur:46s;--del:-6s"></div>
-                <div class="field-el field-line" style="--y:68%;--w:55%;--x:10%;--dur:40s;--del:-30s"></div>
-                <div class="field-el field-line" style="--y:82%;--w:62%;--x:22%;--dur:48s;--del:-18s"></div>
-                <!-- Rectangles -->
-                <div class="field-el field-rect" style="--y:12%;--w:42%;--h:28px;--x:35%;--dur:50s;--del:-4s"></div>
-                <div class="field-el field-rect" style="--y:45%;--w:38%;--h:35px;--x:42%;--dur:52s;--del:-16s"></div>
-                <div class="field-el field-rect" style="--y:75%;--w:48%;--h:22px;--x:18%;--dur:46s;--del:-28s"></div>
-                <!-- Frames (partial card outlines) -->
-                <div class="field-el field-frame" style="--y:25%;--w:36%;--h:65px;--x:40%;--dur:55s;--del:-8s"></div>
-                <div class="field-el field-frame" style="--y:58%;--w:32%;--h:50px;--x:12%;--dur:50s;--del:-20s"></div>
-                <div class="field-el field-frame" style="--y:88%;--w:40%;--h:72px;--x:30%;--dur:54s;--del:-12s"></div>
-                <!-- Mini card ghosts (new: card-like shapes with a top bar) -->
-                <div class="field-el field-ghost-card" style="--y:8%;--w:28%;--h:55px;--x:5%;--dur:52s;--del:-10s"></div>
-                <div class="field-el field-ghost-card" style="--y:40%;--w:25%;--h:48px;--x:55%;--dur:48s;--del:-25s"></div>
-                <div class="field-el field-ghost-card" style="--y:72%;--w:30%;--h:60px;--x:48%;--dur:56s;--del:-3s"></div>
-                <div class="field-el field-ghost-card" style="--y:92%;--w:22%;--h:42px;--x:8%;--dur:44s;--del:-35s"></div>
-              </div>
-
-              <!-- L2: Candidates — 3 structured cards being evaluated -->
-              <div class="asset-candidates">
-                <div class="cand-card" data-cand="0" style="--cy:12%">
-                  <div class="cand-bar"></div>
-                  <div class="cand-block"></div>
-                  <div class="cand-heading"></div>
-                  <div class="cand-line" style="--lw:78%"></div>
-                  <div class="cand-line" style="--lw:62%"></div>
-                  <div class="cand-cta"></div>
+            <!-- Right: scroll-triggered website transformation -->
+            <div class="hero-transform" id="heroTransform">
+              <div class="browser-card" id="browserCard">
+                <!-- Browser chrome -->
+                <div class="bc-chrome">
+                  <div class="bc-dots">
+                    <span class="bc-dot" style="background:#ff6057"></span>
+                    <span class="bc-dot" style="background:#febc2e"></span>
+                    <span class="bc-dot" style="background:#28c840"></span>
+                  </div>
+                  <div class="bc-url">claritywellness.com.au</div>
                 </div>
-                <div class="cand-card" data-cand="1" style="--cy:40%">
-                  <div class="cand-bar"></div>
-                  <div class="cand-block"></div>
-                  <div class="cand-heading"></div>
-                  <div class="cand-line" style="--lw:70%"></div>
-                  <div class="cand-line" style="--lw:85%"></div>
-                  <div class="cand-cta"></div>
-                </div>
-                <div class="cand-card" data-cand="2" style="--cy:68%">
-                  <div class="cand-bar"></div>
-                  <div class="cand-block"></div>
-                  <div class="cand-heading"></div>
-                  <div class="cand-line" style="--lw:82%"></div>
-                  <div class="cand-line" style="--lw:58%"></div>
-                  <div class="cand-cta"></div>
-                </div>
-              </div>
 
-              <!-- Atmospheric tint behind asset -->
-              <div class="asset-atmosphere"></div>
-
-              <!-- L3: Selected cluster -->
-              <div class="asset-selected">
-                <div class="sel-glow"></div>
-                <div class="sel-card">
-                  <!-- Abstract layer — visible initially -->
-                  <div class="sel-abstract">
-                    <div class="sel-nav">
-                      <div class="sel-nav__logo"></div>
-                      <div class="sel-nav__links">
-                        <span></span><span></span><span></span>
-                      </div>
+                <!-- Website content inside card -->
+                <div class="bc-body">
+                  <!-- Site nav -->
+                  <div class="bc-site-nav">
+                    <span class="bc-brand">Clarity Wellness</span>
+                    <div class="bc-nav-links">
+                      <span class="bc-nav-link">About</span>
+                      <span class="bc-nav-link">Services</span>
+                      <span class="bc-nav-link">Contact</span>
                     </div>
-                    <div class="sel-img"></div>
-                    <div class="sel-content">
-                      <div class="sel-heading"></div>
-                      <div class="sel-sub"></div>
-                      <div class="sel-body">
-                        <div class="sel-text" style="--tw:92%"></div>
-                        <div class="sel-text" style="--tw:78%"></div>
-                        <div class="sel-text" style="--tw:65%"></div>
-                      </div>
-                      <div class="sel-cta"></div>
+                    <span class="bc-nav-book">Book</span>
+                  </div>
+
+                  <!-- Hero image -->
+                  <div class="bc-hero-img">
+                    <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=500&h=200&fit=crop&crop=top&q=80" alt="" loading="lazy">
+                  </div>
+
+                  <!-- Category tag -->
+                  <div class="bc-category">
+                    <span class="bc-pulse"></span>
+                    <span class="bc-category-text">Wellness Clinic · Melbourne</span>
+                  </div>
+
+                  <!-- Title -->
+                  <h4 class="bc-title">Preventive care and diagnostics for adults and families.</h4>
+
+                  <!-- Description -->
+                  <p class="bc-desc">Consultations, health screenings, and ongoing wellness management across three clinic locations.</p>
+
+                  <!-- Meta grid -->
+                  <div class="bc-meta">
+                    <div class="bc-meta-col">
+                      <span class="bc-meta-val">GP · Diagnostics · Physio</span>
+                      <span class="bc-meta-key">Services</span>
                     </div>
-                    <div class="sel-schema-bar">
-                      <span></span><span></span><span></span>
+                    <div class="bc-meta-col">
+                      <span class="bc-meta-val">Melbourne · 3 clinics</span>
+                      <span class="bc-meta-key">Location</span>
                     </div>
                   </div>
 
-                  <!-- Real layer — resolves during crystallization -->
-                  <div class="sel-real">
-                    <div class="sel-real__nav">
-                      <span class="sel-real__brand">Clarity <span class="sel-real__brand-sub">wellness</span></span>
-                      <div class="sel-real__nav-r">
-                        <span class="sel-real__link">About</span>
-                        <span class="sel-real__link">Services</span>
-                        <span class="sel-real__link">Contact</span>
-                        <span class="sel-real__link sel-real__link--cta">Book</span>
-                      </div>
-                    </div>
-                    <div class="sel-real__hero">
-                      <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=460&h=260&fit=crop&crop=top&q=80" alt="" class="sel-real__img" loading="lazy">
-                    </div>
-                    <div class="sel-real__content">
-                      <p class="sel-real__eyebrow">Wellness Clinic · Melbourne</p>
-                      <h4 class="sel-real__h">Preventive care and diagnostics for adults and families.</h4>
-                      <p class="sel-real__p">Consultations, health screenings, and ongoing wellness management across three clinic locations.</p>
-                    </div>
-                    <div class="sel-real__info-band">
-                      <div class="sel-real__info-col">
-                        <span class="sel-real__info-val">GP · Diagnostics · Physio</span>
-                        <span class="sel-real__info-key">Services</span>
-                      </div>
-                      <div class="sel-real__info-col">
-                        <span class="sel-real__info-val">Melbourne · 3 clinics</span>
-                        <span class="sel-real__info-key">Location</span>
-                      </div>
-                    </div>
-                    <div class="sel-real__footer">
-                      <span class="sel-real__btn">Book Consultation</span>
-                      <span class="sel-real__trust-line">4.9 · Licensed Specialists</span>
-                    </div>
+                  <!-- CTA -->
+                  <div class="bc-cta-row">
+                    <span class="bc-cta-btn">Book Consultation</span>
                   </div>
-                </div>
-                <div class="sel-frag sel-frag--card" style="--fx:68%;--fy:6%"><div class="sel-frag--card-inner"></div></div>
-                <div class="sel-frag sel-frag--card sel-frag--card-sm" style="--fx:2%;--fy:72%"><div class="sel-frag--card-inner"></div></div>
 
-                <!-- Signal capsules — 4 pills framing the card -->
-                <div class="ai-chip" data-chip="0" style="--cx:4%;--cy:14%;--ox:-70px;--oy:25px">
-                  <span class="ai-chip__mote"></span>
-                  <span class="ai-chip__label"><span class="ai-chip__orb"></span>Business Category</span>
-                </div>
-                <div class="ai-chip" data-chip="1" style="--cx:66%;--cy:14%;--ox:65px;--oy:-22px">
-                  <span class="ai-chip__mote"></span>
-                  <span class="ai-chip__label"><span class="ai-chip__orb"></span>Trust Signals</span>
-                </div>
-                <div class="ai-chip" data-chip="2" style="--cx:66%;--cy:48%;--ox:70px;--oy:15px">
-                  <span class="ai-chip__mote"></span>
-                  <span class="ai-chip__label"><span class="ai-chip__orb"></span>Services</span>
-                </div>
-                <div class="ai-chip" data-chip="3" style="--cx:4%;--cy:68%;--ox:-60px;--oy:30px">
-                  <span class="ai-chip__mote"></span>
-                  <span class="ai-chip__label"><span class="ai-chip__orb"></span>Location</span>
+                  <!-- Rating -->
+                  <div class="bc-rating">4.9 · Licensed Specialists</div>
                 </div>
               </div>
 
+              <!-- Annotations -->
+              <div class="bc-annotation" data-stage="1" style="top:28%; right:-170px;">
+                <span class="bc-ann-dot"></span>
+                <span class="bc-ann-text">Image context indexed</span>
+              </div>
+              <div class="bc-annotation" data-stage="2" style="top:8%; right:-185px;">
+                <span class="bc-ann-dot"></span>
+                <span class="bc-ann-text">Navigation structure indexed</span>
+              </div>
+              <div class="bc-annotation" data-stage="3" style="top:46%; right:-185px;">
+                <span class="bc-ann-dot"></span>
+                <span class="bc-ann-text">Business category identified</span>
+              </div>
+              <div class="bc-annotation" data-stage="4" style="top:64%; right:-170px;">
+                <span class="bc-ann-dot"></span>
+                <span class="bc-ann-text">Service data structured</span>
+              </div>
+              <div class="bc-annotation" data-stage="5" style="top:82%; right:-160px;">
+                <span class="bc-ann-dot"></span>
+                <span class="bc-ann-text">Trust signals verified</span>
+              </div>
+
+              <!-- Final recommendation pill -->
+              <div class="bc-recommended" id="bcRecommended">
+                <span class="bc-rec-dot"></span>
+                <span class="bc-rec-text">Recommended by ChatGPT</span>
+              </div>
             </div>
 
           </div>
