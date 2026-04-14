@@ -112,13 +112,7 @@ input { font: inherit; }
   color: var(--color-black);
 }
 /* No change on scroll — always frosted glass */
-.site-header.scrolled {
-  background: rgba(250, 250, 250, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-  padding: 0;
-}
+/* .scrolled class no longer used — nav stays frosted at all times */
 
 .header-container {
   max-width: 100%;

@@ -45,8 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const midnightSections = document.querySelectorAll('[data-midnight]');
 
   function updateHeader() {
-    const scrollY = window.scrollY;
-    header.classList.toggle('scrolled', scrollY > 80);
     for (let i = midnightSections.length - 1; i >= 0; i--) {
       const rect = midnightSections[i].getBoundingClientRect();
       if (rect.top <= 60 && rect.bottom > 60) {
