@@ -196,15 +196,13 @@ document.addEventListener('DOMContentLoaded', () => {
         recommended.classList.remove('visible');
       }
 
-      // Annotations: show via inline styles to override CSS !important
+      // Annotations: GSAP reveal, once visible never hides
       annotations.forEach(ann => {
         const annStage = parseInt(ann.getAttribute('data-stage'));
-        if (annStage <= stage) {
-          ann.style.opacity = '1';
-          ann.style.visibility = 'visible';
-          ann.style.transform = 'translateY(0)';
+        if (annStage <= stage && !ann._revealed) {
+          ann._revealed = true;
+          gsap.to(ann, { opacity: 1, visibility: 'visible', y: 0, duration: 0.6, ease: 'power2.out' });
         }
-        // Once visible, never hide again
       });
     }
 
