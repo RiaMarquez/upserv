@@ -21,41 +21,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Cinematic palette for dark hero: deep teal, lighter teal, cool grey, near-black
       // Slow autonomous loop — no scroll binding. Atmospheric breathing only.
+      // Color shifts slightly more readable, motion still elegant.
       const config = {
         colors: [
           { color: '#155E75', enabled: true },  // Deep teal
           { color: '#1F8FAA', enabled: true },  // Lighter teal
-          { color: '#2A3440', enabled: true },  // Cool dark grey
+          { color: '#3D6B82', enabled: true },  // Steel teal
           { color: '#0A0A0A', enabled: true },  // Near-black
-          { color: '#3D5566', enabled: false },
+          { color: '#2A3440', enabled: false },
         ],
-        speed: 1.5,
-        horizontalPressure: 5,
-        verticalPressure: 6,
-        waveFrequencyX: 1,
-        waveFrequencyY: 1.4,
-        waveAmplitude: 6,
-        shadows: 3,
-        highlights: 4,
-        colorBrightness: 1.05,
-        colorSaturation: -10,
+        speed: 2.2,
+        horizontalPressure: 6,
+        verticalPressure: 7,
+        waveFrequencyX: 1.2,
+        waveFrequencyY: 1.6,
+        waveAmplitude: 8,
+        shadows: 4,
+        highlights: 6,
+        colorBrightness: 1.15,
+        colorSaturation: 0,
         wireframe: false,
-        colorBlending: 20,
+        colorBlending: 22,
         backgroundColor: '#0A0A0A',
         backgroundAlpha: 1,
         grainScale: 3,
         grainSparsity: 0,
-        grainIntensity: 0.12,
-        grainSpeed: 0.4,
+        grainIntensity: 0.14,
+        grainSpeed: 0.5,
         resolution: 1,
         yOffset: 0,
         yOffsetWaveMultiplier: 0,
         yOffsetColorMultiplier: 0,
         yOffsetFlowMultiplier: 0,
-        flowDistortionA: 0.7,
-        flowDistortionB: 0.5,
-        flowScale: 1.4,
-        flowEase: 0.2,
+        flowDistortionA: 0.9,
+        flowDistortionB: 0.6,
+        flowScale: 1.5,
+        flowEase: 0.22,
         flowEnabled: true,
         enableProceduralTexture: false,
         domainWarpEnabled: false,

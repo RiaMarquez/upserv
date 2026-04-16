@@ -318,25 +318,69 @@ input { font: inherit; }
   z-index: 0;
   pointer-events: none;
   display: block;
-  opacity: 0.25;
+  opacity: 0.32;
   mix-blend-mode: screen;
-  filter: blur(40px);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 95%);
-  mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 95%);
+  filter: blur(35px);
+  /* Expanded footprint — covers more of canvas, soft falloff to corners */
+  -webkit-mask-image: radial-gradient(ellipse 110% 90% at 45% 55%, black 50%, transparent 100%);
+  mask-image: radial-gradient(ellipse 110% 90% at 45% 55%, black 50%, transparent 100%);
 }
 
-/* Vignette: darken top and bottom edges, keep center bright */
+/* Selective bloom zones — atmospheric AI light moving through the env */
+.hero-bloom {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+/* Cold Teal focal bloom — left-center / lower-left, behind headline area but offset */
+.hero-bloom--left {
+  width: 700px;
+  height: 700px;
+  left: -150px;
+  top: 35%;
+  background: radial-gradient(circle, rgba(31, 143, 170, 0.32) 0%, rgba(21, 94, 117, 0.10) 35%, transparent 65%);
+  filter: blur(70px);
+  mix-blend-mode: screen;
+}
+
+/* Soft blue-teal ambient band — right side, behind card area, wide diffusion */
+.hero-bloom--right {
+  width: 1100px;
+  height: 600px;
+  right: -300px;
+  top: 15%;
+  background: radial-gradient(ellipse, rgba(64, 165, 195, 0.18) 0%, rgba(31, 143, 170, 0.08) 40%, transparent 70%);
+  filter: blur(90px);
+  mix-blend-mode: screen;
+}
+
+/* Soft blurred halo behind right-side card — embeds it in the environment */
+.hero-bloom--card {
+  width: 600px;
+  height: 600px;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: radial-gradient(circle, rgba(245, 247, 250, 0.06) 0%, rgba(31, 143, 170, 0.10) 30%, transparent 60%);
+  filter: blur(60px);
+  mix-blend-mode: screen;
+}
+
+/* Vignette: darken corners and edges to keep focus center, preserves cinematic depth */
 .hero-overlay {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
   background:
+    radial-gradient(ellipse 120% 90% at 50% 50%, transparent 30%, rgba(10, 10, 10, 0.55) 95%),
     linear-gradient(180deg,
-      rgba(10, 10, 10, 0.7) 0%,
-      rgba(10, 10, 10, 0) 25%,
-      rgba(10, 10, 10, 0) 75%,
-      rgba(10, 10, 10, 0.7) 100%);
+      rgba(10, 10, 10, 0.5) 0%,
+      rgba(10, 10, 10, 0) 20%,
+      rgba(10, 10, 10, 0) 80%,
+      rgba(10, 10, 10, 0.6) 100%);
 }
 
 /* Headline glow: soft Cold Teal aura behind text */
