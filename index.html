@@ -15,8 +15,8 @@
   <!-- Lenis Smooth Scroll -->
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
 
-  <!-- Neat Gradient — no longer used, background is CSS -->
-  <!-- <script src="js/neat.umd.js" defer></script> -->
+  <!-- Neat Gradient -->
+  <script src="js/neat.umd.js" defer></script>
 
   <link rel="stylesheet" href="css/styles.css">
 
@@ -87,6 +87,8 @@
            Everything after scrolls OVER it, creating the parallax reveal effect -->
       <div id="heroPin" class="hero-pin-wrap">
         <section class="landing-section" data-midnight="dark">
+          <canvas id="gradient" class="hero-fluid"></canvas>
+          <div class="hero-overlay"></div>
 
           <div class="hero-grid">
             <!-- Left: messaging -->
