@@ -1024,13 +1024,13 @@ input { font: inherit; }
     text-align: center;
   }
 
-  /* CTA — slightly less vertical, still prominent */
+  /* CTA — slightly less vertical, still prominent, tight to card */
   .hero-cta-group {
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
   }
   .hero-cta {
     padding: 11px 22px;
@@ -1044,17 +1044,43 @@ input { font: inherit; }
     transition-duration: 100ms;
   }
 
-  /* Card — smaller preview, top portion visible in first viewport */
+  /* Card — fits entire hero in one viewport
+     Scale 0.50 (~14% smaller than 0.58) + anchor to top + negative
+     margin-bottom to absorb layout space the scaled visual no
+     longer needs. Card-specific keyframe preserves scale.
+     !important needed because desktop .hero-transform rule appears
+     later in source than this media query. */
   .hero-transform {
-    transform: scale(0.58);
-    transform-origin: top center;
-    margin-top: -4px;
-    /* Card entry animation — delayed after text */
+    transform: scale(0.50);
+    transform-origin: top center !important;
+    align-items: flex-start !important;
+    margin-top: 0;
+    margin-bottom: -260px;
     opacity: 0;
-    animation: fadeUp 800ms ease 500ms forwards;
+    animation: cardScaleFadeUp 800ms ease 500ms forwards;
   }
   .browser-card {
     max-width: 100%;
+  }
+  @keyframes cardScaleFadeUp {
+    from { opacity: 0; transform: scale(0.50) translateY(16px); }
+    to   { opacity: 1; transform: scale(0.50) translateY(0); }
+  }
+  /* Slightly tighter internal card padding on mobile */
+  .bc-chrome {
+    padding: 8px 14px;
+  }
+  .bc-site-nav {
+    padding: 6px 16px;
+  }
+  .bc-hero-img {
+    margin-top: 8px;
+  }
+  .bc-cta-row {
+    padding: 8px 16px 0;
+  }
+  .bc-rating {
+    padding: 6px 16px 12px;
   }
 
   .hero-social-proof {
