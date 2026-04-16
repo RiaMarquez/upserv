@@ -260,12 +260,23 @@ document.addEventListener('DOMContentLoaded', () => {
         recommended.classList.remove('visible');
       }
 
-      // Annotations: GSAP reveal, once visible never hides
+      // Annotations: GSAP reveal, then hand off to CSS drift animation
       annotations.forEach(ann => {
         const annStage = parseInt(ann.getAttribute('data-stage'));
         if (annStage <= stage && !ann._revealed) {
           ann._revealed = true;
-          gsap.to(ann, { opacity: 1, visibility: 'visible', y: 0, duration: 0.6, ease: 'power2.out' });
+          gsap.to(ann, {
+            opacity: 1,
+            visibility: 'visible',
+            y: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+            onComplete: () => {
+              // Clear inline transform so CSS drift animation can take over
+              gsap.set(ann, { clearProps: 'transform,y' });
+              ann.classList.add('is-drifting');
+            }
+          });
         }
       });
     }

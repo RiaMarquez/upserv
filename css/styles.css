@@ -496,14 +496,18 @@ input { font: inherit; }
   .hero-bloom { animation: none !important; }
 }
 
-/* Vignette: darken corners and edges to keep focus center, preserves cinematic depth */
+/* Vignette + subtle dark behind pill zone for contrast */
 .hero-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   background:
+    /* Subtle dark zone behind pill area (mid-right gap) so pills stand out */
+    radial-gradient(ellipse 22% 50% at 56% 50%, rgba(0, 0, 0, 0.18) 0%, transparent 70%),
+    /* Center vignette */
     radial-gradient(ellipse 120% 90% at 50% 50%, transparent 30%, rgba(10, 10, 10, 0.55) 95%),
+    /* Top + bottom edge darkening */
     linear-gradient(180deg,
       rgba(10, 10, 10, 0.5) 0%,
       rgba(10, 10, 10, 0) 20%,
@@ -511,18 +515,24 @@ input { font: inherit; }
       rgba(10, 10, 10, 0.6) 100%);
 }
 
-/* Headline glow: soft Cold Teal aura behind text */
+/* Text anchor: subtle dark vignette + teal aura combined */
 .hero-grid__text::before {
   content: '';
   position: absolute;
-  width: 700px;
-  height: 400px;
-  left: -100px;
+  width: 800px;
+  height: 500px;
+  left: -150px;
   top: 50%;
   transform: translateY(-50%);
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(31, 143, 170, 0.10) 0%, transparent 65%);
-  filter: blur(60px);
+  /* Layered: dark anchor at center + teal aura at mid + transparent edges */
+  background:
+    radial-gradient(ellipse at center,
+      rgba(8, 10, 14, 0.35) 0%,
+      rgba(8, 10, 14, 0.15) 25%,
+      rgba(31, 143, 170, 0.08) 50%,
+      transparent 75%);
+  filter: blur(70px);
   z-index: -1;
   pointer-events: none;
 }
@@ -1024,19 +1034,24 @@ input { font: inherit; }
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(0, 0, 0, 0.08);
+  /* Wider shadow spread + subtle teal bottom reflection — the system "output" */
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.8) inset,
-    0 4px 6px rgba(0, 0, 0, 0.03),
-    0 12px 40px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 600ms ease;
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 8px 16px rgba(0, 0, 0, 0.18),
+    0 24px 56px rgba(0, 0, 0, 0.32),
+    0 56px 100px rgba(0, 0, 0, 0.22),
+    0 60px 80px -20px rgba(31, 143, 170, 0.18);
+  transition: box-shadow 800ms ease;
 }
 
 .browser-card.stage-5 {
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.8) inset,
-    0 4px 6px rgba(0, 0, 0, 0.03),
-    0 12px 40px rgba(0, 0, 0, 0.08),
-    0 40px 80px rgba(21, 94, 117, 0.06);
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 28px 64px rgba(0, 0, 0, 0.36),
+    0 64px 110px rgba(0, 0, 0, 0.26),
+    0 70px 100px -20px rgba(31, 143, 170, 0.30),
+    0 90px 130px -30px rgba(75, 181, 213, 0.18);
 }
 
 /* --- Browser chrome --- */
@@ -1334,31 +1349,50 @@ input { font: inherit; }
   left: -160px;
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 8px 14px;
-  /* Dark neural capsule — near-black with subtle transparency */
+  gap: 10px;
+  /* Reduced vertical, expanded horizontal padding */
+  padding: 6px 18px;
+  /* Darker neural capsule */
   background:
     linear-gradient(180deg,
-      rgba(20, 24, 30, 0.78) 0%,
-      rgba(12, 14, 18, 0.72) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+      rgba(14, 17, 22, 0.84) 0%,
+      rgba(8, 10, 13, 0.80) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 100px;
   backdrop-filter: blur(20px) saturate(1.4);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
   /* Inner top highlight + soft outer teal glow + contact + float */
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
-    inset 0 0 12px rgba(31, 143, 170, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+    inset 0 0 12px rgba(31, 143, 170, 0.05),
     0 0 22px rgba(31, 143, 170, 0.10),
-    0 1px 2px rgba(0, 0, 0, 0.4),
-    0 6px 20px rgba(0, 0, 0, 0.35);
+    0 1px 2px rgba(0, 0, 0, 0.45),
+    0 6px 20px rgba(0, 0, 0, 0.4);
   opacity: 0;
   visibility: hidden;
   transform: translateY(8px);
   transition: opacity 600ms ease, visibility 600ms ease, transform 600ms ease;
   white-space: nowrap;
   pointer-events: none;
+  will-change: transform;
+}
+
+/* Independent drift per pill — different durations + negative delays */
+.bc-annotation.is-drifting {
+  animation: pillDrift 9s ease-in-out infinite;
+}
+.bc-annotation[data-stage="1"].is-drifting { animation-duration: 8.5s; animation-delay: -1.2s; }
+.bc-annotation[data-stage="2"].is-drifting { animation-duration: 9.7s; animation-delay: -0.4s; }
+.bc-annotation[data-stage="3"].is-drifting { animation-duration: 8.2s; animation-delay: -2.8s; }
+.bc-annotation[data-stage="4"].is-drifting { animation-duration: 10.3s; animation-delay: -1.6s; }
+.bc-annotation[data-stage="5"].is-drifting { animation-duration: 9.1s; animation-delay: -3.5s; }
+
+@keyframes pillDrift {
+  0%   { transform: translate3d(0, 0, 0); }
+  33%  { transform: translate3d(1.5px, -1.8px, 0); }
+  66%  { transform: translate3d(-1.2px, 1.5px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
 }
 
 /* .visible class removed — annotations use inline styles from JS */
@@ -1369,18 +1403,25 @@ input { font: inherit; }
   border-radius: 50%;
   background: #4BB5D5;
   flex-shrink: 0;
-  /* Active status indicator — vivid teal with layered glow + slow pulse */
+  /* Active status indicator — enhanced glow */
   box-shadow:
-    inset 0 0 0 0.5px rgba(255, 255, 255, 0.5),
-    0 0 6px rgba(75, 181, 213, 0.85),
-    0 0 14px rgba(75, 181, 213, 0.45),
-    0 0 24px rgba(75, 181, 213, 0.2);
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.55),
+    0 0 6px rgba(75, 181, 213, 0.95),
+    0 0 14px rgba(75, 181, 213, 0.55),
+    0 0 26px rgba(75, 181, 213, 0.28);
   animation: annDotPulse 2.4s ease-in-out infinite;
 }
 
+/* Stagger pulse timing so dots don't sync */
+.bc-annotation[data-stage="1"] .bc-ann-dot { animation-delay: 0s; animation-duration: 2.4s; }
+.bc-annotation[data-stage="2"] .bc-ann-dot { animation-delay: -0.5s; animation-duration: 2.7s; }
+.bc-annotation[data-stage="3"] .bc-ann-dot { animation-delay: -1.1s; animation-duration: 2.2s; }
+.bc-annotation[data-stage="4"] .bc-ann-dot { animation-delay: -1.7s; animation-duration: 2.9s; }
+.bc-annotation[data-stage="5"] .bc-ann-dot { animation-delay: -2.2s; animation-duration: 2.5s; }
+
 @keyframes annDotPulse {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.75; transform: scale(0.92); }
+  50% { opacity: 0.7; transform: scale(0.88); }
 }
 
 .bc-ann-text {
@@ -1394,19 +1435,30 @@ input { font: inherit; }
 /* --- Recommended pill --- */
 .bc-recommended {
   position: absolute;
-  bottom: -48px;
+  /* Closer to card */
+  bottom: -32px;
   left: 50%;
-  transform: translateX(-50%) translateY(16px);
+  transform: translateX(-50%) translateY(12px);
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 18px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.95);
+  /* Reduced padding (less width) */
+  padding: 8px 16px;
+  background:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(248, 250, 252, 0.92) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 24px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  /* Layered subtle shadow */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05),
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.14),
+    0 16px 40px rgba(16, 185, 129, 0.08);
   opacity: 0;
   transition: opacity 600ms ease, transform 600ms ease;
   white-space: nowrap;
@@ -1424,13 +1476,26 @@ input { font: inherit; }
   border-radius: 50%;
   background: #10b981;
   flex-shrink: 0;
+  /* Soft active glow */
+  box-shadow:
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.5),
+    0 0 6px rgba(16, 185, 129, 0.7),
+    0 0 14px rgba(16, 185, 129, 0.4);
+  animation: recDotPulse 2.6s ease-in-out infinite;
+}
+
+@keyframes recDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.75; transform: scale(0.9); }
 }
 
 .bc-rec-text {
   font-family: var(--font-mono);
   font-size: 10px;
-  font-weight: 400;
-  color: #333;
+  /* Strengthened weight */
+  font-weight: 500;
+  color: #1A1F2E;
+  letter-spacing: 0.02em;
 }
 
 /* --- Mobile: show final state only --- */
