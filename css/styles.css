@@ -73,7 +73,14 @@ body {
   font-weight: 400;
   line-height: 1.6;
   color: var(--color-black);
-  background: #0A0A0A;
+  /* Persistent atmospheric gradient — extends hero environment across page,
+     visible behind any section that doesn't override its own background. */
+  background:
+    radial-gradient(ellipse 70% 50% at 25% 30%, rgba(31, 143, 170, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 80% 70%, rgba(21, 94, 117, 0.09) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(75, 181, 213, 0.04) 0%, transparent 70%),
+    #0A0A0A;
+  background-attachment: fixed;
   overflow-x: clip;
 }
 
@@ -946,15 +953,11 @@ input { font: inherit; }
 
 /* ============================================================
    HERO PIN WRAP — replaces old nectar-sticky-row-wrap
-   Provides dark continuation + subtle ambient gradient that bleeds
-   the hero atmosphere down into the next section transition.
+   Transparent — body's fixed atmospheric gradient shows through.
    ============================================================ */
 .hero-pin-wrap {
   position: relative;
-  background:
-    radial-gradient(ellipse 80% 60% at 30% 50%, rgba(31, 143, 170, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 75% 60%, rgba(21, 94, 117, 0.06) 0%, transparent 65%),
-    #0A0A0A;
+  background: transparent;
 }
 
 /* Old sticky-row-wrap overrides — neutralize */
@@ -1498,10 +1501,15 @@ input { font: inherit; }
 .clip-reveal-column { position: relative; padding: 29% 0; z-index: 0; }
 @media (max-width: 999px) { .clip-reveal-column { padding: 50% 0; } }
 @media (max-width: 690px) { .clip-reveal-column { padding: 85% 0; } }
-.clip-reveal-inner .row-bg { position: absolute; inset: 0; background-color: #141210; }
+.clip-reveal-inner .row-bg { position: absolute; inset: 0; background-color: transparent; }
 .clip-bg-image { position: absolute; inset: 0; transform: scale(1.3); transform-origin: center center; }
-.clip-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
-.clip-gradient-bottom { position: absolute; bottom: 0; left: 0; right: 0; height: 100%; background: linear-gradient(0deg, rgb(0,0,0) 0%, rgba(0,0,0,0) 45%); pointer-events: none; }
+.clip-bg-image img {
+  /* Lighten blend: image's pure-black areas drop out, revealing body gradient.
+     Website thumbnails (lighter) stay visible. */
+  mix-blend-mode: lighten;
+}
+.clip-overlay { position: absolute; inset: 0; background: rgba(10, 10, 10, 0.25); }
+.clip-gradient-bottom { position: absolute; bottom: 0; left: 0; right: 0; height: 60%; background: linear-gradient(0deg, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0) 100%); pointer-events: none; }
 
 /* ============================================================
    S03: HERO TEXT
