@@ -515,28 +515,28 @@ input { font: inherit; }
       rgba(10, 10, 10, 0.6) 100%);
 }
 
-/* Text anchor: vertical dark band + soft teal aura */
+/* Text anchor: stronger dark band behind headline + subtle teal aura */
 .hero-grid__text::before {
   content: '';
   position: absolute;
-  width: 720px;
-  height: 700px;
-  left: -120px;
+  width: 820px;
+  height: 760px;
+  left: -160px;
   top: 50%;
   transform: translateY(-50%);
-  /* Vertical darkening focused on text band, softer toward top/bottom +
-     subtle teal aura overlaid */
+  /* Deeper vertical darkening focused on headline band +
+     subtle teal aura, very soft and diffused */
   background:
     linear-gradient(180deg,
       transparent 0%,
-      rgba(6, 8, 12, 0.32) 35%,
-      rgba(6, 8, 12, 0.42) 50%,
-      rgba(6, 8, 12, 0.32) 65%,
+      rgba(4, 6, 10, 0.5) 30%,
+      rgba(4, 6, 10, 0.62) 50%,
+      rgba(4, 6, 10, 0.5) 70%,
       transparent 100%),
     radial-gradient(ellipse 70% 55% at 35% 50%,
-      rgba(31, 143, 170, 0.10) 0%,
+      rgba(31, 143, 170, 0.12) 0%,
       transparent 70%);
-  filter: blur(80px);
+  filter: blur(90px);
   z-index: -1;
   pointer-events: none;
 }
@@ -608,10 +608,12 @@ input { font: inherit; }
   flex-direction: column;
   justify-content: center;
   text-align: left;
-  max-width: 640px;
+  max-width: 720px;
   padding-right: 60px;
   padding-top: 0;
   z-index: 2;
+  /* Shift text block up ~6vh for stronger top-of-fold authority */
+  transform: translateY(-6vh);
 }
 
 /* ---- Mono tag ---- */
@@ -643,11 +645,11 @@ input { font: inherit; }
 /* ---- Headline: three lines, same size, different colors ---- */
 .hero-stitch-headline {
   font-family: var(--font-display);
-  font-size: 52px;
-  line-height: 1.0;
+  font-size: 68px;
+  line-height: 0.98;
   letter-spacing: -0.045em;
-  margin-bottom: 28px;
-  max-width: 540px;
+  margin-bottom: 24px;
+  max-width: 660px;
   opacity: 0;
   transform: translateY(16px);
   animation: fadeUp 800ms ease 200ms forwards;
@@ -676,14 +678,14 @@ input { font: inherit; }
 .hs-line.hs-accent {
   /* Subtle confident continuation — narrower, lighter, tightly tucked
      below the main headline */
-  margin-top: 4px;
+  margin-top: 8px;
   font-weight: 400;
   font-style: normal;
   color: rgba(245, 247, 250, 0.5);
   opacity: 1;
   letter-spacing: -0.03em;
-  font-size: 0.78em;
-  line-height: 1.1;
+  font-size: 0.62em;
+  line-height: 1.15;
   white-space: nowrap;
   max-width: 80%;
 }
@@ -692,10 +694,10 @@ input { font: inherit; }
 .hero-supporting {
   display: block;
   margin-top: 0;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
   padding: 0;
   border-left: none;
-  max-width: 420px;
+  max-width: 380px;
   background: none;
   box-shadow: none;
   opacity: 0;
@@ -712,10 +714,10 @@ input { font: inherit; }
   font-family: var(--font-primary);
   font-size: 16px;
   font-weight: 400;
-  line-height: 1.65;
-  color: #A1A8B3;
+  line-height: 1.6;
+  color: rgba(245, 247, 250, 0.55);
   letter-spacing: -0.01em;
-  max-width: 400px;
+  max-width: 380px;
 }
 
 /* ---- CTA row ---- */
@@ -1093,6 +1095,9 @@ input { font: inherit; }
   display: flex;
   justify-content: center;
   align-items: center;
+  /* Slightly smaller + shifted right so headline remains dominant */
+  transform: scale(0.95) translateX(3%);
+  transform-origin: center;
   /* Clip only the right edge; allow left annotations + bottom pill */
   clip-path: inset(-80px 0 -80px -160px);
 }
