@@ -674,13 +674,18 @@ input { font: inherit; }
 }
 
 .hs-line.hs-accent {
-  margin-top: 0;
-  font-weight: 600;
+  /* Subtle confident continuation — narrower, lighter, tightly tucked
+     below the main headline */
+  margin-top: 4px;
+  font-weight: 400;
   font-style: normal;
-  color: rgba(245, 247, 250, 0.22);
+  color: rgba(245, 247, 250, 0.5);
   opacity: 1;
-  letter-spacing: -0.045em;
-  font-size: 1em;
+  letter-spacing: -0.03em;
+  font-size: 0.78em;
+  line-height: 1.1;
+  white-space: nowrap;
+  max-width: 80%;
 }
 
 /* ---- Subhead ---- */
