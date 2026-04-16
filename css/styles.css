@@ -924,19 +924,25 @@ input { font: inherit; }
 }
 
 @media (max-width: 768px) {
+  /* Nav — tighter, hamburger soft white visible on dark */
   .site-header {
-    height: 56px;
+    height: 52px;
   }
   .header-container {
-    padding: 0 16px !important;
-    height: 56px;
+    padding: 0 18px !important;
+    height: 52px;
   }
   .slide-out-toggle {
-    right: 16px;
+    right: 18px;
   }
+  .slide-out-toggle .toggle-line {
+    background: rgba(245, 247, 250, 0.88);
+  }
+
+  /* Hero grid */
   .hero-grid {
     grid-template-columns: 1fr;
-    padding: 72px 20px 24px 20px;
+    padding: 68px 24px 28px 24px;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -951,36 +957,91 @@ input { font: inherit; }
     padding-right: 0;
     padding-top: 0;
   }
+
+  /* Slightly stronger anchor behind text on mobile for contrast */
+  .hero-grid__text::before {
+    width: 480px;
+    height: 360px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background:
+      linear-gradient(180deg,
+        transparent 0%,
+        rgba(6, 8, 12, 0.45) 35%,
+        rgba(6, 8, 12, 0.55) 50%,
+        rgba(6, 8, 12, 0.45) 65%,
+        transparent 100%),
+      radial-gradient(ellipse 65% 50% at 50% 50%,
+        rgba(31, 143, 170, 0.12) 0%,
+        transparent 70%);
+    filter: blur(60px);
+  }
+
+  /* Headline — comfortable leading, balanced presence */
   .hero-stitch-headline {
     font-size: 28px;
-    line-height: 1.1;
-    margin-bottom: 12px;
+    line-height: 1.22;
+    letter-spacing: -0.035em;
+    margin-bottom: 16px;
     text-align: center;
-  }
-  .hero-supporting {
     max-width: 100%;
+  }
+  .hs-line { padding: 0; }
+
+  /* Secondary line — subtle confident continuation, single line */
+  .hs-line.hs-accent {
+    font-size: 0.72em;
+    color: rgba(245, 247, 250, 0.45);
+    margin-top: 6px;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  /* Paragraph — comfortable shorter line length */
+  .hero-supporting {
+    max-width: 320px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 28px;
   }
   .hero-supporting-copy {
-    font-size: 13px;
-    line-height: 1.55;
+    font-size: 14px;
+    line-height: 1.6;
     max-width: 100%;
     text-align: center;
   }
+
+  /* CTA — more padding, premium tap interaction */
   .hero-cta-group {
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 48px;
   }
   .hero-cta {
-    padding: 11px 20px;
+    padding: 13px 24px;
     font-size: 13px;
+    font-weight: 600;
     width: auto;
     display: inline-flex;
   }
+  .hero-cta:active {
+    transform: scale(0.98);
+    transition-duration: 100ms;
+  }
+
+  /* Card — slightly smaller preview, never dominant */
+  .hero-transform {
+    transform: scale(0.66);
+    transform-origin: top center;
+    /* Card entry animation — delayed after text */
+    opacity: 0;
+    animation: fadeUp 800ms ease 500ms forwards;
+  }
+  .browser-card {
+    max-width: 100%;
+  }
+
   .hero-social-proof {
     flex-direction: column;
     gap: 8px;
@@ -990,13 +1051,16 @@ input { font: inherit; }
     text-align: center;
   }
   .hero-scroll-line { display: none; }
-  /* Card scaled down to fit viewport */
-  .hero-transform {
-    transform: scale(0.72);
-    transform-origin: top center;
+
+  /* Re-time entry animations on mobile (slightly tighter stagger) */
+  .hero-stitch-headline {
+    animation: fadeUp 800ms ease 100ms forwards;
   }
-  .browser-card {
-    max-width: 100%;
+  .hero-supporting {
+    animation: fadeUp 800ms ease 200ms forwards;
+  }
+  .hero-cta-group {
+    animation: fadeUp 800ms ease 250ms forwards;
   }
 }
 
