@@ -301,15 +301,15 @@ input { font: inherit; }
 .landing-section {
   position: relative;
   min-height: 100vh;
-  overflow: visible;
-  background: var(--color-bg);
+  overflow: hidden;
+  background: #0A0A0A;
   z-index: -1;
   display: grid;
   align-items: center;
   padding-top: 40px;
 }
 
-/* --- Neat gradient — ambient living layer (subtle, restrained) --- */
+/* --- Neat gradient — atmospheric living layer on dark bg --- */
 .hero-fluid {
   position: absolute;
   inset: 0;
@@ -318,65 +318,87 @@ input { font: inherit; }
   z-index: 0;
   pointer-events: none;
   display: block;
-  opacity: 0.18;
-  mix-blend-mode: multiply;
-  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 40%, transparent 95%);
-  mask-image: radial-gradient(ellipse at 50% 50%, black 40%, transparent 95%);
+  opacity: 0.25;
+  mix-blend-mode: screen;
+  filter: blur(40px);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 95%);
+  mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 95%);
 }
 
-/* Dark overlay between gradient and content for ambient depth */
+/* Vignette: darken top and bottom edges, keep center bright */
 .hero-overlay {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(10, 10, 10, 0.02) 0%, rgba(250, 250, 250, 0.06) 100%);
+  background:
+    linear-gradient(180deg,
+      rgba(10, 10, 10, 0.7) 0%,
+      rgba(10, 10, 10, 0) 25%,
+      rgba(10, 10, 10, 0) 75%,
+      rgba(10, 10, 10, 0.7) 100%);
+}
+
+/* Headline glow: soft Cold Teal aura behind text */
+.hero-grid__text::before {
+  content: '';
+  position: absolute;
+  width: 700px;
+  height: 400px;
+  left: -100px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(31, 143, 170, 0.10) 0%, transparent 65%);
+  filter: blur(60px);
+  z-index: -1;
+  pointer-events: none;
 }
 /* Remove Neat watermark */
 .landing-section a[href*="neat"] {
   display: none !important;
 }
 
-/* --- Mesh background: two Cold Teal radial blobs (asymmetric) --- */
+/* --- Mesh ambient glows: tuned for dark cinematic base --- */
 .landing-section::before {
   content: '';
   position: absolute;
-  width: 800px;
-  height: 800px;
-  top: -250px;
-  right: -200px;
+  width: 900px;
+  height: 900px;
+  top: -300px;
+  right: -250px;
   z-index: 0;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(21, 94, 117, 0.13) 0%, transparent 65%);
-  filter: blur(60px);
+  background: radial-gradient(circle, rgba(31, 143, 170, 0.18) 0%, transparent 65%);
+  filter: blur(80px);
   pointer-events: none;
 }
 
 .landing-section::after {
   content: '';
   position: absolute;
-  width: 300px;
-  height: 300px;
-  bottom: -80px;
-  left: 3%;
+  width: 500px;
+  height: 500px;
+  bottom: -150px;
+  left: 0%;
   z-index: 0;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(21, 94, 117, 0.05) 0%, transparent 65%);
-  filter: blur(80px);
+  background: radial-gradient(circle, rgba(21, 94, 117, 0.12) 0%, transparent 65%);
+  filter: blur(100px);
   pointer-events: none;
 }
 
-/* --- Dot grid overlay --- */
+/* --- Dot grid overlay (inverted for dark bg) --- */
 .landing-section .hero-grid::before {
   content: '';
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 32px 32px;
-  -webkit-mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 70%);
-  mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 75%);
 }
 
 /* ---- Hero layout: 60/40 grid ---- */
@@ -395,6 +417,7 @@ input { font: inherit; }
 }
 
 .hero-grid__text {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -402,6 +425,7 @@ input { font: inherit; }
   max-width: 640px;
   padding-right: 60px;
   padding-top: 0;
+  z-index: 2;
 }
 
 /* ---- Mono tag ---- */
@@ -448,7 +472,7 @@ input { font: inherit; }
 }
 
 .hs-line.hs-kicker {
-  color: var(--color-black);
+  color: #F5F7FA;
   font-weight: 600;
   letter-spacing: -0.04em;
   font-size: 1em;
@@ -457,15 +481,16 @@ input { font: inherit; }
 
 .hs-line.hs-bold {
   font-weight: 600;
-  color: var(--color-black);
+  color: #F5F7FA;
   letter-spacing: -0.04em;
+  text-shadow: 0 0 80px rgba(31, 143, 170, 0.20);
 }
 
 .hs-line.hs-accent {
   margin-top: 0;
   font-weight: 600;
   font-style: normal;
-  color: var(--color-ghost);
+  color: rgba(245, 247, 250, 0.32);
   opacity: 1;
   letter-spacing: -0.04em;
   font-size: 1em;
@@ -496,7 +521,7 @@ input { font: inherit; }
   font-size: 16px;
   font-weight: 400;
   line-height: 1.65;
-  color: var(--color-body);
+  color: #A1A8B3;
   letter-spacing: -0.01em;
   max-width: 400px;
 }
@@ -513,7 +538,7 @@ input { font: inherit; }
   animation: fadeUp 800ms ease 400ms forwards;
 }
 
-/* ---- CTA: near-black pill ---- */
+/* ---- CTA: white on dark hero, premium contrast ---- */
 .hero-cta {
   display: inline-flex;
   align-items: center;
@@ -523,15 +548,15 @@ input { font: inherit; }
   font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: #FFFFFF;
-  background: var(--color-black);
+  color: #0A0A0A;
+  background: #F5F7FA;
   border: none;
   border-radius: 11px;
   text-decoration: none;
   position: relative;
   cursor: pointer;
-  box-shadow: none;
-  transition: background 150ms ease;
+  box-shadow: 0 8px 32px rgba(31, 143, 170, 0.15);
+  transition: background 150ms ease, box-shadow 150ms ease, transform 150ms ease;
 }
 
 .hero-cta__label {
@@ -547,9 +572,9 @@ input { font: inherit; }
 
 /* Hover */
 .hero-cta:hover {
-  transform: none;
-  background: #1a1a1a;
-  box-shadow: none;
+  transform: translateY(-1px);
+  background: #FFFFFF;
+  box-shadow: 0 12px 36px rgba(31, 143, 170, 0.25);
 }
 .hero-cta:hover .hero-cta__icon {
   transform: translateX(3px);

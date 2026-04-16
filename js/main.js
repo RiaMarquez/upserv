@@ -19,43 +19,43 @@ document.addEventListener('DOMContentLoaded', () => {
         : (typeof NeatGradient !== 'undefined') ? NeatGradient : null;
       if (!GradientClass) return;
 
-      // Restrained palette: Cold Teal, lighter teal, near-black, soft off-white
-      // Slow autonomous loop — no scroll binding. Ambient breathing only.
+      // Cinematic palette for dark hero: deep teal, lighter teal, cool grey, near-black
+      // Slow autonomous loop — no scroll binding. Atmospheric breathing only.
       const config = {
         colors: [
-          { color: '#155E75', enabled: true },  // Cold Teal
+          { color: '#155E75', enabled: true },  // Deep teal
           { color: '#1F8FAA', enabled: true },  // Lighter teal
+          { color: '#2A3440', enabled: true },  // Cool dark grey
           { color: '#0A0A0A', enabled: true },  // Near-black
-          { color: '#FAFAFA', enabled: true },  // Soft off-white
-          { color: '#E8EEF0', enabled: false },
+          { color: '#3D5566', enabled: false },
         ],
-        speed: 1.2,
-        horizontalPressure: 4,
-        verticalPressure: 5,
+        speed: 1.5,
+        horizontalPressure: 5,
+        verticalPressure: 6,
         waveFrequencyX: 1,
-        waveFrequencyY: 1.2,
-        waveAmplitude: 5,
-        shadows: 2,
-        highlights: 3,
-        colorBrightness: 1,
-        colorSaturation: -20,
+        waveFrequencyY: 1.4,
+        waveAmplitude: 6,
+        shadows: 3,
+        highlights: 4,
+        colorBrightness: 1.05,
+        colorSaturation: -10,
         wireframe: false,
-        colorBlending: 16,
-        backgroundColor: '#FAFAFA',
+        colorBlending: 20,
+        backgroundColor: '#0A0A0A',
         backgroundAlpha: 1,
         grainScale: 3,
         grainSparsity: 0,
-        grainIntensity: 0.1,
-        grainSpeed: 0.3,
+        grainIntensity: 0.12,
+        grainSpeed: 0.4,
         resolution: 1,
         yOffset: 0,
         yOffsetWaveMultiplier: 0,
         yOffsetColorMultiplier: 0,
         yOffsetFlowMultiplier: 0,
-        flowDistortionA: 0.6,
-        flowDistortionB: 0.4,
-        flowScale: 1.2,
-        flowEase: 0.18,
+        flowDistortionA: 0.7,
+        flowDistortionB: 0.5,
+        flowScale: 1.4,
+        flowEase: 0.2,
         flowEnabled: true,
         enableProceduralTexture: false,
         domainWarpEnabled: false,
