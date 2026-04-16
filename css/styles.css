@@ -952,10 +952,11 @@ input { font: inherit; }
     background: rgba(245, 247, 250, 0.92);
   }
 
-  /* Hero grid — packed top, breathing room above headline */
+  /* Hero grid — zero horizontal padding so card can reach full bleed.
+     Text block carries its own horizontal padding for comfortable reading. */
   .hero-grid {
     grid-template-columns: 1fr;
-    padding: 80px 24px 16px 24px;
+    padding: 80px 0 16px 0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -967,8 +968,7 @@ input { font: inherit; }
     text-align: center;
     align-items: center;
     max-width: 100%;
-    padding-right: 0;
-    padding-top: 0;
+    padding: 0 24px;
     transform: none;
   }
 
@@ -1024,13 +1024,13 @@ input { font: inherit; }
     text-align: center;
   }
 
-  /* CTA — slightly less vertical, still prominent, tight to card */
+  /* CTA — slightly less vertical, still prominent, modest gap to card */
   .hero-cta-group {
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 16px;
-    margin-bottom: 12px;
+    margin-bottom: 22px;
   }
   .hero-cta {
     padding: 11px 22px;
@@ -1044,27 +1044,28 @@ input { font: inherit; }
     transition-duration: 100ms;
   }
 
-  /* Card — fits entire hero in one viewport
-     Scale 0.50 (~14% smaller than 0.58) + anchor to top + negative
-     margin-bottom to absorb layout space the scaled visual no
-     longer needs. Card-specific keyframe preserves scale.
+  /* Card — primary visual element, near-natural size.
+     Scale 0.94 (subtle reduction so it feels like a hero element).
+     Anchor to top so it starts right after CTA, allowing bottom
+     to extend slightly past fold for a natural cinematic crop.
      !important needed because desktop .hero-transform rule appears
      later in source than this media query. */
   .hero-transform {
-    transform: scale(0.50);
+    transform: scale(0.94);
     transform-origin: top center !important;
     align-items: flex-start !important;
     margin-top: 0;
-    margin-bottom: -260px;
+    margin-bottom: -32px;
     opacity: 0;
     animation: cardScaleFadeUp 800ms ease 500ms forwards;
   }
   .browser-card {
-    max-width: 100%;
+    max-width: 100% !important;
+    width: 100% !important;
   }
   @keyframes cardScaleFadeUp {
-    from { opacity: 0; transform: scale(0.50) translateY(16px); }
-    to   { opacity: 1; transform: scale(0.50) translateY(0); }
+    from { opacity: 0; transform: scale(0.94) translateY(16px); }
+    to   { opacity: 1; transform: scale(0.94) translateY(0); }
   }
   /* Slightly tighter internal card padding on mobile */
   .bc-chrome {
