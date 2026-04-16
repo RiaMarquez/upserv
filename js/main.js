@@ -19,44 +19,43 @@ document.addEventListener('DOMContentLoaded', () => {
         : (typeof NeatGradient !== 'undefined') ? NeatGradient : null;
       if (!GradientClass) return;
 
-      // Cinematic palette for dark hero: deep teal, lighter teal, cool grey, near-black
-      // Slow autonomous loop — no scroll binding. Atmospheric breathing only.
-      // Color shifts slightly more readable, motion still elegant.
+      // Living 3D gradient field — full NEAT motion params on dark cinematic base
+      // Speed/pressure/flow matched to original NEAT config for visible 3D wave motion
       const config = {
         colors: [
           { color: '#155E75', enabled: true },  // Deep teal
           { color: '#1F8FAA', enabled: true },  // Lighter teal
+          { color: '#4BB5D5', enabled: true },  // Bright teal accent
           { color: '#3D6B82', enabled: true },  // Steel teal
-          { color: '#0A0A0A', enabled: true },  // Near-black
-          { color: '#2A3440', enabled: false },
+          { color: '#0A0A0A', enabled: false },
         ],
-        speed: 2.2,
-        horizontalPressure: 6,
-        verticalPressure: 7,
-        waveFrequencyX: 1.2,
-        waveFrequencyY: 1.6,
+        speed: 6,
+        horizontalPressure: 7,
+        verticalPressure: 8,
+        waveFrequencyX: 1,
+        waveFrequencyY: 2,
         waveAmplitude: 8,
         shadows: 4,
         highlights: 6,
-        colorBrightness: 1.15,
+        colorBrightness: 1.1,
         colorSaturation: 0,
         wireframe: false,
-        colorBlending: 22,
+        colorBlending: 10,
         backgroundColor: '#0A0A0A',
         backgroundAlpha: 1,
         grainScale: 3,
         grainSparsity: 0,
-        grainIntensity: 0.06,
-        grainSpeed: 0.3,
+        grainIntensity: 0.08,
+        grainSpeed: 0.6,
         resolution: 1,
         yOffset: 0,
         yOffsetWaveMultiplier: 0,
         yOffsetColorMultiplier: 0,
         yOffsetFlowMultiplier: 0,
-        flowDistortionA: 0.9,
-        flowDistortionB: 0.6,
-        flowScale: 1.5,
-        flowEase: 0.22,
+        flowDistortionA: 1.1,
+        flowDistortionB: 0.8,
+        flowScale: 1.6,
+        flowEase: 0.32,
         flowEnabled: true,
         enableProceduralTexture: false,
         domainWarpEnabled: false,

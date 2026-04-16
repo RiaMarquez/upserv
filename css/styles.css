@@ -309,7 +309,7 @@ input { font: inherit; }
   padding-top: 40px;
 }
 
-/* --- Neat gradient — atmospheric living layer on dark bg --- */
+/* --- Neat gradient — living 3D wave field on dark cinematic base --- */
 .hero-fluid {
   position: absolute;
   inset: 0;
@@ -318,12 +318,13 @@ input { font: inherit; }
   z-index: 0;
   pointer-events: none;
   display: block;
-  opacity: 0.32;
+  opacity: 0.45;
   mix-blend-mode: screen;
-  filter: blur(35px);
-  /* Expanded footprint — covers more of canvas, soft falloff to corners */
-  -webkit-mask-image: radial-gradient(ellipse 110% 90% at 45% 55%, black 50%, transparent 100%);
-  mask-image: radial-gradient(ellipse 110% 90% at 45% 55%, black 50%, transparent 100%);
+  /* Light blur preserves wave structure while smoothing pixel grain */
+  filter: blur(8px);
+  /* Soft falloff to corners — keeps vignette dark, body luminous */
+  -webkit-mask-image: radial-gradient(ellipse 120% 100% at 45% 55%, black 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse 120% 100% at 45% 55%, black 60%, transparent 100%);
 }
 
 /* Volumetric light masses — independent motion, different durations */
