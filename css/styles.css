@@ -73,7 +73,7 @@ body {
   font-weight: 400;
   line-height: 1.6;
   color: var(--color-black);
-  background: var(--color-bg);
+  background: #0A0A0A;
   overflow-x: clip;
 }
 
@@ -946,9 +946,15 @@ input { font: inherit; }
 
 /* ============================================================
    HERO PIN WRAP — replaces old nectar-sticky-row-wrap
+   Provides dark continuation + subtle ambient gradient that bleeds
+   the hero atmosphere down into the next section transition.
    ============================================================ */
 .hero-pin-wrap {
   position: relative;
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 50%, rgba(31, 143, 170, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 75% 60%, rgba(21, 94, 117, 0.06) 0%, transparent 65%),
+    #0A0A0A;
 }
 
 /* Old sticky-row-wrap overrides — neutralize */
