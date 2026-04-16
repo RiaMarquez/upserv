@@ -326,26 +326,28 @@ input { font: inherit; }
   mask-image: radial-gradient(ellipse 110% 90% at 45% 55%, black 50%, transparent 100%);
 }
 
-/* Selective bloom zones — atmospheric AI light moving through the env */
+/* Volumetric light masses — independent motion, different durations */
 .hero-bloom {
   position: absolute;
   z-index: 0;
   pointer-events: none;
   border-radius: 50%;
+  will-change: transform, opacity;
 }
 
-/* Cold Teal focal bloom — left-center / lower-left, behind headline area but offset */
+/* Bloom 1: Cold Teal focal — left-center, drifts behind headline area */
 .hero-bloom--left {
   width: 700px;
   height: 700px;
   left: -150px;
-  top: 35%;
+  top: 30%;
   background: radial-gradient(circle, rgba(31, 143, 170, 0.32) 0%, rgba(21, 94, 117, 0.10) 35%, transparent 65%);
   filter: blur(70px);
   mix-blend-mode: screen;
+  animation: bloomDriftA 22s ease-in-out infinite alternate;
 }
 
-/* Soft blue-teal ambient band — right side, behind card area, wide diffusion */
+/* Bloom 2: Wide blue-teal ambient band — right side, slow drift + slight rotation */
 .hero-bloom--right {
   width: 1100px;
   height: 600px;
@@ -354,18 +356,79 @@ input { font: inherit; }
   background: radial-gradient(ellipse, rgba(64, 165, 195, 0.18) 0%, rgba(31, 143, 170, 0.08) 40%, transparent 70%);
   filter: blur(90px);
   mix-blend-mode: screen;
+  animation: bloomDriftB 27s ease-in-out infinite alternate;
 }
 
-/* Soft blurred halo behind right-side card — embeds it in the environment */
+/* Bloom 3: Card halo — embeds card in environment, breathing motion */
 .hero-bloom--card {
   width: 600px;
   height: 600px;
   right: 5%;
-  top: 50%;
-  transform: translateY(-50%);
+  top: calc(50% - 300px);
   background: radial-gradient(circle, rgba(245, 247, 250, 0.06) 0%, rgba(31, 143, 170, 0.10) 30%, transparent 60%);
   filter: blur(60px);
   mix-blend-mode: screen;
+  animation: bloomBreathe 31s ease-in-out infinite alternate;
+}
+
+/* Bloom 4: Upper wash — slow horizontal drift across top */
+.hero-bloom--upper {
+  width: 800px;
+  height: 600px;
+  left: 25%;
+  top: -250px;
+  background: radial-gradient(ellipse, rgba(31, 143, 170, 0.16) 0%, rgba(21, 94, 117, 0.06) 40%, transparent 70%);
+  filter: blur(80px);
+  mix-blend-mode: screen;
+  animation: bloomDriftC 36s ease-in-out infinite alternate;
+}
+
+/* Bloom 5: Lower drifting accent — rises slowly, fades in/out */
+.hero-bloom--lower {
+  width: 550px;
+  height: 550px;
+  left: calc(50% - 275px);
+  bottom: -200px;
+  background: radial-gradient(circle, rgba(61, 107, 130, 0.22) 0%, rgba(31, 143, 170, 0.08) 35%, transparent 65%);
+  filter: blur(75px);
+  mix-blend-mode: screen;
+  animation: bloomDriftD 24s ease-in-out infinite alternate;
+}
+
+/* Independent motion paths — each bloom has its own choreography */
+@keyframes bloomDriftA {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
+  50%  { transform: translate3d(140px, -50px, 0) scale(1.15); opacity: 0.85; }
+  100% { transform: translate3d(70px, 80px, 0) scale(1.05); opacity: 0.95; }
+}
+
+@keyframes bloomDriftB {
+  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); opacity: 0.9; }
+  50%  { transform: translate3d(-90px, 60px, 0) scale(1.08) rotate(2deg); opacity: 1; }
+  100% { transform: translate3d(50px, -40px, 0) scale(1.04) rotate(-1.5deg); opacity: 0.85; }
+}
+
+@keyframes bloomBreathe {
+  0%   { transform: translate3d(0, 0, 0) scale(0.92); opacity: 0.85; }
+  50%  { transform: translate3d(50px, -20px, 0) scale(1.12); opacity: 1; }
+  100% { transform: translate3d(-40px, 30px, 0) scale(1.02); opacity: 0.9; }
+}
+
+@keyframes bloomDriftC {
+  0%   { transform: translate3d(-60px, 0, 0) scale(1); opacity: 0.85; }
+  50%  { transform: translate3d(100px, 40px, 0) scale(1.12); opacity: 1; }
+  100% { transform: translate3d(20px, -30px, 0) scale(1.05); opacity: 0.9; }
+}
+
+@keyframes bloomDriftD {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
+  50%  { transform: translate3d(80px, -60px, 0) scale(1.18); opacity: 1; }
+  100% { transform: translate3d(-50px, 30px, 0) scale(1.05); opacity: 0.8; }
+}
+
+/* Reduced-motion: disable bloom animations, keep static positions */
+@media (prefers-reduced-motion: reduce) {
+  .hero-bloom { animation: none !important; }
 }
 
 /* Vignette: darken corners and edges to keep focus center, preserves cinematic depth */
