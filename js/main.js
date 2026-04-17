@@ -108,7 +108,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const header = document.getElementById('top');
   const midnightSections = document.querySelectorAll('[data-midnight]');
 
+  let lastSY = -1;
   function updateHeader() {
+    // Toggle .scrolled class for nav glass→opaque transition
+    const sy = window.pageYOffset || document.documentElement.scrollTop || 0;
+    if (sy !== lastSY) {
+      lastSY = sy;
+      header.classList.toggle('scrolled', sy > 50);
+    }
     for (let i = midnightSections.length - 1; i >= 0; i--) {
       const rect = midnightSections[i].getBoundingClientRect();
       if (rect.top <= 60 && rect.bottom > 60) {
@@ -119,7 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
     header.setAttribute('data-theme', 'dark');
   }
   window.addEventListener('scroll', updateHeader, { passive: true });
-  updateHeader();
+  // Continuous rAF loop — independent of Lenis/GSAP, fires every frame
+  (function rafLoop() {
+    updateHeader();
+    requestAnimationFrame(rafLoop);
+  })();
 
   /* ================================================================
      CTA CLICK ANIMATION
@@ -219,7 +230,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      gsap.ticker.add(applyParallax);
+      // Continuous rAF loop — works regardless of Lenis/GSAP scroll interception
+      (function parallaxLoop() {
+        applyParallax();
+        requestAnimationFrame(parallaxLoop);
+      })();
       window.addEventListener('resize', () => {
         scrollRange = window.innerHeight * 0.8;
       });
