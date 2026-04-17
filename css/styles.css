@@ -1044,44 +1044,81 @@ input { font: inherit; }
     transition-duration: 100ms;
   }
 
-  /* Card — primary visual element, near-natural size.
-     Scale 0.94 (subtle reduction so it feels like a hero element).
-     Anchor to top so it starts right after CTA, allowing bottom
-     to extend slightly past fold for a natural cinematic crop.
-     !important needed because desktop .hero-transform rule appears
-     later in source than this media query. */
+  /* Card — mobile-specific: redesigned proportions, not scaled.
+     Natural sizing, 86% viewport width, simplified content. */
   .hero-transform {
-    transform: scale(0.94);
+    transform: none !important;
     transform-origin: top center !important;
     align-items: flex-start !important;
     margin-top: 0;
-    margin-bottom: -32px;
+    margin-bottom: 0;
     opacity: 0;
-    animation: cardScaleFadeUp 800ms ease 500ms forwards;
+    animation: fadeUp 800ms ease 500ms forwards;
   }
   .browser-card {
-    max-width: 100% !important;
-    width: 100% !important;
+    max-width: 86% !important;
+    width: 86% !important;
   }
-  @keyframes cardScaleFadeUp {
-    from { opacity: 0; transform: scale(0.94) translateY(16px); }
-    to   { opacity: 1; transform: scale(0.94) translateY(0); }
+
+  /* Mobile card content simplification — show only essentials */
+  .bc-desc { display: none !important; }
+  .bc-rating { display: none !important; }
+
+  /* Compact meta — single horizontal row of two chips */
+  .bc-meta {
+    margin: 8px 12px 0 !important;
+    background: transparent !important;
+    gap: 6px !important;
   }
-  /* Slightly tighter internal card padding on mobile */
+  .bc-meta-col {
+    background: rgba(21, 94, 117, 0.06) !important;
+    border: 1px solid rgba(21, 94, 117, 0.10) !important;
+    border-radius: 6px !important;
+    padding: 5px 8px !important;
+  }
+  .bc-meta-val { font-size: 6.5px !important; }
+  .bc-meta-key { font-size: 5.5px !important; }
+
+  /* Tighter internal padding — clean not cramped */
   .bc-chrome {
-    padding: 8px 14px;
+    padding: 7px 12px;
   }
   .bc-site-nav {
-    padding: 6px 16px;
+    padding: 6px 14px;
   }
+
+  /* Shorter landscape crop for hero image */
   .bc-hero-img {
     margin-top: 8px;
+    height: 120px;
   }
+  .bc-hero-img img {
+    height: 120px;
+  }
+
+  /* Category tag — slightly tighter */
+  .bc-category {
+    padding: 8px 14px 0 !important;
+  }
+
+  /* Title — short, max 2 lines */
+  .bc-title {
+    padding: 4px 14px 0 !important;
+    font-size: 12px;
+    line-height: 1.3 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* CTA — compact placement */
   .bc-cta-row {
-    padding: 8px 16px 0;
+    padding: 10px 14px 14px !important;
   }
-  .bc-rating {
-    padding: 6px 16px 12px;
+  .bc-cta-btn {
+    font-size: 8.5px !important;
+    padding: 7px 14px !important;
   }
 
   .hero-social-proof {
