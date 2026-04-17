@@ -484,7 +484,8 @@ input { font: inherit; }
   height: 600px;
   left: 25%;
   top: -250px;
-  background: radial-gradient(ellipse, rgba(31, 143, 170, 0.16) 0%, rgba(21, 94, 117, 0.06) 40%, transparent 70%);
+  /* Deep indigo blue — secondary depth color above the hero */
+  background: radial-gradient(ellipse, rgba(55, 85, 175, 0.22) 0%, rgba(30, 58, 138, 0.10) 40%, transparent 70%);
   filter: blur(80px);
   mix-blend-mode: screen;
   /* Dual animation — drift + rare expansion "super-burst" every 37s */
@@ -507,7 +508,8 @@ input { font: inherit; }
   height: 550px;
   left: calc(50% - 275px);
   bottom: -200px;
-  background: radial-gradient(circle, rgba(61, 107, 130, 0.22) 0%, rgba(31, 143, 170, 0.08) 35%, transparent 65%);
+  /* Blue-teal hybrid — depth transition from indigo to teal at the base */
+  background: radial-gradient(circle, rgba(45, 75, 155, 0.20) 0%, rgba(31, 143, 170, 0.10) 35%, transparent 65%);
   filter: blur(75px);
   mix-blend-mode: screen;
   animation: bloomDriftD 10s linear infinite;
@@ -726,7 +728,8 @@ input { font: inherit; }
   height: 420px;
   left: 55%;
   bottom: 18%;
-  background: radial-gradient(circle, rgba(75, 181, 213, 0.50) 0%, rgba(21, 94, 117, 0.22) 38%, transparent 65%);
+  /* Deep blue burst — adds blue rhythm to the cinematic pulse events */
+  background: radial-gradient(circle, rgba(85, 120, 200, 0.55) 0%, rgba(30, 58, 138, 0.24) 38%, transparent 65%);
   animation: burstPulse 16s ease-out infinite;
   animation-delay: -4s;
 }
@@ -759,6 +762,155 @@ input { font: inherit; }
   .hero-bloom,
   .hero-burst { animation: none !important; }
   .hero-burst { opacity: 0 !important; }
+}
+
+/* ============================================================
+   MOBILE GRADIENT ENHANCEMENT (≤768px)
+   Goal: clearly visible + alive while keeping dark cinematic feel.
+   - Focal teal bloom centered behind headline + card
+   - Increased contrast (deeper edges, brighter focal)
+   - Reduced blur on focal/carrier (sharper trackable motion)
+   - Larger translate amplitude
+   - Vertical shaping: dark top, bright middle, dark bottom
+   - Subtle saturation boost
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Stronger global saturation + brightness lift — teal reads ~25% richer */
+  .landing-section {
+    filter: saturate(1.28) brightness(1.06);
+  }
+
+  /* 1. FOCAL teal bloom — 2x intensity. Center core nearly white-teal,
+        broad teal mantle. Largest visual presence behind headline + card. */
+  .hero-bloom--left {
+    width: 640px;
+    height: 640px;
+    left: calc(50% - 320px);
+    top: 16%;
+    background: radial-gradient(circle,
+      rgba(190, 245, 255, 0.78) 0%,
+      rgba(75, 200, 235, 0.95) 18%,
+      rgba(31, 143, 170, 0.55) 38%,
+      rgba(21, 94, 117, 0.22) 55%,
+      transparent 75%);
+    filter: blur(24px);
+    animation: bloomDriftAMobile 9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+  }
+
+  /* 2. Right ambient — doubled opacity, pulled inward */
+  .hero-bloom--right {
+    width: 760px;
+    height: 520px;
+    right: -160px;
+    top: 26%;
+    background: radial-gradient(ellipse, rgba(95, 200, 225, 0.42) 0%, rgba(31, 143, 170, 0.22) 40%, transparent 72%);
+    filter: blur(75px);
+  }
+
+  /* 3. Card halo — stronger glow over card area */
+  .hero-bloom--card {
+    width: 500px;
+    height: 500px;
+    right: calc(50% - 250px);
+    top: 46%;
+    background: radial-gradient(circle, rgba(245, 247, 250, 0.18) 0%, rgba(31, 143, 170, 0.38) 30%, transparent 62%);
+  }
+
+  /* 4. Card2 secondary halo — boosted */
+  .hero-bloom--card2 {
+    width: 400px;
+    height: 400px;
+    right: calc(50% - 200px);
+    top: 54%;
+    background: radial-gradient(circle, rgba(160, 225, 240, 0.36) 0%, rgba(31, 143, 170, 0.42) 25%, rgba(21, 94, 117, 0.18) 50%, transparent 72%);
+  }
+
+  /* 5. Lower bloom — boosted blue-teal hybrid */
+  .hero-bloom--lower {
+    width: 520px;
+    height: 520px;
+    left: calc(50% - 260px);
+    bottom: -120px;
+    background: radial-gradient(circle, rgba(60, 100, 185, 0.46) 0%, rgba(31, 143, 170, 0.26) 35%, transparent 68%);
+  }
+
+  /* 6. Carrier — much brighter trackable sweep */
+  .hero-bloom--carrier {
+    width: 280px;
+    height: 280px;
+    left: -140px;
+    top: 30%;
+    background: radial-gradient(circle,
+      rgba(195, 245, 255, 0.92) 0%,
+      rgba(95, 215, 245, 0.65) 25%,
+      rgba(31, 143, 170, 0.22) 55%,
+      transparent 78%);
+    filter: blur(18px);
+    animation: carrierSweepMobile 10s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  }
+
+  /* 7. Mobile-specific keyframes — wider translate range + scale breathing */
+  @keyframes bloomDriftAMobile {
+    0% {
+      transform: translate3d(-40px, -30px, 0) scale(0.92);
+      opacity: 0.85;
+    }
+    50% {
+      transform: translate3d(20px, 10px, 0) scale(1.12);
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(50px, -20px, 0) scale(1.02);
+      opacity: 0.9;
+    }
+  }
+
+  @keyframes carrierSweepMobile {
+    0% {
+      transform: translate3d(0, 0, 0) scale(0.8);
+      opacity: 0;
+    }
+    12% {
+      opacity: 0.65;
+    }
+    35% {
+      transform: translate3d(160px, -20px, 0) scale(1.10);
+      opacity: 1;
+    }
+    60% {
+      transform: translate3d(340px, 10px, 0) scale(1.22);
+      opacity: 1;
+    }
+    85% {
+      transform: translate3d(500px, 50px, 0) scale(1.05);
+      opacity: 0.45;
+    }
+    100% {
+      transform: translate3d(620px, 70px, 0) scale(0.88);
+      opacity: 0;
+    }
+  }
+
+  /* 8. Vertical shaping — looser middle so the stronger blooms can breathe;
+        edges still dark for cinematic framing. */
+  .hero-overlay {
+    background:
+      /* center vignette — pushed further out so brighter blooms read */
+      radial-gradient(ellipse 140% 100% at 50% 45%, transparent 50%, rgba(6, 7, 8, 0.50) 100%),
+      /* top + bottom darkening */
+      linear-gradient(180deg,
+        rgba(4, 6, 10, 0.72) 0%,
+        rgba(6, 8, 12, 0.10) 22%,
+        rgba(0, 0, 0, 0) 45%,
+        rgba(0, 0, 0, 0) 60%,
+        rgba(6, 8, 12, 0.28) 82%,
+        rgba(4, 6, 10, 0.78) 100%);
+  }
+
+  /* 9. Scroll-bumping — stronger glow lift on mobile scroll */
+  .landing-section.scroll-bumping {
+    filter: saturate(1.55) brightness(1.18);
+  }
 }
 
 /* Vignette + subtle dark behind pill zone for contrast */
@@ -2326,136 +2478,133 @@ input { font: inherit; }
 .section-reveal .stagger-4 { transition-delay: 500ms; }
 
 /* ============================================================
-   S04: PRODUCTS — STICKY MEDIA SECTIONS
+   S04: INDUSTRY CARDS — full-bleed simple cards
    ============================================================ */
-.products-section {
-  background: #0A0A0A; padding: 80px 30px 30px;
-  position: relative; z-index: 10;
-}
-@media (max-width: 690px) { .products-section { padding: 80px 20px 20px; } }
-.nectar-sticky-media-sections { position: relative; }
-
-.nectar-sticky-media-section__navigation {
-  position: fixed; right: 2.5rem; top: 50%;
-  transform: translateY(-50%); z-index: 50;
-  opacity: 0; pointer-events: none; transition: opacity 400ms var(--ease);
-}
-.nectar-sticky-media-section__navigation.visible { opacity: 1; pointer-events: all; }
-.nectar-sticky-media-section__navigation__inner { display: flex; flex-direction: column; gap: 0.75rem; }
-.nectar-sticky-media-section__navigation-button {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--color-bg-dark); color: var(--color-text-light);
-  font-size: 0.6875rem; font-weight: 600;
-  border: 1px solid rgba(255,255,255,0.2);
-  transition: all 400ms var(--ease);
-}
-.nectar-sticky-media-section__navigation-button.active {
-  background: var(--color-text-light); color: var(--color-bg-dark);
-  border-color: var(--color-text-light);
-}
-@media (max-width: 999px) { .nectar-sticky-media-section__navigation { display: none; } }
-
-.nectar-sticky-media-section {
-  position: sticky; top: 80px;
-  height: calc(90vh - 80px); border-radius: 15px;
-  overflow: hidden; margin-bottom: 30px;
-  display: flex; flex-direction: column; justify-content: flex-end;
-}
-@media (max-width: 690px) {
-  .nectar-sticky-media-section { height: calc(70vh - 50px); top: 50px; }
-  .nectar-sticky-media-section__navigation__inner { align-items: center; padding-right: 0; }
-  .nectar-sticky-media-section__navigation { width: 50px; }
-  .nectar-sticky-media-section:last-child .nectar-sticky-media-section__media { background-position: 55% 50%; }
+.industry-cards {
+  background: #0A0A0A;
+  padding: 0;
+  position: relative;
+  z-index: 10;
 }
 
-/* Panel background image container */
-.panel-bg-container {
-  position: absolute; top: 0; left: 0;
-  width: 100%; height: 100%;
-  overflow: hidden; z-index: 0;
+.industry-card {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #0A0A0A;
 }
-.panel-bg-img {
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: center top;
+
+.industry-card__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
 }
-.panel-bg-fallback {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-}
-.panel-bg-overlay {
-  position: absolute; top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.75);
+
+.industry-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
   z-index: 1;
 }
 
-.panel-link { display: block; position: absolute; inset: 0; z-index: 2; }
-.nectar-sticky-media-content__media-wrap { position: absolute; inset: 0; background-color: #000; }
-.nectar-sticky-media-content__media-wrap > * { background-position: center; }
-.type--scroll-pinned-sections .nectar-sticky-media-content__media-wrap::after {
-  content: ''; position: absolute; bottom: 0; left: 0;
-  width: 100%; height: 50%;
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0));
-  z-index: 2; pointer-events: none;
+.industry-card__content {
+  position: absolute;
+  inset: 0;
+  padding: 52px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
+  pointer-events: none;
 }
-.nectar-sticky-media-section__media {
-  width: 100%; height: 100%; background-size: cover;
-  background-position: center; transition: transform 6s var(--ease);
-}
-.nectar-sticky-media-section:hover .nectar-sticky-media-section__media { transform: scale(1.03); }
-.panel-overlay-gradient { display: none; }
 
-.placeholder-image-1 { background: linear-gradient(150deg, #1a1a3e 0%, #0f2b5e 50%, #0a1628 100%); }
-.placeholder-image-2 { background: linear-gradient(150deg, #2d1b4e 0%, #1a0f3c 50%, #0d0a1f 100%); }
-.placeholder-image-3 { background: linear-gradient(150deg, #0f3d3e 0%, #0a2e2e 50%, #051a1a 100%); }
-.placeholder-image-4 { background: linear-gradient(150deg, #3e1a0f 0%, #2e1508 50%, #1a0d05 100%); }
-.placeholder-image-5 { background: linear-gradient(150deg, #1a3e0f 0%, #0f2e08 50%, #0a1a05 100%); }
-
-.nectar-badge { position: absolute; top: 52px; left: 80px; z-index: 3; }
-
-/* Panel fact statement */
-.panel-fact {
-  position: absolute; bottom: 52px; left: 80px; z-index: 3;
-  font-family: var(--font-primary);
-  font-size: 15px; font-weight: 400;
-  color: rgba(230, 232, 240, 0.65);
-  line-height: 1.75; max-width: 480px;
-  margin-bottom: 120px;
-  margin-top: 16px;
-}
-@media (max-width: 690px) {
-  .panel-fact { font-size: 13px; max-width: 280px; bottom: 24px; left: 24px; }
-  .nectar-badge { top: 24px; left: 24px; }
-}
-.nectar-badge__inner {
+.industry-tag {
+  position: relative;
   font-family: var(--font-mono);
-  font-size: 10px; font-weight: 400;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 6px 14px; border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.25);
-  background: transparent;
-  backdrop-filter: none; color: #ffffff;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #155E75;
+  padding-left: 32px;
+  display: inline-block;
+  align-self: flex-start;
+}
+.industry-tag::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 20px;
+  height: 1px;
+  background: #155E75;
 }
 
-.nectar-sticky-media-sections.type--scroll-pinned-sections .nectar-sticky-media-section__content-section-inner { position: static; }
-.nectar-sticky-media-section__content-section-inner { position: relative; z-index: 3; padding: 10vh 0 3% 0; }
+.industry-body {
+  font-family: var(--font-primary);
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.65;
+  max-width: 420px;
+  margin: 0;
+  margin-bottom: 80px;
+}
 
-.nectar-scrolling-text { overflow: hidden; white-space: nowrap; }
-.nectar-scrolling-text-inner { display: inline-flex; animation: scrollText 28s linear infinite; }
-[data-s-speed="medium"] .nectar-scrolling-text-inner { animation-duration: 28s; }
-[data-s-speed="slow"] .nectar-scrolling-text-inner { animation-duration: 28s; }
-.nectar-scrolling-text-inner__text-chunk {
-  font-family: 'Sohne', -apple-system, 'Helvetica Neue', sans-serif; font-weight: 600;
-  font-size: 80px; line-height: 1; letter-spacing: 0.02em;
-  color: rgba(255,255,255,0.35); padding-right: 0.3em; flex-shrink: 0;
+.marquee-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
 }
-@media (max-width: 690px) {
-  .nectar-scrolling-text-inner__text-chunk { font-size: 13vw; }
-  .nectar-scrolling-text[data-s-speed] .nectar-scrolling-text-inner { animation-duration: 8s !important; }
-  .nectar-scrolling-text[data-s-speed="medium"] .nectar-scrolling-text-inner { animation-duration: 8s !important; }
-  .animated-circle-shape { display: none; }
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 18s linear infinite;
 }
-@keyframes scrollText { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+.marquee-text {
+  font-family: 'Sohne', -apple-system, 'Helvetica Neue', sans-serif;
+  font-weight: 600;
+  font-size: 80px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.07);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  .industry-card__content {
+    padding: 52px 24px;
+  }
+  .industry-body {
+    font-size: 14px;
+    max-width: 100%;
+    margin-bottom: 60px;
+  }
+  .marquee-text {
+    font-size: 48px;
+  }
+  .marquee-track {
+    animation-duration: 14s;
+  }
+}
 
 /* ============================================================
    S05: TRUSTED BY
@@ -3013,18 +3162,8 @@ html.lenis, html.lenis body { height: auto; }
   .trusted-section, .faq-section, .site-footer {
     max-width: 100vw; overflow-x: clip;
   }
-  /* Products and ancestors — overflow visible for sticky stacking */
-  .container-wrap, .products-section, #ajax-content-wrap,
-  .nectar-sticky-media-sections {
-    overflow: visible !important;
-  }
-
   /* Hero mobile — handled in 690px breakpoint above */
   .header-container { padding: 0 24px; height: 56px; }
-
-  /* Marquee text — fit within viewport */
-  .nectar-scrolling-text-inner__text-chunk { font-size: 20vw !important; }
-  .nectar-scrolling-text { overflow: hidden; width: 100%; }
 
   /* FAQ — lighter weights on mobile */
   .faq-title { font-weight: 600 !important; font-size: 28px !important; }
