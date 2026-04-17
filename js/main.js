@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
         backgroundAlpha: 1,
         grainScale: 3,
         grainSparsity: 0,
-        grainIntensity: 0.08,
-        grainSpeed: 0.6,
+        grainIntensity: 0.11,
+        grainSpeed: 0.95,
         resolution: 1,
         yOffset: 0,
         yOffsetWaveMultiplier: 0,
@@ -109,10 +109,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const midnightSections = document.querySelectorAll('[data-midnight]');
 
   let lastSY = -1;
+  const landing = document.querySelector('.landing-section');
+  let bumpTimer = null;
   function updateHeader() {
     // Toggle .scrolled class for nav glass→opaque transition
     const sy = window.pageYOffset || document.documentElement.scrollTop || 0;
     if (sy !== lastSY) {
+      // Brief glow bump when user scrolls (any direction)
+      if (landing && Math.abs(sy - lastSY) > 1) {
+        landing.classList.add('scroll-bumping');
+        clearTimeout(bumpTimer);
+        bumpTimer = setTimeout(() => landing.classList.remove('scroll-bumping'), 900);
+      }
       lastSY = sy;
       header.classList.toggle('scrolled', sy > 50);
     }

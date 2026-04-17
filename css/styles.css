@@ -368,6 +368,8 @@ input { font: inherit; }
   overflow: hidden;
   background: #0A0A0A;
   z-index: -1;
+  /* Glow intensifier — bumped briefly on scroll, smoothly returns to 1 */
+  --bloom-glow: 1;
   display: grid;
   align-items: center;
   padding-top: 40px;
@@ -400,14 +402,29 @@ input { font: inherit; }
   will-change: transform, opacity;
 }
 
+/* Optional scroll-glow boost — entire landing section gets a brief
+   saturate + brightness lift when user scrolls. Affects all bloom
+   layers via the parent without overriding each bloom's blur. */
+.landing-section.scroll-bumping {
+  filter: saturate(var(--bloom-glow, 1.18)) brightness(var(--bloom-bright, 1.05));
+  transition: filter 800ms ease;
+}
+
 /* Bloom 1: Cold Teal focal — left-center, drifts behind headline area */
 .hero-bloom--left {
-  width: 700px;
-  height: 700px;
-  left: -150px;
-  top: 30%;
-  background: radial-gradient(circle, rgba(31, 143, 170, 0.32) 0%, rgba(21, 94, 117, 0.10) 35%, transparent 65%);
-  filter: blur(70px);
+  width: 760px;
+  height: 760px;
+  left: -180px;
+  top: 28%;
+  /* Focal light source — stronger, dual-stop with bright inner core */
+  background:
+    radial-gradient(circle,
+      rgba(75, 181, 213, 0.18) 0%,
+      rgba(31, 143, 170, 0.40) 18%,
+      rgba(21, 94, 117, 0.14) 45%,
+      transparent 70%);
+  /* Slightly less blur than other layers — motion is more visible here */
+  filter: blur(50px);
   mix-blend-mode: screen;
   animation: bloomDriftA 22s ease-in-out infinite alternate;
 }
@@ -460,11 +477,41 @@ input { font: inherit; }
   animation: bloomDriftD 24s ease-in-out infinite alternate;
 }
 
+/* Bloom 6: Soft diagonal light streak — wide, very low opacity, slow drift.
+   Provides a constant gentle directional flow across the hero. */
+.hero-bloom--band {
+  position: absolute;
+  width: 160vw;
+  height: 220px;
+  left: -30vw;
+  top: 38%;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 0;
+  background: linear-gradient(105deg,
+    transparent 0%,
+    rgba(75, 165, 195, 0.04) 30%,
+    rgba(120, 200, 220, 0.07) 50%,
+    rgba(75, 165, 195, 0.04) 70%,
+    transparent 100%);
+  filter: blur(60px);
+  mix-blend-mode: screen;
+  will-change: transform;
+  animation: bandDrift 52s linear infinite;
+}
+
+@keyframes bandDrift {
+  0%   { transform: translate3d(-40px, 0, 0) rotate(-1.5deg); opacity: 0.9; }
+  50%  { transform: translate3d(60px, -12px, 0) rotate(0.5deg); opacity: 1; }
+  100% { transform: translate3d(-40px, 0, 0) rotate(-1.5deg); opacity: 0.9; }
+}
+
 /* Independent motion paths — each bloom has its own choreography */
 @keyframes bloomDriftA {
   0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
-  50%  { transform: translate3d(140px, -50px, 0) scale(1.15); opacity: 0.85; }
-  100% { transform: translate3d(70px, 80px, 0) scale(1.05); opacity: 0.95; }
+  33%  { transform: translate3d(80px, -30px, 0) scale(1.12); opacity: 0.92; }
+  66%  { transform: translate3d(160px, -60px, 0) scale(1.18); opacity: 0.85; }
+  100% { transform: translate3d(70px, 70px, 0) scale(1.06); opacity: 0.96; }
 }
 
 @keyframes bloomDriftB {
@@ -480,9 +527,10 @@ input { font: inherit; }
 }
 
 @keyframes bloomDriftC {
-  0%   { transform: translate3d(-60px, 0, 0) scale(1); opacity: 0.85; }
-  50%  { transform: translate3d(100px, 40px, 0) scale(1.12); opacity: 1; }
-  100% { transform: translate3d(20px, -30px, 0) scale(1.05); opacity: 0.9; }
+  /* Consistent rightward drift — establishes directional flow */
+  0%   { transform: translate3d(-80px, 0, 0) scale(1); opacity: 0.85; }
+  50%  { transform: translate3d(40px, 30px, 0) scale(1.10); opacity: 1; }
+  100% { transform: translate3d(160px, -10px, 0) scale(1.05); opacity: 0.88; }
 }
 
 @keyframes bloomDriftD {
