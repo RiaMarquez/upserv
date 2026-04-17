@@ -111,6 +111,45 @@ document.addEventListener('DOMContentLoaded', () => {
   let lastSY = -1;
   const landing = document.querySelector('.landing-section');
   let bumpTimer = null;
+
+  /* Cursor-follow glow — desktop only, smooth lerp toward mouse position */
+  const cursorGlow = document.getElementById('heroCursorGlow');
+  if (cursorGlow && window.innerWidth > 768) {
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+    let cursorActive = false;
+    const glowW = 420, glowH = 420;
+
+    document.addEventListener('mousemove', (e) => {
+      // Only track if over the hero section
+      const rect = landing?.getBoundingClientRect();
+      if (!rect) return;
+      if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+        targetX = e.clientX - rect.left - glowW / 2;
+        targetY = e.clientY - rect.top - glowH / 2;
+        if (!cursorActive) {
+          cursorActive = true;
+          landing?.classList.add('has-cursor');
+        }
+      }
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', () => {
+      cursorActive = false;
+      landing?.classList.remove('has-cursor');
+    });
+
+    // Smooth lerp loop for cursor glow
+    (function cursorLoop() {
+      currentX += (targetX - currentX) * 0.10;
+      currentY += (targetY - currentY) * 0.10;
+      if (cursorGlow) {
+        cursorGlow.style.setProperty('--cursor-x', currentX.toFixed(1) + 'px');
+        cursorGlow.style.setProperty('--cursor-y', currentY.toFixed(1) + 'px');
+      }
+      requestAnimationFrame(cursorLoop);
+    })();
+  }
   function updateHeader() {
     // Toggle .scrolled class for nav glass→opaque transition
     const sy = window.pageYOffset || document.documentElement.scrollTop || 0;
