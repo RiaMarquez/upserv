@@ -952,8 +952,7 @@ input { font: inherit; }
     background: rgba(245, 247, 250, 0.92);
   }
 
-  /* Hero grid — zero horizontal padding so card can reach full bleed.
-     Text block carries its own horizontal padding for comfortable reading. */
+  /* Hero grid — symmetric horizontal padding for breathing room around card */
   .hero-grid {
     grid-template-columns: 1fr;
     padding: 80px 0 16px 0;
@@ -970,6 +969,10 @@ input { font: inherit; }
     max-width: 100%;
     padding: 0 24px;
     transform: none;
+  }
+  /* Card container — no transform, full width to allow card centering */
+  .hero-transform {
+    width: 100% !important;
   }
 
   /* Slightly stronger anchor behind text on mobile for contrast */
@@ -1056,8 +1059,17 @@ input { font: inherit; }
     animation: fadeUp 800ms ease 500ms forwards;
   }
   .browser-card {
-    max-width: 86% !important;
-    width: 86% !important;
+    max-width: 84vw !important;
+    width: 84vw !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    /* Premium floating shadow — softer + larger spread on mobile */
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.85),
+      0 14px 32px rgba(0, 0, 0, 0.28),
+      0 40px 72px rgba(0, 0, 0, 0.36),
+      0 70px 120px rgba(0, 0, 0, 0.24),
+      0 90px 140px -20px rgba(31, 143, 170, 0.20) !important;
   }
 
   /* Mobile card content simplification — show only essentials */

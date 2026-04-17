@@ -192,12 +192,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const browserCard = document.getElementById('browserCard');
     if (!heroPin || !browserCard) return;
 
-    // Mobile: skip the scroll-pinned animation entirely.
-    // Card displays in final state via CSS (forced opacity:1 on all sections).
-    // User scrolls past hero naturally without pin choreography.
-    if (window.innerWidth <= 768) return;
+    // Mobile: simplified scroll interaction via gsap.ticker (every frame).
+    // gsap.ticker bypasses Lenis interception of native scroll events,
+    // and reads document.scrollingElement.scrollTop directly each frame.
+    if (window.innerWidth <= 768) {
+      const heroImg = browserCard.querySelector('.bc-hero-img');
+      const bcBody = browserCard.querySelector('.bc-body');
+      let scrollRange = window.innerHeight * 0.8;
+      let lastP = -1;
 
-    const isMobile = false;
+      function applyParallax() {
+        const sy = window.pageYOffset || document.documentElement.scrollTop || 0;
+        const p = Math.min(1, Math.max(0, sy / scrollRange));
+        if (Math.abs(p - lastP) < 0.001) return; // skip if no change
+        lastP = p;
+        // Card lifts up to 24px with micro-scale for depth
+        browserCard.style.transform =
+          `translate3d(0, ${(-24 * p).toFixed(1)}px, 0) scale(${(1 - 0.008 * p).toFixed(4)})`;
+        // Image lags slightly (parallax depth) — moves down within card
+        if (heroImg) {
+          heroImg.style.transform = `translate3d(0, ${(8 * p).toFixed(1)}px, 0)`;
+        }
+        // Content drifts subtly up
+        if (bcBody) {
+          bcBody.style.transform = `translate3d(0, ${(-6 * p).toFixed(1)}px, 0)`;
+        }
+      }
+
+      gsap.ticker.add(applyParallax);
+      window.addEventListener('resize', () => {
+        scrollRange = window.innerHeight * 0.8;
+      });
+      return;
+    }
 
     // Grab elements
     const heroImg = browserCard.querySelector('.bc-hero-img');
@@ -289,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ScrollTrigger.create({
       trigger: heroPin,
       start: 'top top',
-      end: isMobile ? '+=200%' : '+=300%',
+      end: '+=300%',
       pin: true,
       scrub: 0.5,
       onUpdate: function(self) {
