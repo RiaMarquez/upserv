@@ -1059,8 +1059,8 @@ input { font: inherit; }
     animation: fadeUp 800ms ease 500ms forwards;
   }
   .browser-card {
-    max-width: 84vw !important;
-    width: 84vw !important;
+    max-width: 71vw !important;
+    width: 71vw !important;
     margin-left: auto !important;
     margin-right: auto !important;
     /* Premium floating shadow — softer + larger spread on mobile */
