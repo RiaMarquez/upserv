@@ -76,10 +76,13 @@ body {
   /* Persistent atmospheric gradient — extends hero environment across page,
      visible behind any section that doesn't override its own background. */
   background:
-    radial-gradient(ellipse 70% 50% at 25% 30%, rgba(31, 143, 170, 0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 80% 60% at 80% 70%, rgba(21, 94, 117, 0.09) 0%, transparent 65%),
-    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(75, 181, 213, 0.04) 0%, transparent 70%),
-    #0A0A0A;
+    /* Brighter teal blooms */
+    radial-gradient(ellipse 70% 50% at 25% 30%, rgba(31, 143, 170, 0.16) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 80% 70%, rgba(21, 94, 117, 0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(75, 181, 213, 0.06) 0%, transparent 70%),
+    /* Deeper near-black corners for stronger contrast */
+    radial-gradient(ellipse 100% 70% at 50% 50%, transparent 50%, rgba(0, 0, 0, 0.35) 100%),
+    #060708;
   background-attachment: fixed;
   overflow-x: clip;
 }
@@ -412,21 +415,21 @@ input { font: inherit; }
 
 /* Bloom 1: Cold Teal focal — left-center, drifts behind headline area */
 .hero-bloom--left {
-  width: 760px;
-  height: 760px;
-  left: -180px;
-  top: 28%;
-  /* Focal light source — stronger, dual-stop with bright inner core */
+  width: 820px;
+  height: 820px;
+  left: -200px;
+  top: 26%;
+  /* Focal light source — bigger, brighter core, perceptible motion */
   background:
     radial-gradient(circle,
-      rgba(75, 181, 213, 0.18) 0%,
-      rgba(31, 143, 170, 0.40) 18%,
-      rgba(21, 94, 117, 0.14) 45%,
+      rgba(120, 210, 235, 0.22) 0%,
+      rgba(31, 143, 170, 0.48) 16%,
+      rgba(21, 94, 117, 0.16) 42%,
       transparent 70%);
-  /* Slightly less blur than other layers — motion is more visible here */
-  filter: blur(50px);
+  /* Less blur than other layers — focal motion is most visible */
+  filter: blur(45px);
   mix-blend-mode: screen;
-  animation: bloomDriftA 22s ease-in-out infinite alternate;
+  animation: bloomDriftA 16s ease-in-out infinite alternate;
 }
 
 /* Bloom 2: Wide blue-teal ambient band — right side, slow drift + slight rotation */
@@ -438,7 +441,7 @@ input { font: inherit; }
   background: radial-gradient(ellipse, rgba(64, 165, 195, 0.18) 0%, rgba(31, 143, 170, 0.08) 40%, transparent 70%);
   filter: blur(90px);
   mix-blend-mode: screen;
-  animation: bloomDriftB 27s ease-in-out infinite alternate;
+  animation: bloomDriftB 19s ease-in-out infinite alternate;
 }
 
 /* Bloom 3: Card halo — embeds card in environment, breathing motion */
@@ -447,10 +450,22 @@ input { font: inherit; }
   height: 600px;
   right: 5%;
   top: calc(50% - 300px);
-  background: radial-gradient(circle, rgba(245, 247, 250, 0.06) 0%, rgba(31, 143, 170, 0.10) 30%, transparent 60%);
+  background: radial-gradient(circle, rgba(245, 247, 250, 0.06) 0%, rgba(31, 143, 170, 0.12) 30%, transparent 60%);
   filter: blur(60px);
   mix-blend-mode: screen;
-  animation: bloomBreathe 31s ease-in-out infinite alternate;
+  animation: bloomBreathe 21s ease-in-out infinite alternate;
+}
+
+/* Bloom 7: Second active light near card — independent path, different timing */
+.hero-bloom--card2 {
+  width: 480px;
+  height: 480px;
+  right: 18%;
+  top: calc(50% - 100px);
+  background: radial-gradient(circle, rgba(120, 200, 220, 0.14) 0%, rgba(31, 143, 170, 0.18) 25%, rgba(21, 94, 117, 0.06) 50%, transparent 70%);
+  filter: blur(70px);
+  mix-blend-mode: screen;
+  animation: bloomDriftE 18s ease-in-out infinite alternate;
 }
 
 /* Bloom 4: Upper wash — slow horizontal drift across top */
@@ -462,7 +477,7 @@ input { font: inherit; }
   background: radial-gradient(ellipse, rgba(31, 143, 170, 0.16) 0%, rgba(21, 94, 117, 0.06) 40%, transparent 70%);
   filter: blur(80px);
   mix-blend-mode: screen;
-  animation: bloomDriftC 36s ease-in-out infinite alternate;
+  animation: bloomDriftC 22s ease-in-out infinite alternate;
 }
 
 /* Bloom 5: Lower drifting accent — rises slowly, fades in/out */
@@ -474,7 +489,7 @@ input { font: inherit; }
   background: radial-gradient(circle, rgba(61, 107, 130, 0.22) 0%, rgba(31, 143, 170, 0.08) 35%, transparent 65%);
   filter: blur(75px);
   mix-blend-mode: screen;
-  animation: bloomDriftD 24s ease-in-out infinite alternate;
+  animation: bloomDriftD 14s ease-in-out infinite alternate;
 }
 
 /* Bloom 6: Soft diagonal light streak — wide, very low opacity, slow drift.
@@ -497,46 +512,58 @@ input { font: inherit; }
   filter: blur(60px);
   mix-blend-mode: screen;
   will-change: transform;
-  animation: bandDrift 52s linear infinite;
+  animation: bandDrift 30s linear infinite;
 }
 
 @keyframes bandDrift {
-  0%   { transform: translate3d(-40px, 0, 0) rotate(-1.5deg); opacity: 0.9; }
-  50%  { transform: translate3d(60px, -12px, 0) rotate(0.5deg); opacity: 1; }
-  100% { transform: translate3d(-40px, 0, 0) rotate(-1.5deg); opacity: 0.9; }
+  0%   { transform: translate3d(-60px, 0, 0) rotate(-2deg); opacity: 0.9; }
+  50%  { transform: translate3d(90px, -18px, 0) rotate(1deg); opacity: 1; }
+  100% { transform: translate3d(-60px, 0, 0) rotate(-2deg); opacity: 0.9; }
 }
 
-/* Independent motion paths — each bloom has its own choreography */
+/* Independent motion paths — bigger amplitudes (+40%), bigger breathing.
+   Slight directional shift each cycle prevents obvious looping. */
 @keyframes bloomDriftA {
   0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
-  33%  { transform: translate3d(80px, -30px, 0) scale(1.12); opacity: 0.92; }
-  66%  { transform: translate3d(160px, -60px, 0) scale(1.18); opacity: 0.85; }
-  100% { transform: translate3d(70px, 70px, 0) scale(1.06); opacity: 0.96; }
+  33%  { transform: translate3d(110px, -50px, 0) scale(1.15); opacity: 0.92; }
+  66%  { transform: translate3d(220px, -90px, 0) scale(1.22); opacity: 0.82; }
+  100% { transform: translate3d(95px, 100px, 0) scale(1.08); opacity: 0.96; }
 }
 
 @keyframes bloomDriftB {
-  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); opacity: 0.9; }
-  50%  { transform: translate3d(-90px, 60px, 0) scale(1.08) rotate(2deg); opacity: 1; }
-  100% { transform: translate3d(50px, -40px, 0) scale(1.04) rotate(-1.5deg); opacity: 0.85; }
+  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); opacity: 0.88; }
+  35%  { transform: translate3d(-120px, 70px, 0) scale(1.12) rotate(3deg); opacity: 1; }
+  70%  { transform: translate3d(-60px, 100px, 0) scale(1.16) rotate(1deg); opacity: 0.95; }
+  100% { transform: translate3d(70px, -55px, 0) scale(1.06) rotate(-2deg); opacity: 0.85; }
 }
 
 @keyframes bloomBreathe {
-  0%   { transform: translate3d(0, 0, 0) scale(0.92); opacity: 0.85; }
-  50%  { transform: translate3d(50px, -20px, 0) scale(1.12); opacity: 1; }
-  100% { transform: translate3d(-40px, 30px, 0) scale(1.02); opacity: 0.9; }
+  0%   { transform: translate3d(0, 0, 0) scale(0.90); opacity: 0.85; }
+  50%  { transform: translate3d(70px, -28px, 0) scale(1.18); opacity: 1; }
+  100% { transform: translate3d(-55px, 45px, 0) scale(1.04); opacity: 0.9; }
 }
 
 @keyframes bloomDriftC {
-  /* Consistent rightward drift — establishes directional flow */
-  0%   { transform: translate3d(-80px, 0, 0) scale(1); opacity: 0.85; }
-  50%  { transform: translate3d(40px, 30px, 0) scale(1.10); opacity: 1; }
-  100% { transform: translate3d(160px, -10px, 0) scale(1.05); opacity: 0.88; }
+  /* Consistent rightward drift with vertical wobble */
+  0%   { transform: translate3d(-110px, 0, 0) scale(1); opacity: 0.85; }
+  35%  { transform: translate3d(20px, 45px, 0) scale(1.13); opacity: 1; }
+  70%  { transform: translate3d(160px, 20px, 0) scale(1.10); opacity: 0.96; }
+  100% { transform: translate3d(220px, -25px, 0) scale(1.06); opacity: 0.88; }
 }
 
 @keyframes bloomDriftD {
   0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
-  50%  { transform: translate3d(80px, -60px, 0) scale(1.18); opacity: 1; }
-  100% { transform: translate3d(-50px, 30px, 0) scale(1.05); opacity: 0.8; }
+  40%  { transform: translate3d(115px, -85px, 0) scale(1.22); opacity: 1; }
+  75%  { transform: translate3d(40px, -100px, 0) scale(1.15); opacity: 0.95; }
+  100% { transform: translate3d(-70px, 45px, 0) scale(1.06); opacity: 0.8; }
+}
+
+/* New: second active light mass near card area — independent motion */
+@keyframes bloomDriftE {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
+  35%  { transform: translate3d(-70px, 50px, 0) scale(1.14); opacity: 1; }
+  70%  { transform: translate3d(40px, -60px, 0) scale(1.18); opacity: 0.92; }
+  100% { transform: translate3d(80px, 30px, 0) scale(1.05); opacity: 0.88; }
 }
 
 /* Reduced-motion: disable bloom animations, keep static positions */
