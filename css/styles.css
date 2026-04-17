@@ -415,21 +415,21 @@ input { font: inherit; }
 
 /* Bloom 1: Cold Teal focal — left-center, drifts behind headline area */
 .hero-bloom--left {
-  width: 820px;
-  height: 820px;
-  left: -200px;
-  top: 26%;
-  /* Focal light source — bigger, brighter core, perceptible motion */
+  width: 900px;
+  height: 900px;
+  left: -240px;
+  top: 24%;
+  /* Focal light source — bigger, brighter core, clearly trackable */
   background:
     radial-gradient(circle,
-      rgba(120, 210, 235, 0.22) 0%,
-      rgba(31, 143, 170, 0.48) 16%,
-      rgba(21, 94, 117, 0.16) 42%,
+      rgba(150, 225, 245, 0.28) 0%,
+      rgba(31, 143, 170, 0.55) 14%,
+      rgba(21, 94, 117, 0.20) 40%,
       transparent 70%);
-  /* Less blur than other layers — focal motion is most visible */
-  filter: blur(45px);
+  /* Reduced blur — focal motion is the most visible bloom */
+  filter: blur(38px);
   mix-blend-mode: screen;
-  animation: bloomDriftA 9s ease-in-out infinite alternate;
+  animation: bloomDriftA 9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
 }
 
 /* Bloom 2: Wide blue-teal ambient band — right side, slow drift + slight rotation */
@@ -492,6 +492,51 @@ input { font: inherit; }
   animation: bloomDriftD 10s linear infinite;
 }
 
+/* CARRIER LAYER — bright, low-blur, fast horizontal sweep.
+   This is the layer the eye can clearly track. Sweeps left→right
+   across the headline area, scaling up at midpoint and dimming at edges. */
+.hero-bloom--carrier {
+  width: 320px;
+  height: 320px;
+  left: -160px;
+  top: 38%;
+  background: radial-gradient(circle,
+    rgba(150, 225, 245, 0.42) 0%,
+    rgba(75, 200, 235, 0.28) 25%,
+    rgba(31, 143, 170, 0.08) 55%,
+    transparent 75%);
+  /* Significantly less blur than other layers — sharper trackable form */
+  filter: blur(28px);
+  mix-blend-mode: screen;
+  animation: carrierSweep 11s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+@keyframes carrierSweep {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.85);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  35% {
+    transform: translate3d(280px, -30px, 0) scale(1.08);
+    opacity: 1;
+  }
+  60% {
+    transform: translate3d(560px, -10px, 0) scale(1.18);
+    opacity: 1;
+  }
+  85% {
+    transform: translate3d(820px, 40px, 0) scale(1.05);
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate3d(960px, 60px, 0) scale(0.9);
+    opacity: 0;
+  }
+}
+
 /* Bloom 6: Soft diagonal light streak — wide, very low opacity, slow drift.
    Provides a constant gentle directional flow across the hero. */
 .hero-bloom--band {
@@ -531,16 +576,16 @@ input { font: inherit; }
 }
 
 @keyframes bloomDriftB {
-  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); opacity: 0.88; }
+  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); opacity: 0.55; }
   35%  { transform: translate3d(-120px, 70px, 0) scale(1.12) rotate(3deg); opacity: 1; }
-  70%  { transform: translate3d(-60px, 100px, 0) scale(1.16) rotate(1deg); opacity: 0.95; }
-  100% { transform: translate3d(70px, -55px, 0) scale(1.06) rotate(-2deg); opacity: 0.85; }
+  70%  { transform: translate3d(-60px, 100px, 0) scale(1.16) rotate(1deg); opacity: 0.7; }
+  100% { transform: translate3d(70px, -55px, 0) scale(1.20) rotate(-2deg); opacity: 0.95; }
 }
 
 @keyframes bloomBreathe {
-  0%   { transform: translate3d(0, 0, 0) scale(0.90); opacity: 0.85; }
-  50%  { transform: translate3d(70px, -28px, 0) scale(1.18); opacity: 1; }
-  100% { transform: translate3d(-55px, 45px, 0) scale(1.04); opacity: 0.9; }
+  0%   { transform: translate3d(0, 0, 0) scale(0.85); opacity: 0.6; }
+  50%  { transform: translate3d(70px, -28px, 0) scale(1.22); opacity: 1; }
+  100% { transform: translate3d(-55px, 45px, 0) scale(1.0); opacity: 0.65; }
 }
 
 @keyframes bloomDriftC {
