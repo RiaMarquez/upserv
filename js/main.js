@@ -192,7 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const browserCard = document.getElementById('browserCard');
     if (!heroPin || !browserCard) return;
 
-    const isMobile = window.innerWidth <= 768;
+    // Mobile: skip the scroll-pinned animation entirely.
+    // Card displays in final state via CSS (forced opacity:1 on all sections).
+    // User scrolls past hero naturally without pin choreography.
+    if (window.innerWidth <= 768) return;
+
+    const isMobile = false;
 
     // Grab elements
     const heroImg = browserCard.querySelector('.bc-hero-img');
