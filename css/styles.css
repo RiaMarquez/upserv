@@ -429,7 +429,7 @@ input { font: inherit; }
   /* Less blur than other layers — focal motion is most visible */
   filter: blur(45px);
   mix-blend-mode: screen;
-  animation: bloomDriftA 16s ease-in-out infinite alternate;
+  animation: bloomDriftA 9s ease-in-out infinite alternate;
 }
 
 /* Bloom 2: Wide blue-teal ambient band — right side, slow drift + slight rotation */
@@ -441,7 +441,7 @@ input { font: inherit; }
   background: radial-gradient(ellipse, rgba(64, 165, 195, 0.18) 0%, rgba(31, 143, 170, 0.08) 40%, transparent 70%);
   filter: blur(90px);
   mix-blend-mode: screen;
-  animation: bloomDriftB 19s ease-in-out infinite alternate;
+  animation: bloomDriftB 12s ease-in-out infinite alternate;
 }
 
 /* Bloom 3: Card halo — embeds card in environment, breathing motion */
@@ -453,7 +453,7 @@ input { font: inherit; }
   background: radial-gradient(circle, rgba(245, 247, 250, 0.06) 0%, rgba(31, 143, 170, 0.12) 30%, transparent 60%);
   filter: blur(60px);
   mix-blend-mode: screen;
-  animation: bloomBreathe 21s ease-in-out infinite alternate;
+  animation: bloomBreathe 11s ease-in-out infinite alternate;
 }
 
 /* Bloom 7: Second active light near card — independent path, different timing */
@@ -465,7 +465,7 @@ input { font: inherit; }
   background: radial-gradient(circle, rgba(120, 200, 220, 0.14) 0%, rgba(31, 143, 170, 0.18) 25%, rgba(21, 94, 117, 0.06) 50%, transparent 70%);
   filter: blur(70px);
   mix-blend-mode: screen;
-  animation: bloomDriftE 24s linear infinite;
+  animation: bloomDriftE 13s linear infinite;
 }
 
 /* Bloom 4: Upper wash — slow horizontal drift across top */
@@ -477,7 +477,7 @@ input { font: inherit; }
   background: radial-gradient(ellipse, rgba(31, 143, 170, 0.16) 0%, rgba(21, 94, 117, 0.06) 40%, transparent 70%);
   filter: blur(80px);
   mix-blend-mode: screen;
-  animation: bloomDriftC 22s ease-in-out infinite alternate;
+  animation: bloomDriftC 14s ease-in-out infinite alternate;
 }
 
 /* Bloom 5: Lower drifting accent — rises slowly, fades in/out */
@@ -489,7 +489,7 @@ input { font: inherit; }
   background: radial-gradient(circle, rgba(61, 107, 130, 0.22) 0%, rgba(31, 143, 170, 0.08) 35%, transparent 65%);
   filter: blur(75px);
   mix-blend-mode: screen;
-  animation: bloomDriftD 18s linear infinite;
+  animation: bloomDriftD 10s linear infinite;
 }
 
 /* Bloom 6: Soft diagonal light streak — wide, very low opacity, slow drift.
@@ -512,7 +512,7 @@ input { font: inherit; }
   filter: blur(60px);
   mix-blend-mode: screen;
   will-change: transform;
-  animation: bandDrift 30s linear infinite;
+  animation: bandDrift 18s linear infinite;
 }
 
 @keyframes bandDrift {
@@ -592,8 +592,8 @@ input { font: inherit; }
   left: 32%;
   top: 38%;
   background: radial-gradient(circle, rgba(120, 215, 240, 0.55) 0%, rgba(31, 143, 170, 0.30) 35%, transparent 65%);
-  animation: burstPulse 17s ease-out infinite;
-  animation-delay: -3s;
+  animation: burstPulse 11s ease-out infinite;
+  animation-delay: -2s;
 }
 
 .hero-burst--b {
@@ -602,8 +602,8 @@ input { font: inherit; }
   right: 18%;
   top: 28%;
   background: radial-gradient(circle, rgba(75, 200, 235, 0.60) 0%, rgba(31, 143, 170, 0.32) 35%, transparent 65%);
-  animation: burstPulse 23s ease-out infinite;
-  animation-delay: -11s;
+  animation: burstPulse 13s ease-out infinite;
+  animation-delay: -7s;
 }
 
 .hero-burst--c {
@@ -612,30 +612,30 @@ input { font: inherit; }
   left: 55%;
   bottom: 18%;
   background: radial-gradient(circle, rgba(75, 181, 213, 0.50) 0%, rgba(21, 94, 117, 0.22) 38%, transparent 65%);
-  animation: burstPulse 29s ease-out infinite;
-  animation-delay: -7s;
+  animation: burstPulse 16s ease-out infinite;
+  animation-delay: -4s;
 }
 
-/* Burst keyframe — long quiet phase, brief flash + decay echo, return to dark */
+/* Burst keyframe — shorter quiet phase, brighter flash, perceptible echo */
 @keyframes burstPulse {
-  0%, 78%, 100% {
+  0%, 60%, 100% {
     opacity: 0;
     transform: scale(0.7);
   }
-  84% {
+  68% {
     /* Peak flash */
     opacity: 1;
-    transform: scale(1.15);
+    transform: scale(1.18);
   }
-  88% {
+  76% {
     /* Soft echo */
     opacity: 0.55;
-    transform: scale(1.30);
+    transform: scale(1.34);
   }
-  94% {
+  88% {
     /* Decay */
-    opacity: 0.20;
-    transform: scale(1.40);
+    opacity: 0.18;
+    transform: scale(1.44);
   }
 }
 
