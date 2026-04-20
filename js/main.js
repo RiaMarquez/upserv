@@ -223,10 +223,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!heroRef || !card) return;
     if (window.innerWidth <= 768) return; // no tilt on touch/mobile
 
-    const MAX_ROT_Y = 8; // mouse X  →  -8..+8 deg
-    const MAX_ROT_X = 6; // mouse Y  →  +6..-6 deg (inverted)
+    const MAX_ROT_Y = 10; // mouse X  →  -10..+10 deg
+    const MAX_ROT_X = 10; // mouse Y  →  +10..-10 deg (inverted)
     // Lens floats above card surface — counter-shifts opposite to tilt
-    // by ~5% of tilt angle (max ~4px on X axis, ~3px on Y axis).
     const LENS_OFFSET_X_PER_DEG = -0.5;
     const LENS_OFFSET_Y_PER_DEG = -0.5;
     let insideHero = false;
@@ -238,8 +237,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function reset() {
-      card.style.transition = 'transform 0.6s ease-out';
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+      card.style.transition = 'transform 0.8s ease-out';
+      card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)';
       setLensOffset(0, 0);
     }
 
@@ -256,11 +255,11 @@ document.addEventListener('DOMContentLoaded', () => {
       insideHero = true;
       const nx = (e.clientX - rect.left) / rect.width;
       const ny = (e.clientY - rect.top)  / rect.height;
-      const rotY = (nx - 0.5) * 2 * MAX_ROT_Y;
-      const rotX = (0.5 - ny) * 2 * MAX_ROT_X;
+      const rotY = (nx - 0.5) * 2 * MAX_ROT_Y;   // -10..+10
+      const rotX = (0.5 - ny) * 2 * MAX_ROT_X;   // +10..-10
       card.style.transition = 'transform 0.1s ease-out';
       card.style.transform =
-        `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.02)`;
+        `perspective(800px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.02)`;
       // Lens parallax — opposite direction to tilt
       setLensOffset(rotY * LENS_OFFSET_X_PER_DEG, rotX * LENS_OFFSET_Y_PER_DEG);
     }, { passive: true });
