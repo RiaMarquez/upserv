@@ -915,14 +915,33 @@ a[href*="neat.firecms"],
   }
 
   /* Rating — re-enabled with explicit separation from services row.
-     Hairline border-top + margin-top forces a visual zone break. */
+     Hairline border-top + margin-top forces a visual zone break.
+     Abbreviated text via ::before (drops "Google" → 7 chars saved) and
+     hard nowrap + ellipsis fallback prevent any wrap-collapse rendering
+     bug regardless of platform font metrics. */
   .bc-rating {
     display: block !important;
     margin-top: 12px !important;
     padding: 8px 12px 12px !important;
     border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
-    font-size: 11px !important;
     color: #888 !important;
+    /* Hide original text node — replaced by ::before below */
+    font-size: 0 !important;
+    line-height: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  .bc-rating::before {
+    content: "4.8 · 200+ reviews · AHPRA registered";
+    display: block;
+    font-family: var(--font-primary);
+    font-size: 11px;
+    line-height: 1.4;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* Force final-state visibility on mobile — no scroll-stage reveal needed.
