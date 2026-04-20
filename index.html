@@ -131,53 +131,96 @@
 
                 <!-- Website content inside card -->
                 <div class="bc-body">
-                  <!-- Site nav -->
-                  <div class="bc-site-nav">
-                    <span class="bc-brand">City Dental <span class="bc-brand-sub">group</span></span>
-                    <div class="bc-nav-links">
-                      <span class="bc-nav-link">About</span>
-                      <span class="bc-nav-link">Services</span>
-                      <span class="bc-nav-link">Contact</span>
+
+                  <!-- SURFACE B: AI / machine-readable layer (z:1, beneath) -->
+                  <div class="bc-ai-layer" aria-hidden="true">
+                    <div class="bc-ai-block bc-ai-block--nav">"@type": "Dentist"
+"name": "City Dental Group"
+"url": "citydentalgroup.com.au"</div>
+
+                    <div class="bc-ai-block bc-ai-block--image">"image": {
+  "alt": "dental clinic Melbourne",
+  "context": "medical professional",
+  "location": "South Yarra clinic"
+}</div>
+
+                    <div class="bc-ai-block bc-ai-block--category">"@type": "MedicalClinic"
+"medicalSpecialty": "Dentistry"
+"location": "Melbourne, VIC, AU"</div>
+
+                    <div class="bc-ai-block bc-ai-block--title">"description": "General, cosmetic and orthodontic dental care. Melbourne, Australia. Est. 2009."</div>
+
+                    <div class="bc-ai-block bc-ai-block--meta">"hasOfferCatalog": {
+  "General Dentistry": true,
+  "Cosmetic": true,
+  "Invisalign": true,
+  "Emergency": true
+}
+"areaServed": "South Yarra, Richmond"</div>
+
+                    <div class="bc-ai-block bc-ai-block--cta">"potentialAction": {
+  "@type": "ReserveAction",
+  "name": "Book Appointment"
+}</div>
+
+                    <div class="bc-ai-block bc-ai-block--rating">"aggregateRating": {
+  "ratingValue": "4.8",
+  "reviewCount": "200+",
+  "authority": "AHPRA registered"
+}</div>
+                  </div>
+
+                  <!-- SURFACE A: human-visible website layer (z:2, on top) -->
+                  <div class="bc-human-layer">
+                    <!-- Site nav -->
+                    <div class="bc-site-nav">
+                      <span class="bc-brand">City Dental <span class="bc-brand-sub">group</span></span>
+                      <div class="bc-nav-links">
+                        <span class="bc-nav-link">About</span>
+                        <span class="bc-nav-link">Services</span>
+                        <span class="bc-nav-link">Contact</span>
+                      </div>
+                      <span class="bc-nav-book">Book</span>
                     </div>
-                    <span class="bc-nav-book">Book</span>
-                  </div>
 
-                  <!-- Hero image -->
-                  <div class="bc-hero-img">
-                    <img src="assets/images/dental-hero.png" alt="" loading="lazy" style="object-fit:cover;object-position:50% 5% !important;">
-                  </div>
-
-                  <!-- Category tag -->
-                  <div class="bc-category">
-                    <span class="bc-pulse"></span>
-                    <span class="bc-category-text">Dental Clinic · Melbourne</span>
-                  </div>
-
-                  <!-- Title -->
-                  <h4 class="bc-title">City Dental Group provides general, cosmetic, and orthodontic dental care in Melbourne, Australia.</h4>
-
-                  <!-- Description -->
-                  <p class="bc-desc">Serving Melbourne families since 2009. Two clinic locations in South Yarra and Richmond. Accepting new patients for general dentistry, teeth whitening, Invisalign, and emergency appointments.</p>
-
-                  <!-- Meta grid -->
-                  <div class="bc-meta">
-                    <div class="bc-meta-col">
-                      <span class="bc-meta-val">General · Cosmetic · Invisalign · Emergency</span>
-                      <span class="bc-meta-key">Services</span>
+                    <!-- Hero image -->
+                    <div class="bc-hero-img">
+                      <img src="assets/images/dental-hero.png" alt="" loading="lazy" style="object-fit:cover;object-position:50% 5% !important;">
                     </div>
-                    <div class="bc-meta-col">
-                      <span class="bc-meta-val">South Yarra · Richmond</span>
-                      <span class="bc-meta-key">Locations</span>
+
+                    <!-- Category tag -->
+                    <div class="bc-category">
+                      <span class="bc-pulse"></span>
+                      <span class="bc-category-text">Dental Clinic · Melbourne</span>
                     </div>
+
+                    <!-- Title -->
+                    <h4 class="bc-title">City Dental Group provides general, cosmetic, and orthodontic dental care in Melbourne, Australia.</h4>
+
+                    <!-- Description -->
+                    <p class="bc-desc">Serving Melbourne families since 2009. Two clinic locations in South Yarra and Richmond. Accepting new patients for general dentistry, teeth whitening, Invisalign, and emergency appointments.</p>
+
+                    <!-- Meta grid -->
+                    <div class="bc-meta">
+                      <div class="bc-meta-col">
+                        <span class="bc-meta-val">General · Cosmetic · Invisalign · Emergency</span>
+                        <span class="bc-meta-key">Services</span>
+                      </div>
+                      <div class="bc-meta-col">
+                        <span class="bc-meta-val">South Yarra · Richmond</span>
+                        <span class="bc-meta-key">Locations</span>
+                      </div>
+                    </div>
+
+                    <!-- CTA -->
+                    <div class="bc-cta-row">
+                      <span class="bc-cta-btn">Book Appointment</span>
+                    </div>
+
+                    <!-- Rating -->
+                    <div class="bc-rating">4.8 · 200+ Google reviews · AHPRA registered</div>
                   </div>
 
-                  <!-- CTA -->
-                  <div class="bc-cta-row">
-                    <span class="bc-cta-btn">Book Appointment</span>
-                  </div>
-
-                  <!-- Rating -->
-                  <div class="bc-rating">4.8 · 200+ Google reviews · AHPRA registered</div>
                 </div>
               </div>
 

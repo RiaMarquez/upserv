@@ -1048,6 +1048,110 @@ a[href*="neat.firecms"],
 /* --- Body --- */
 .bc-body {
   padding: 0;
+  position: relative; /* stacking context for the two surfaces */
+}
+
+/* ============================================================
+   AI READING GLASS — Layer 2: two stacked surfaces
+   Surface A (.bc-human-layer) sits on top, z:2
+   Surface B (.bc-ai-layer)    sits beneath,  z:1
+   The lens in Layer 3 will reveal B through A.
+   ============================================================ */
+
+/* SURFACE A — human-visible website (unchanged content, opaque wrapper) */
+.bc-human-layer {
+  position: relative;
+  z-index: 2;
+  background: #FFFFFF;
+}
+
+/* SURFACE B — AI machine-readable layer */
+.bc-ai-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #0A1A1F;
+  overflow: hidden;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.bc-ai-block {
+  font-family: var(--font-mono);
+  line-height: 1.42;
+  white-space: pre-wrap;
+  letter-spacing: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Block 1 — where the site nav is (30px area) */
+.bc-ai-block--nav {
+  padding: 8px 16px;
+  font-size: 9px;
+  color: #4BADC5;
+  border-bottom: 1px solid rgba(75, 173, 197, 0.10);
+  height: 30px;
+}
+
+/* Block 2 — where the image is (210px area: 10 margin + 200 height) */
+.bc-ai-block--image {
+  margin: 10px 12px 0;
+  height: 200px;
+  width: calc(100% - 24px);
+  padding: 10px 12px;
+  font-size: 9px;
+  color: rgba(75, 173, 197, 0.5);
+  background: rgba(75, 173, 197, 0.04);
+  border: 1px solid rgba(75, 173, 197, 0.08);
+  border-radius: 6px;
+}
+
+/* Block 3 — where the category tag is (22px area) */
+.bc-ai-block--category {
+  padding: 12px 16px 0;
+  font-size: 9px;
+  color: #155E75;
+  height: 22px;
+}
+
+/* Block 4 — where title + description are (covers both, ~100px area) */
+.bc-ai-block--title {
+  padding: 8px 16px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.35;
+  min-height: 100px;
+}
+
+/* Block 5 — where services/meta grid is (~37px area) */
+.bc-ai-block--meta {
+  margin: 10px 12px 0;
+  padding: 6px 10px;
+  background: rgba(75, 173, 197, 0.05);
+  border: 1px solid rgba(75, 173, 197, 0.08);
+  border-radius: 4px;
+  font-size: 8px;
+  color: #4BADC5;
+  min-height: 37px;
+}
+
+/* Block 6 — where CTA is (~30px area) */
+.bc-ai-block--cta {
+  padding: 10px 16px 0;
+  font-size: 9px;
+  color: #155E75;
+  min-height: 30px;
+}
+
+/* Block 7 — where rating is (~35px area) */
+.bc-ai-block--rating {
+  padding: 8px 16px 14px;
+  font-size: 8px;
+  color: rgba(75, 173, 197, 0.7);
 }
 
 /* --- Site nav --- */
@@ -1234,7 +1338,7 @@ a[href*="neat.firecms"],
   padding: 8px 16px 14px;
 }
 
-/* --- Mobile: centered card, no 3D tilt --- */
+/* --- Mobile: centered card, no 3D tilt, no AI layer --- */
 @media (max-width: 768px) {
   .hero-transform {
     justify-content: center;
@@ -1247,6 +1351,7 @@ a[href*="neat.firecms"],
     transform-style: flat;
     transition: none;
   }
+  .bc-ai-layer { display: none !important; }
 }
 
 
