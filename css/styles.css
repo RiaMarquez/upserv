@@ -396,6 +396,16 @@ input { font: inherit; }
   mask-image: radial-gradient(ellipse 120% 100% at 45% 55%, black 60%, transparent 100%);
 }
 
+/* Hide Neat gradient watermark / branding link */
+.landing-section a[href*="neat"],
+.landing-section a[href*="firecms"],
+a[href*="neat.firecms"],
+.landing-section > a:last-child {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 
 /* ---- Hero layout: 60/40 grid ---- */
 .hero-grid {
