@@ -19,57 +19,81 @@ document.addEventListener('DOMContentLoaded', () => {
         : (typeof NeatGradient !== 'undefined') ? NeatGradient : null;
       if (!GradientClass) return;
 
-      // Living 3D gradient field — full NEAT motion params on dark cinematic base
-      // Speed/pressure/flow matched to original NEAT config for visible 3D wave motion
+      // Vibrant, playful gradient — replaces the prior dark teal field
       const config = {
         colors: [
-          { color: '#155E75', enabled: true },  // Deep teal
-          { color: '#1F8FAA', enabled: true },  // Lighter teal
-          { color: '#4BB5D5', enabled: true },  // Bright teal accent
-          { color: '#3D6B82', enabled: true },  // Steel teal
-          { color: '#0A0A0A', enabled: false },
+          { color: '#FF5772', enabled: true },
+          { color: '#00B7FF', enabled: true },
+          { color: '#FFC600', enabled: true },
+          { color: '#8B6AE6', enabled: true },
+          { color: '#2E0EC7', enabled: true },
+          { color: '#FF9A9E', enabled: true },
         ],
-        speed: 6,
-        horizontalPressure: 7,
-        verticalPressure: 8,
-        waveFrequencyX: 1,
-        waveFrequencyY: 2,
-        waveAmplitude: 8,
-        shadows: 4,
-        highlights: 6,
-        colorBrightness: 1.1,
-        colorSaturation: 0,
+        speed: 2.5,
+        horizontalPressure: 2,
+        verticalPressure: 4,
+        waveFrequencyX: 3,
+        waveFrequencyY: 3,
+        waveAmplitude: 6,
+        shadows: 1,
+        highlights: 5,
+        colorBrightness: 1,
+        colorSaturation: 7,
         wireframe: false,
-        colorBlending: 10,
-        backgroundColor: '#0A0A0A',
+        colorBlending: 8,
+        backgroundColor: '#003FFF',
         backgroundAlpha: 1,
-        grainScale: 3,
+        grainScale: 0,
         grainSparsity: 0,
-        grainIntensity: 0.07,
-        grainSpeed: 0.7,
-        resolution: 1,
-        yOffset: 0,
-        yOffsetWaveMultiplier: 0,
-        yOffsetColorMultiplier: 0,
-        yOffsetFlowMultiplier: 0,
-        flowDistortionA: 1.1,
-        flowDistortionB: 0.8,
-        flowScale: 1.6,
-        flowEase: 0.32,
-        flowEnabled: true,
+        grainIntensity: 0,
+        grainSpeed: 1,
+        resolution: 0.35,
+        yOffset: -0.16668701171875,
+        yOffsetWaveMultiplier: 4,
+        yOffsetColorMultiplier: 6.3,
+        yOffsetFlowMultiplier: 4,
+        flowDistortionA: 0,
+        flowDistortionB: 0,
+        flowScale: 1,
+        flowEase: 0,
+        flowEnabled: false,
         enableProceduralTexture: false,
+        textureVoidLikelihood: 0.45,
+        textureVoidWidthMin: 200,
+        textureVoidWidthMax: 486,
+        textureBandDensity: 2.15,
+        textureColorBlending: 0.01,
+        textureSeed: 333,
+        textureEase: 0.5,
+        proceduralBackgroundColor: '#000000',
+        textureShapeTriangles: 20,
+        textureShapeCircles: 15,
+        textureShapeBars: 15,
+        textureShapeSquiggles: 10,
         domainWarpEnabled: false,
+        domainWarpIntensity: 0,
+        domainWarpScale: 3,
         vignetteIntensity: 0,
         vignetteRadius: 0.8,
-        fresnelEnabled: false,
+        fresnelEnabled: true,
+        fresnelPower: 2,
+        fresnelIntensity: 0.6,
+        fresnelColor: '#F90707',
         iridescenceEnabled: false,
+        iridescenceIntensity: 0.5,
+        iridescenceSpeed: 1,
         bloomIntensity: 0,
+        bloomThreshold: 0.95,
         chromaticAberration: 0,
       };
 
       const gradient = new GradientClass({ ref: canvas, ...config });
       window.__neatGradient = gradient;
-      // No scroll binding — pure autonomous loop
+
+      // Scroll drives yOffset — gradient evolves as user scrolls the hero
+      window.addEventListener('scroll', () => {
+        try { gradient.yOffset = window.scrollY; } catch (e) {}
+      }, { passive: true });
     } catch (e) {
       console.warn('Neat gradient failed to initialize:', e);
     }
@@ -109,57 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const midnightSections = document.querySelectorAll('[data-midnight]');
 
   let lastSY = -1;
-  const landing = document.querySelector('.landing-section');
-  let bumpTimer = null;
 
-  /* Cursor-follow glow — desktop only, smooth lerp toward mouse position */
-  const cursorGlow = document.getElementById('heroCursorGlow');
-  if (cursorGlow && window.innerWidth > 768) {
-    let targetX = 0, targetY = 0;
-    let currentX = 0, currentY = 0;
-    let cursorActive = false;
-    const glowW = 420, glowH = 420;
-
-    document.addEventListener('mousemove', (e) => {
-      // Only track if over the hero section
-      const rect = landing?.getBoundingClientRect();
-      if (!rect) return;
-      if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
-        targetX = e.clientX - rect.left - glowW / 2;
-        targetY = e.clientY - rect.top - glowH / 2;
-        if (!cursorActive) {
-          cursorActive = true;
-          landing?.classList.add('has-cursor');
-        }
-      }
-    }, { passive: true });
-
-    document.addEventListener('mouseleave', () => {
-      cursorActive = false;
-      landing?.classList.remove('has-cursor');
-    });
-
-    // Smooth lerp loop for cursor glow
-    (function cursorLoop() {
-      currentX += (targetX - currentX) * 0.10;
-      currentY += (targetY - currentY) * 0.10;
-      if (cursorGlow) {
-        cursorGlow.style.setProperty('--cursor-x', currentX.toFixed(1) + 'px');
-        cursorGlow.style.setProperty('--cursor-y', currentY.toFixed(1) + 'px');
-      }
-      requestAnimationFrame(cursorLoop);
-    })();
-  }
   function updateHeader() {
     // Toggle .scrolled class for nav glass→opaque transition
     const sy = window.pageYOffset || document.documentElement.scrollTop || 0;
     if (sy !== lastSY) {
-      // Brief glow bump when user scrolls (any direction)
-      if (landing && Math.abs(sy - lastSY) > 1) {
-        landing.classList.add('scroll-bumping');
-        clearTimeout(bumpTimer);
-        bumpTimer = setTimeout(() => landing.classList.remove('scroll-bumping'), 900);
-      }
       lastSY = sy;
       header.classList.toggle('scrolled', sy > 50);
     }
