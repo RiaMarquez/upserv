@@ -219,16 +219,28 @@ document.addEventListener('DOMContentLoaded', () => {
     // and check against the hero's bounds each mousemove.
     const heroRef = document.getElementById('heroPin') || document.querySelector('.landing-section');
     const card = document.getElementById('browserCard');
+    const bcBody = card && card.querySelector('.bc-body');
     if (!heroRef || !card) return;
     if (window.innerWidth <= 768) return; // no tilt on touch/mobile
 
     const MAX_ROT_Y = 8; // mouse X  →  -8..+8 deg
     const MAX_ROT_X = 6; // mouse Y  →  +6..-6 deg (inverted)
+    // Lens floats above card surface — counter-shifts opposite to tilt
+    // by ~5% of tilt angle (max ~4px on X axis, ~3px on Y axis).
+    const LENS_OFFSET_X_PER_DEG = -0.5;
+    const LENS_OFFSET_Y_PER_DEG = -0.5;
     let insideHero = false;
+
+    function setLensOffset(ox, oy) {
+      if (!bcBody) return;
+      bcBody.style.setProperty('--lens-offset-x', ox.toFixed(2) + 'px');
+      bcBody.style.setProperty('--lens-offset-y', oy.toFixed(2) + 'px');
+    }
 
     function reset() {
       card.style.transition = 'transform 0.6s ease-out';
       card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+      setLensOffset(0, 0);
     }
 
     document.addEventListener('mousemove', (e) => {
@@ -249,9 +261,36 @@ document.addEventListener('DOMContentLoaded', () => {
       card.style.transition = 'transform 0.1s ease-out';
       card.style.transform =
         `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.02)`;
+      // Lens parallax — opposite direction to tilt
+      setLensOffset(rotY * LENS_OFFSET_X_PER_DEG, rotX * LENS_OFFSET_Y_PER_DEG);
     }, { passive: true });
 
     document.addEventListener('mouseleave', reset);
+  })();
+
+  /* ================================================================
+     AI READING GLASS — Layer 5 polish: ambient particles in AI layer
+     14 tiny teal dots drifting slowly. Felt more than seen.
+     ================================================================ */
+  (function initAiParticles() {
+    const aiLayer = document.querySelector('.bc-ai-layer');
+    if (!aiLayer) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const COUNT = 14;
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < COUNT; i++) {
+      const p = document.createElement('span');
+      p.className = 'bc-ai-particle';
+      p.style.left = (4 + Math.random() * 92).toFixed(1) + '%';
+      p.style.top  = (4 + Math.random() * 92).toFixed(1) + '%';
+      p.style.setProperty('--p-dx',    ((Math.random() * 36) - 18).toFixed(1) + 'px');
+      p.style.setProperty('--p-dy',    ((Math.random() * 36) - 18).toFixed(1) + 'px');
+      p.style.setProperty('--p-dur',   (14 + Math.random() * 12).toFixed(1) + 's');
+      p.style.setProperty('--p-delay', (-Math.random() * 20).toFixed(1) + 's');
+      frag.appendChild(p);
+    }
+    aiLayer.appendChild(frag);
   })();
 
   /* ================================================================
@@ -273,6 +312,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const recommended = document.getElementById('bcRecommended');
     if (!bcBody || !lens || !readout) return;
     if (window.innerWidth <= 768) return; // desktop-only
+    // Honor user's reduced-motion preference — no animation, no lens
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const state = { x: 15, y: 10, r: 0 };
     function writeState() {

@@ -1065,12 +1065,16 @@ a[href*="neat.firecms"],
   position: relative;
   z-index: 2;
   background: #FFFFFF;
-  -webkit-mask-image: radial-gradient(circle at var(--lens-x, 50%) var(--lens-y, 50%),
+  -webkit-mask-image: radial-gradient(circle at
+    calc(var(--lens-x, 50%) + var(--lens-offset-x, 0px))
+    calc(var(--lens-y, 50%) + var(--lens-offset-y, 0px)),
     transparent 0,
     transparent var(--lens-r, 80px),
     #000 var(--lens-r, 80px),
     #000 100%);
-  mask-image: radial-gradient(circle at var(--lens-x, 50%) var(--lens-y, 50%),
+  mask-image: radial-gradient(circle at
+    calc(var(--lens-x, 50%) + var(--lens-offset-x, 0px))
+    calc(var(--lens-y, 50%) + var(--lens-offset-y, 0px)),
     transparent 0,
     transparent var(--lens-r, 80px),
     #000 var(--lens-r, 80px),
@@ -1174,14 +1178,15 @@ a[href*="neat.firecms"],
    ============================================================ */
 .bc-lens {
   position: absolute;
-  left: var(--lens-x, 50%);
-  top: var(--lens-y, 50%);
+  left: calc(var(--lens-x, 50%) + var(--lens-offset-x, 0px));
+  top: calc(var(--lens-y, 50%) + var(--lens-offset-y, 0px));
   width: 160px;
   height: 160px;
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 10;
   overflow: visible;
+  will-change: transform, opacity, left, top;
 }
 
 /* Inner precision ring — 160px, teal border + inner glow */
@@ -1192,6 +1197,25 @@ a[href*="neat.firecms"],
   border: 2px solid rgba(21, 94, 117, 0.8);
   box-shadow: inset 0 0 20px rgba(21, 94, 117, 0.3);
   box-sizing: border-box;
+}
+/* Chromatic aberration — red channel offset 1px left, blue 1px right */
+.bc-lens-ring::before,
+.bc-lens-ring::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1px solid;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+.bc-lens-ring::before {
+  border-color: rgba(255, 60, 90, 0.22);
+  transform: translateX(-1px);
+}
+.bc-lens-ring::after {
+  border-color: rgba(60, 130, 255, 0.22);
+  transform: translateX(1px);
 }
 
 /* Outer framing ring — 180px, thinner */
@@ -1374,6 +1398,28 @@ a[href*="neat.firecms"],
       0 16px 40px rgba(21,94,117,0.4),
       0 30px 72px rgba(21,94,117,0.5);
   }
+}
+
+/* ============================================================
+   Layer 5: ambient particle field inside the AI layer
+   12-15 tiny teal dots drifting slowly. Felt more than seen.
+   ============================================================ */
+.bc-ai-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #155E75;
+  opacity: 0.30;
+  pointer-events: none;
+  animation: aiParticleDrift var(--p-dur, 18s) ease-in-out infinite alternate;
+  animation-delay: var(--p-delay, 0s);
+  will-change: transform;
+}
+
+@keyframes aiParticleDrift {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(var(--p-dx, 12px), var(--p-dy, -10px)); }
 }
 
 /* --- Site nav --- */
@@ -1560,7 +1606,8 @@ a[href*="neat.firecms"],
   padding: 8px 16px 14px;
 }
 
-/* --- Mobile: centered card, no 3D tilt, no AI layer --- */
+/* --- Mobile: centered card, no 3D tilt; lens static at center,
+       Surface B revealed through it ("fully read" final state) --- */
 @media (max-width: 768px) {
   .hero-transform {
     justify-content: center;
@@ -1573,10 +1620,35 @@ a[href*="neat.firecms"],
     transform-style: flat;
     transition: none;
   }
-  .bc-ai-layer { display: none !important; }
+  /* Scale lens to fit narrower card */
+  .bc-lens { width: 130px; height: 130px; }
+  .bc-lens-outer { width: 146px; height: 146px; }
+  /* Match mask radius to scaled lens */
+  .bc-human-layer {
+    -webkit-mask-image: radial-gradient(circle at
+      calc(var(--lens-x, 50%) + var(--lens-offset-x, 0px))
+      calc(var(--lens-y, 50%) + var(--lens-offset-y, 0px)),
+      transparent 0,
+      transparent 65px,
+      #000 65px,
+      #000 100%);
+    mask-image: radial-gradient(circle at
+      calc(var(--lens-x, 50%) + var(--lens-offset-x, 0px))
+      calc(var(--lens-y, 50%) + var(--lens-offset-y, 0px)),
+      transparent 0,
+      transparent 65px,
+      #000 65px,
+      #000 100%);
+  }
+  /* No drift on mobile — particles render but stay still */
+  .bc-ai-particle { animation: none !important; }
+}
+
+/* --- Reduced motion: no lens, no animation, plain card --- */
+@media (prefers-reduced-motion: reduce) {
   .bc-lens { display: none !important; }
   .bc-recommended { display: none !important; }
-  /* No mask on Surface A at mobile — no lens means no reveal needed */
+  .bc-ai-particle { animation: none !important; }
   .bc-human-layer {
     -webkit-mask-image: none !important;
     mask-image: none !important;
