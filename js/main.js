@@ -322,11 +322,37 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.innerWidth <= 768) { console.log('[ReadingGlass] mobile, skipping animation'); return; }
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { console.log('[ReadingGlass] reduced motion, skipping'); return; }
 
+    // Inject a Surface B clone inside the lens for the magnified reveal
+    (function mountLensClone() {
+      if (!aiLayer || lens.querySelector('.bc-lens-view')) return;
+      const view = document.createElement('div');
+      view.className = 'bc-lens-view';
+      view.setAttribute('aria-hidden', 'true');
+      const inner = document.createElement('div');
+      inner.className = 'bc-lens-view-inner';
+      inner.innerHTML = aiLayer.innerHTML;
+      view.appendChild(inner);
+      lens.insertBefore(view, lens.firstChild);
+    })();
+
+    // Cache bc-body dimensions for pixel-exact clone positioning
+    let bcRect = bcBody.getBoundingClientRect();
+    function writeBodyDims() {
+      bcRect = bcBody.getBoundingClientRect();
+      bcBody.style.setProperty('--bc-w', bcRect.width + 'px');
+      bcBody.style.setProperty('--bc-h', bcRect.height + 'px');
+    }
+    writeBodyDims();
+    window.addEventListener('resize', writeBodyDims, { passive: true });
+
     const state = { x: 15, y: 10, r: 0 };
     function writeState() {
       bcBody.style.setProperty('--lens-x', state.x + '%');
       bcBody.style.setProperty('--lens-y', state.y + '%');
       bcBody.style.setProperty('--lens-r', state.r + 'px');
+      // Pixel versions for the clone's absolute positioning + scale origin
+      bcBody.style.setProperty('--lens-x-px', (bcRect.width  * state.x / 100).toFixed(1) + 'px');
+      bcBody.style.setProperty('--lens-y-px', (bcRect.height * state.y / 100).toFixed(1) + 'px');
     }
     // Fade current text out, swap, fade in — 0.2s each way via CSS transition
     const readoutTextEl = readout.querySelector('.bc-lens-readout-text') || readout;

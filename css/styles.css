@@ -220,28 +220,28 @@ input { font: inherit; }
 .header-audit-link:hover {
   opacity: 0.8;
 }
-/* Header CTA — transparent glass sitting on gradient */
+/* Header CTA — transparent glass sitting on gradient (forced) */
 .header-cta {
   position: relative;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 13px;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
   padding: 10px 22px;
-  border-radius: 9px;
+  border-radius: 9px !important;
   text-decoration: none;
   letter-spacing: -0.01em;
-  box-shadow: none;
+  box-shadow: none !important;
   transition: background 200ms ease, border-color 200ms ease;
 }
 
 .header-cta:hover {
-  background: rgba(255, 255, 255, 0.22);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.22) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
 }
 
 /* Hamburger toggle */
@@ -440,27 +440,25 @@ a[href*="neat.firecms"],
 }
 
 .hs-line.hs-kicker {
-  color: #F5F7FA;
-  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45) !important;
+  font-weight: 300 !important;
   letter-spacing: -0.04em;
   font-size: 1em;
   margin-bottom: 0;
 }
 
 .hs-line.hs-bold {
-  font-weight: 600;
-  color: #F5F7FA;
+  color: #ffffff !important;
+  font-weight: 700 !important;
   letter-spacing: -0.04em;
   text-shadow: 0 0 80px rgba(31, 143, 170, 0.20);
 }
 
 .hs-line.hs-accent {
-  /* Subtle confident continuation — narrower, lighter, tightly tucked
-     below the main headline */
   margin-top: 8px;
-  font-weight: 400;
+  color: rgba(255, 255, 255, 0.35) !important;
+  font-weight: 300 !important;
   font-style: normal;
-  color: rgba(245, 247, 250, 0.5);
   opacity: 1;
   letter-spacing: -0.03em;
   font-size: 0.62em;
@@ -979,6 +977,7 @@ a[href*="neat.firecms"],
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-right: 40px;
   /* Perspective lives on the container so the card can tilt in 3D space */
   perspective: 1000px;
   perspective-origin: center center;
@@ -1059,27 +1058,13 @@ a[href*="neat.firecms"],
    The lens in Layer 3 will reveal B through A.
    ============================================================ */
 
-/* SURFACE A — human-visible website (unchanged content, opaque wrapper)
-   Radial-gradient mask punches a circular hole at the lens position,
-   revealing Surface B beneath. Clean hard edge (no soft falloff). */
+/* SURFACE A — human-visible website (unchanged content, opaque wrapper).
+   No longer punches a hole; the lens carries its own magnified
+   Surface B clone inside it, vignetted at the edges (see .bc-lens-view). */
 .bc-human-layer {
   position: relative;
   z-index: 2;
   background: #FFFFFF;
-  -webkit-mask-image: radial-gradient(circle at
-    calc(var(--lens-x, 50%) + var(--lens-offset-x, 0px))
-    calc(var(--lens-y, 50%) + var(--lens-offset-y, 0px)),
-    transparent 0,
-    transparent var(--lens-r, 80px),
-    #000 var(--lens-r, 80px),
-    #000 100%);
-  mask-image: radial-gradient(circle at
-    calc(var(--lens-x, 50%) + var(--lens-offset-x, 0px))
-    calc(var(--lens-y, 50%) + var(--lens-offset-y, 0px)),
-    transparent 0,
-    transparent var(--lens-r, 80px),
-    #000 var(--lens-r, 80px),
-    #000 100%);
 }
 
 /* SURFACE B — AI machine-readable layer
@@ -1210,19 +1195,77 @@ a[href*="neat.firecms"],
   z-index: 10;
   overflow: visible;
   will-change: transform, opacity, left, top;
+  /* Soft edge + teal emission: inner teal haze, inner dark vignette,
+     outer Cold Teal bloom. */
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 30px rgba(21, 94, 117, 0.4),
+    inset 0 0 60px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(21, 94, 117, 0.2);
 }
 
-/* Outer ring — 160px edge, thin teal line + inner + outer teal emission */
+/* Surface B clone viewport — circular, masked to fade at outer 10% */
+.bc-lens-view {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(circle at center, #000 60%, transparent 90%);
+  mask-image: radial-gradient(circle at center, #000 60%, transparent 90%);
+}
+
+/* Inner clone — sized to match the card body, shifted so that the
+   (lens-x, lens-y) point of the card is at the lens center (80,80),
+   then magnified 1.2× around that same point.
+   --bc-w/--bc-h and --lens-x-px/--lens-y-px are written by JS. */
+.bc-lens-view-inner {
+  position: absolute;
+  width: var(--bc-w, 420px);
+  height: var(--bc-h, 460px);
+  left: calc(80px - var(--lens-x-px, 210px));
+  top: calc(80px - var(--lens-y-px, 230px));
+  transform: scale(1.2);
+  transform-origin: var(--lens-x-px, 210px) var(--lens-y-px, 230px);
+  /* Mirror of .bc-ai-layer background — dark teal + scanline */
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.08) 2px,
+      rgba(0, 0, 0, 0.08) 4px
+    ),
+    #050D10;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Inside the clone: bump text to 10px/line-height 2, release hard
+   block heights so no key/value line truncates. */
+.bc-lens-view-inner .bc-ai-block {
+  height: auto !important;
+  min-height: 0 !important;
+  font-size: 10px !important;
+  line-height: 2 !important;
+}
+.bc-lens-view-inner .bc-ai-block--image {
+  height: auto !important;
+}
+
+/* Outer ring — 160px edge, 1.5px teal line + inner + outer teal emission */
 .bc-lens-ring {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1px solid rgba(21, 94, 117, 0.9);
+  border: 1.5px solid rgba(21, 94, 117, 0.9);
   box-sizing: border-box;
   box-shadow:
     inset 0 0 24px rgba(21, 94, 117, 0.25),
     0 0 40px rgba(21, 94, 117, 0.15),
     0 0 80px rgba(21, 94, 117, 0.08);
+  z-index: 2;
 }
 /* Chromatic aberration — red 1px left, blue 1px right (1px matched to new border) */
 .bc-lens-ring::before,
