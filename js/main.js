@@ -208,49 +208,57 @@ document.addEventListener('DOMContentLoaded', () => {
   slideMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
   /* ================================================================
-     GSAP + SCROLLTRIGGER
-     ================================================================ */
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-  gsap.registerPlugin(ScrollTrigger);
-
-  /* ================================================================
-     S01b: HERO — Arrival animation now handled by CSS @keyframes fadeUp.
-     No JS-driven .hero-part toggling needed.
-     ================================================================ */
-
-  /* ================================================================
      S01c: AI READING GLASS — Layer 1: base card with 3D parallax tilt
      Desktop only. Mouse-tracked rotateX/Y with scale lift.
      Mouseleave returns card to resting state with a slow ease-out.
+     No GSAP dependency — runs before the GSAP early-return below.
      ================================================================ */
   (function initCardTilt() {
-    const hero = document.querySelector('.landing-section');
+    // .landing-section has z-index: -1 (sits behind the stacking context)
+    // so it cannot receive mouse events directly. Listen on the document
+    // and check against the hero's bounds each mousemove.
+    const heroRef = document.getElementById('heroPin') || document.querySelector('.landing-section');
     const card = document.getElementById('browserCard');
-    if (!hero || !card) return;
+    if (!heroRef || !card) return;
     if (window.innerWidth <= 768) return; // no tilt on touch/mobile
 
     const MAX_ROT_Y = 8; // mouse X  →  -8..+8 deg
     const MAX_ROT_X = 6; // mouse Y  →  +6..-6 deg (inverted)
+    let insideHero = false;
 
-    function onMove(e) {
-      const rect = hero.getBoundingClientRect();
-      const nx = (e.clientX - rect.left) / rect.width;   // 0..1
-      const ny = (e.clientY - rect.top)  / rect.height;  // 0..1
-      const rotY = (nx - 0.5) * 2 * MAX_ROT_Y;           // -8..+8
-      const rotX = (0.5 - ny) * 2 * MAX_ROT_X;           // +6..-6
-      card.style.transition = 'transform 0.1s ease-out';
-      card.style.transform =
-        `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.02)`;
-    }
-
-    function onLeave() {
+    function reset() {
       card.style.transition = 'transform 0.6s ease-out';
       card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
     }
 
-    hero.addEventListener('mousemove', onMove, { passive: true });
-    hero.addEventListener('mouseleave', onLeave);
+    document.addEventListener('mousemove', (e) => {
+      const rect = heroRef.getBoundingClientRect();
+      const within =
+        e.clientX >= rect.left && e.clientX <= rect.right &&
+        e.clientY >= rect.top  && e.clientY <= rect.bottom;
+
+      if (!within) {
+        if (insideHero) { insideHero = false; reset(); }
+        return;
+      }
+      insideHero = true;
+      const nx = (e.clientX - rect.left) / rect.width;
+      const ny = (e.clientY - rect.top)  / rect.height;
+      const rotY = (nx - 0.5) * 2 * MAX_ROT_Y;
+      const rotX = (0.5 - ny) * 2 * MAX_ROT_X;
+      card.style.transition = 'transform 0.1s ease-out';
+      card.style.transform =
+        `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.02)`;
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', reset);
   })();
+
+  /* ================================================================
+     GSAP + SCROLLTRIGGER — everything below requires these libs
+     ================================================================ */
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
 
   /* ================================================================
      S02: CLIP-PATH REVEAL — scroll-driven
