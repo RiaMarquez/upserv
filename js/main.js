@@ -318,8 +318,9 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('[ReadingGlass] human-layer (Surface A):', humanLayer, humanLayer && humanLayer.getBoundingClientRect());
 
     if (!bcBody || !lens || !readout) { console.warn('[ReadingGlass] missing required elements — aborting'); return; }
-    if (window.innerWidth <= 768) { console.log('[ReadingGlass] mobile, skipping animation'); return; }
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { console.log('[ReadingGlass] reduced motion, skipping'); return; }
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) { console.log('[ReadingGlass] mobile — running animation at restrained tempo'); }
 
     // Inject a Surface B clone inside the lens for the magnified reveal
     (function mountLensClone() {
@@ -391,10 +392,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tl = gsap.timeline({
       repeat: -1,
-      defaults: { overwrite: 'auto' },
+      defaults: { overwrite: 'auto', force3D: true },
       onStart:    () => console.log('[ReadingGlass] timeline started'),
       onRepeat:   () => console.log('[ReadingGlass] cycle restart'),
     });
+    // Mobile: slow the whole cycle ~1.65× → ~18s total (was ~11s on desktop)
+    if (isMobile) tl.timeScale(0.6);
 
     // ---------- PHASE 1 — ENTRY (0.8s) ----------
     tl.call(() => {
