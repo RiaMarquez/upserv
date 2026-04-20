@@ -114,25 +114,23 @@ input { font: inherit; }
   width: 100%;
   height: 64px;
   z-index: 1000;
-  /* Smoked glass slab — dark with subtle vertical density */
-  background:
-    linear-gradient(180deg,
-      rgba(18, 22, 28, 0.72) 0%,
-      rgba(10, 12, 15, 0.78) 100%);
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  /* Edge lighting + contact shadow + density */
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-    0 1px 0 rgba(255, 255, 255, 0.02),
-    0 8px 28px rgba(0, 0, 0, 0.35);
+  /* Fully transparent — sits directly on top of the gradient */
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+  box-shadow: none;
   padding: 0;
-  color: rgba(255, 255, 255, 0.88);
+  color: #ffffff;
 }
-/* No change on scroll — always frosted glass */
-/* .scrolled class no longer used — nav stays frosted at all times */
+/* Nav stays transparent on scroll — no background ever appears */
+.site-header.scrolled {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+  box-shadow: none;
+}
 
 .header-container {
   max-width: 100%;
@@ -156,10 +154,10 @@ input { font: inherit; }
   flex-shrink: 0;
 }
 .logo-up {
-  color: #F5F7FA;
+  color: #ffffff;
 }
 .logo-serv {
-  color: #4BB5D5;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* Dark background context */
@@ -194,13 +192,13 @@ input { font: inherit; }
   font-family: var(--font-primary);
   font-weight: 400;
   font-size: 13px;
-  color: rgba(245, 247, 250, 0.65);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   letter-spacing: -0.01em;
   transition: color 150ms ease;
 }
 .header-nav-center a:hover {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 /* Right side: audit link + CTA button */
@@ -214,75 +212,36 @@ input { font: inherit; }
   font-family: var(--font-primary);
   font-weight: 400;
   font-size: 13px;
-  color: #4BB5D5;
+  color: #ffffff;
   text-decoration: none;
   letter-spacing: -0.01em;
-  transition: color 150ms ease;
+  transition: opacity 150ms ease;
 }
 .header-audit-link:hover {
-  color: #6BC9E3;
+  opacity: 0.8;
 }
-/* Header CTA — translucent dark glass, secondary hierarchy */
+/* Header CTA — transparent glass sitting on gradient */
 .header-cta {
   position: relative;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 13px;
-  color: #F5F7FA;
-  /* Lighter than primary CTA — more translucent, secondary feel */
-  background:
-    linear-gradient(180deg,
-      rgba(38, 44, 54, 0.7) 0%,
-      rgba(22, 26, 32, 0.65) 100%);
-  backdrop-filter: blur(12px) saturate(1.4);
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   padding: 10px 22px;
   border-radius: 9px;
   text-decoration: none;
   letter-spacing: -0.01em;
-  overflow: hidden;
-  /* Lighter material: subtle edges + soft shadow, no teal glow */
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 1px 2px rgba(0, 0, 0, 0.3),
-    0 4px 14px rgba(0, 0, 0, 0.25);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
-}
-
-/* Subtle teal highlight sweep on hover */
-.header-cta::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(105deg,
-    transparent 0%,
-    rgba(75, 181, 213, 0.18) 50%,
-    transparent 100%);
-  transition: left 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  pointer-events: none;
+  box-shadow: none;
+  transition: background 200ms ease, border-color 200ms ease;
 }
 
 .header-cta:hover {
-  transform: translateY(-1px);
-  background:
-    linear-gradient(180deg,
-      rgba(45, 52, 64, 0.78) 0%,
-      rgba(28, 32, 40, 0.72) 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 2px 4px rgba(0, 0, 0, 0.3),
-    0 8px 22px rgba(0, 0, 0, 0.32);
-}
-
-.header-cta:hover::before {
-  left: 140%;
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 /* Hamburger toggle */
@@ -746,40 +705,15 @@ a[href*="neat.firecms"],
 }
 
 @media (max-width: 768px) {
-  /* Nav — INITIAL state: highly transparent glass, blends into hero */
-  .site-header {
-    height: 52px;
-    background:
-      linear-gradient(180deg,
-        rgba(20, 24, 30, 0.10) 0%,
-        rgba(10, 12, 15, 0.14) 100%);
-    backdrop-filter: blur(8px) saturate(1.2);
-    -webkit-backdrop-filter: blur(8px) saturate(1.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-    /* Minimal shadow — almost floating */
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.04),
-      0 1px 6px rgba(0, 0, 0, 0.06);
-    transition:
-      background 350ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-      backdrop-filter 350ms ease,
-      -webkit-backdrop-filter 350ms ease,
-      border-bottom-color 350ms ease,
-      box-shadow 350ms ease;
-  }
-
-  /* Nav — SCROLLED state: opaque smoked glass, functional contrast */
+  /* Nav — fully transparent on mobile, stays transparent on scroll */
+  .site-header,
   .site-header.scrolled {
-    background:
-      linear-gradient(180deg,
-        rgba(18, 22, 28, 0.72) 0%,
-        rgba(10, 12, 15, 0.78) 100%);
-    backdrop-filter: blur(20px) saturate(1.4);
-    -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border-bottom-color: rgba(255, 255, 255, 0.06);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      0 6px 22px rgba(0, 0, 0, 0.28);
+    height: 52px;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: none;
+    box-shadow: none;
   }
   .header-container {
     padding: 0 18px !important;
