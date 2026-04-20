@@ -1058,11 +1058,23 @@ a[href*="neat.firecms"],
    The lens in Layer 3 will reveal B through A.
    ============================================================ */
 
-/* SURFACE A — human-visible website (unchanged content, opaque wrapper) */
+/* SURFACE A — human-visible website (unchanged content, opaque wrapper)
+   Radial-gradient mask punches a circular hole at the lens position,
+   revealing Surface B beneath. Clean hard edge (no soft falloff). */
 .bc-human-layer {
   position: relative;
   z-index: 2;
   background: #FFFFFF;
+  -webkit-mask-image: radial-gradient(circle at var(--lens-x, 50%) var(--lens-y, 50%),
+    transparent 0,
+    transparent 80px,
+    #000 80px,
+    #000 100%);
+  mask-image: radial-gradient(circle at var(--lens-x, 50%) var(--lens-y, 50%),
+    transparent 0,
+    transparent 80px,
+    #000 80px,
+    #000 100%);
 }
 
 /* SURFACE B — AI machine-readable layer */
@@ -1152,6 +1164,118 @@ a[href*="neat.firecms"],
   padding: 8px 16px 14px;
   font-size: 8px;
   color: rgba(75, 173, 197, 0.7);
+}
+
+/* ============================================================
+   AI READING GLASS — Layer 3: the lens
+   Precision optical instrument. 160px inner + 180px outer ring,
+   crosshairs, tick marks at 12/3/6/9, readout label at bottom.
+   Position driven by --lens-x / --lens-y on .bc-body.
+   ============================================================ */
+.bc-lens {
+  position: absolute;
+  left: var(--lens-x, 50%);
+  top: var(--lens-y, 50%);
+  width: 160px;
+  height: 160px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+}
+
+/* Inner precision ring — 160px, teal border + inner glow */
+.bc-lens-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(21, 94, 117, 0.8);
+  box-shadow: inset 0 0 20px rgba(21, 94, 117, 0.3);
+  box-sizing: border-box;
+}
+
+/* Outer framing ring — 180px, thinner */
+.bc-lens-outer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 180px;
+  height: 180px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(21, 94, 117, 0.2);
+  box-sizing: border-box;
+}
+
+/* Crosshair lines — horizontal + vertical, edge-to-edge across inner ring */
+.bc-lens-cross {
+  position: absolute;
+  background: rgba(21, 94, 117, 0.4);
+}
+.bc-lens-cross--h {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform: translateY(-0.5px) scaleY(0.5);
+  transform-origin: center;
+}
+.bc-lens-cross--v {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  transform: translateX(-0.5px) scaleX(0.5);
+  transform-origin: center;
+}
+
+/* Tick marks at 12 / 3 / 6 / 9 o'clock — 6px inside the ring gap */
+.bc-lens-tick {
+  position: absolute;
+  background: rgba(21, 94, 117, 0.6);
+}
+.bc-lens-tick--12 {
+  top: -7px;
+  left: 50%;
+  width: 1px;
+  height: 6px;
+  transform: translateX(-0.5px);
+}
+.bc-lens-tick--6 {
+  bottom: -7px;
+  left: 50%;
+  width: 1px;
+  height: 6px;
+  transform: translateX(-0.5px);
+}
+.bc-lens-tick--3 {
+  right: -7px;
+  top: 50%;
+  width: 6px;
+  height: 1px;
+  transform: translateY(-0.5px);
+}
+.bc-lens-tick--9 {
+  left: -7px;
+  top: 50%;
+  width: 6px;
+  height: 1px;
+  transform: translateY(-0.5px);
+}
+
+/* Readout label — sits below the outer ring */
+.bc-lens-readout {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 7px;
+  font-weight: 400;
+  color: #155E75;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 /* --- Site nav --- */
@@ -1352,6 +1476,12 @@ a[href*="neat.firecms"],
     transition: none;
   }
   .bc-ai-layer { display: none !important; }
+  .bc-lens { display: none !important; }
+  /* No mask on Surface A at mobile — no lens means no reveal needed */
+  .bc-human-layer {
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
 }
 
 
