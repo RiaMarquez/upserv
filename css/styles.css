@@ -821,8 +821,8 @@ a[href*="neat.firecms"],
     animation: fadeUp 800ms ease 500ms forwards;
   }
   .browser-card {
-    max-width: calc(100vw - 40px) !important; /* ~20px each side */
-    width: 100% !important;
+    max-width: 71vw !important;
+    width: 71vw !important;
     margin-left: auto !important;
     margin-right: auto !important;
     box-shadow:
@@ -1868,7 +1868,7 @@ a[href*="neat.firecms"],
   }
   .browser-card {
     width: 100%;
-    max-width: calc(100vw - 40px); /* ~20px each side */
+    max-width: 320px;
     transform: none;
     transform-style: flat;
     transition: none;
