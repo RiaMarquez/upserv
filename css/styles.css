@@ -996,13 +996,14 @@ a[href*="neat.firecms"],
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: none;
+  /* Floating-above-gradient depth — deep, soft layered shadow */
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 8px 16px rgba(0, 0, 0, 0.18),
-    0 24px 56px rgba(0, 0, 0, 0.32),
-    0 56px 100px rgba(0, 0, 0, 0.22),
-    0 60px 80px -20px rgba(31, 143, 170, 0.18);
+    0 2px 0 rgba(255, 255, 255, 0.10) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.10),
+    0 20px 40px rgba(0, 0, 0, 0.25),
+    0 40px 80px rgba(0, 0, 0, 0.20),
+    0 80px 160px rgba(0, 0, 0, 0.15);
   /* 3D readiness — JS drives transform per mouse position */
   transform-style: preserve-3d;
   transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1);
@@ -1081,12 +1082,21 @@ a[href*="neat.firecms"],
     #000 100%);
 }
 
-/* SURFACE B — AI machine-readable layer */
+/* SURFACE B — AI machine-readable layer
+   Deeper teal-black base + scanline texture — technical readout feel. */
 .bc-ai-layer {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: #0A1A1F;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.08) 2px,
+      rgba(0, 0, 0, 0.08) 4px
+    ),
+    #050D10;
   overflow: hidden;
   pointer-events: none;
   display: flex;
@@ -1094,87 +1104,97 @@ a[href*="neat.firecms"],
 }
 
 .bc-ai-block {
+  position: relative;
   font-family: var(--font-mono);
-  line-height: 1.42;
+  line-height: 1.7;
   white-space: pre-wrap;
   letter-spacing: 0;
   box-sizing: border-box;
   overflow: hidden;
   flex-shrink: 0;
+  /* Default text (brackets / punctuation) */
+  color: rgba(21, 94, 117, 0.6);
+  border-top: 1px solid rgba(21, 94, 117, 0.15);
+}
+.bc-ai-block:first-child { border-top: none; }
+
+/* Zone label — top-left of each block */
+.bc-ai-block::before {
+  content: attr(data-label);
+  position: absolute;
+  top: 1px;
+  left: 16px;
+  font-family: var(--font-mono);
+  font-size: 6px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: rgba(21, 94, 117, 0.45);
+  pointer-events: none;
+  line-height: 1;
 }
 
-/* Block 1 — where the site nav is (30px area) */
+/* JSON syntax highlighting — keys bright teal, values soft white */
+.bc-ai-block .ai-k { color: #4BADC5; }
+.bc-ai-block .ai-v { color: rgba(255, 255, 255, 0.7); }
+
+/* Per-block outer box retains height for lens path alignment.
+   Font size standardized to 8.5px per the spec. */
 .bc-ai-block--nav {
-  padding: 8px 16px;
-  font-size: 9px;
-  color: #4BADC5;
-  border-bottom: 1px solid rgba(75, 173, 197, 0.10);
+  padding: 8px 16px 0 16px;
+  font-size: 8.5px;
   height: 30px;
 }
 
-/* Block 2 — where the image is (210px area: 10 margin + 200 height) */
 .bc-ai-block--image {
   margin: 10px 12px 0;
   height: 200px;
   width: calc(100% - 24px);
   padding: 10px 12px;
-  font-size: 9px;
-  color: rgba(75, 173, 197, 0.5);
+  font-size: 8.5px;
   background: rgba(75, 173, 197, 0.04);
-  border: 1px solid rgba(75, 173, 197, 0.08);
+  border: 1px solid rgba(75, 173, 197, 0.10);
   border-radius: 6px;
 }
 
-/* Block 3 — where the category tag is (22px area) */
 .bc-ai-block--category {
   padding: 12px 16px 0;
-  font-size: 9px;
-  color: #155E75;
+  font-size: 8.5px;
   height: 22px;
 }
 
-/* Block 4 — where title + description are (covers both, ~100px area) */
 .bc-ai-block--title {
-  padding: 8px 16px 4px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #FFFFFF;
-  line-height: 1.35;
+  padding: 10px 16px 4px;
+  font-size: 8.5px;
   min-height: 100px;
 }
 
-/* Block 5 — where services/meta grid is (~37px area) */
 .bc-ai-block--meta {
   margin: 10px 12px 0;
-  padding: 6px 10px;
+  padding: 10px;
   background: rgba(75, 173, 197, 0.05);
-  border: 1px solid rgba(75, 173, 197, 0.08);
+  border: 1px solid rgba(75, 173, 197, 0.10);
   border-radius: 4px;
-  font-size: 8px;
-  color: #4BADC5;
+  font-size: 8.5px;
   min-height: 37px;
 }
 
-/* Block 6 — where CTA is (~30px area) */
 .bc-ai-block--cta {
   padding: 10px 16px 0;
-  font-size: 9px;
-  color: #155E75;
+  font-size: 8.5px;
   min-height: 30px;
 }
 
-/* Block 7 — where rating is (~35px area) */
 .bc-ai-block--rating {
-  padding: 8px 16px 14px;
-  font-size: 8px;
-  color: rgba(75, 173, 197, 0.7);
+  padding: 10px 16px 14px;
+  font-size: 8.5px;
 }
 
 /* ============================================================
-   AI READING GLASS — Layer 3: the lens
-   Precision optical instrument. 160px inner + 180px outer ring,
-   crosshairs, tick marks at 12/3/6/9, readout label at bottom.
-   Position driven by --lens-x / --lens-y on .bc-body.
+   AI READING GLASS — the lens (premium polish)
+   Precision optical instrument: dual-ring edge, teal emission field,
+   scientific crosshair + center dot, 12/3/6/9 primary ticks + 45°
+   secondary ticks, 60° dotted reference arc with mono label,
+   framed readout with blinking cursor.
    ============================================================ */
 .bc-lens {
   position: absolute;
@@ -1189,52 +1209,56 @@ a[href*="neat.firecms"],
   will-change: transform, opacity, left, top;
 }
 
-/* Inner precision ring — 160px, teal border + inner glow */
+/* Outer ring — 160px edge, thin teal line + inner + outer teal emission */
 .bc-lens-ring {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px solid rgba(21, 94, 117, 0.8);
-  box-shadow: inset 0 0 20px rgba(21, 94, 117, 0.3);
+  border: 1px solid rgba(21, 94, 117, 0.9);
   box-sizing: border-box;
+  box-shadow:
+    inset 0 0 24px rgba(21, 94, 117, 0.25),
+    0 0 40px rgba(21, 94, 117, 0.15),
+    0 0 80px rgba(21, 94, 117, 0.08);
 }
-/* Chromatic aberration — red channel offset 1px left, blue 1px right */
+/* Chromatic aberration — red 1px left, blue 1px right (1px matched to new border) */
 .bc-lens-ring::before,
 .bc-lens-ring::after {
   content: '';
   position: absolute;
-  inset: -2px;
+  inset: -1px;
   border-radius: 50%;
   border: 1px solid;
   pointer-events: none;
   box-sizing: border-box;
 }
 .bc-lens-ring::before {
-  border-color: rgba(255, 60, 90, 0.22);
+  border-color: rgba(255, 60, 90, 0.18);
   transform: translateX(-1px);
 }
 .bc-lens-ring::after {
-  border-color: rgba(60, 130, 255, 0.22);
+  border-color: rgba(60, 130, 255, 0.18);
   transform: translateX(1px);
 }
 
-/* Outer framing ring — 180px, thinner */
-.bc-lens-outer {
+/* Inner ring — 4px inside outer (so at diameter 152px), softer alpha */
+.bc-lens-inner {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 180px;
-  height: 180px;
+  width: 152px;
+  height: 152px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  border: 1px solid rgba(21, 94, 117, 0.2);
+  border: 1px solid rgba(21, 94, 117, 0.3);
   box-sizing: border-box;
+  pointer-events: none;
 }
 
-/* Crosshair lines — horizontal + vertical, edge-to-edge across inner ring */
+/* Crosshair — full-width lines with gradient fade at the edges */
 .bc-lens-cross {
   position: absolute;
-  background: rgba(21, 94, 117, 0.4);
+  pointer-events: none;
 }
 .bc-lens-cross--h {
   top: 50%;
@@ -1243,6 +1267,13 @@ a[href*="neat.firecms"],
   height: 1px;
   transform: translateY(-0.5px) scaleY(0.5);
   transform-origin: center;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(21, 94, 117, 0.6) 20%,
+    rgba(21, 94, 117, 0.6) 80%,
+    transparent 100%
+  );
 }
 .bc-lens-cross--v {
   left: 50%;
@@ -1251,55 +1282,147 @@ a[href*="neat.firecms"],
   width: 1px;
   transform: translateX(-0.5px) scaleX(0.5);
   transform-origin: center;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(21, 94, 117, 0.6) 20%,
+    rgba(21, 94, 117, 0.6) 80%,
+    transparent 100%
+  );
 }
 
-/* Tick marks at 12 / 3 / 6 / 9 o'clock — 6px inside the ring gap */
+/* Center point — 4px dot */
+.bc-lens-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #155E75;
+  opacity: 0.8;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Primary ticks at 12 / 3 / 6 / 9 — 10px long, inward from inner ring */
 .bc-lens-tick {
   position: absolute;
-  background: rgba(21, 94, 117, 0.6);
+  background: rgba(21, 94, 117, 0.8);
+  pointer-events: none;
 }
 .bc-lens-tick--12 {
-  top: -7px;
+  top: 4px;
   left: 50%;
   width: 1px;
-  height: 6px;
-  transform: translateX(-0.5px);
+  height: 10px;
+  transform: translateX(-0.5px) scaleX(0.5);
 }
 .bc-lens-tick--6 {
-  bottom: -7px;
+  bottom: 4px;
   left: 50%;
   width: 1px;
-  height: 6px;
-  transform: translateX(-0.5px);
+  height: 10px;
+  transform: translateX(-0.5px) scaleX(0.5);
 }
 .bc-lens-tick--3 {
-  right: -7px;
+  right: 4px;
   top: 50%;
-  width: 6px;
+  width: 10px;
   height: 1px;
-  transform: translateY(-0.5px);
+  transform: translateY(-0.5px) scaleY(0.5);
 }
 .bc-lens-tick--9 {
-  left: -7px;
+  left: 4px;
   top: 50%;
-  width: 6px;
+  width: 10px;
   height: 1px;
-  transform: translateY(-0.5px);
+  transform: translateY(-0.5px) scaleY(0.5);
 }
 
-/* Readout label — sits below the outer ring */
+/* Secondary ticks at 45° intervals — 5px long, fainter */
+.bc-lens-tick-sm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 5px;
+  background: rgba(21, 94, 117, 0.4);
+  pointer-events: none;
+  transform-origin: 50% 0;
+}
+/* Place via rotate + translateY from center — 76px to inner ring edge, then 5px tick inward */
+.bc-lens-tick-sm--45  { transform: translate(-0.5px, 0) rotate(45deg)  translateY(-76px) scaleX(0.5); }
+.bc-lens-tick-sm--135 { transform: translate(-0.5px, 0) rotate(135deg) translateY(-76px) scaleX(0.5); }
+.bc-lens-tick-sm--225 { transform: translate(-0.5px, 0) rotate(225deg) translateY(-76px) scaleX(0.5); }
+.bc-lens-tick-sm--315 { transform: translate(-0.5px, 0) rotate(315deg) translateY(-76px) scaleX(0.5); }
+
+/* Dotted reference arc — SVG overlay, bottom-right 60° of inner ring */
+.bc-lens-arc {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 160px;
+  height: 160px;
+  pointer-events: none;
+}
+
+/* Arc label — sits just outside the arc, bottom-right */
+.bc-lens-arc-label {
+  position: absolute;
+  bottom: 4px;
+  right: -14px;
+  font-family: var(--font-mono);
+  font-size: 6px;
+  font-weight: 400;
+  color: rgba(21, 94, 117, 0.55);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Readout frame — 8px below lens edge, framed box with blinking cursor */
 .bc-lens-readout {
   position: absolute;
-  top: calc(100% + 16px);
+  top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
+  padding: 4px 10px;
+  background: rgba(5, 13, 16, 0.85);
+  border: 1px solid rgba(21, 94, 117, 0.4);
+  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.bc-lens-readout-text {
   font-family: var(--font-mono);
   font-size: 7px;
   font-weight: 400;
-  color: #155E75;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  white-space: nowrap;
+  color: #4BADC5;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.bc-lens-readout::after {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 8px;
+  background: #155E75;
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: lensCursorBlink 1s steps(2, end) infinite;
+}
+
+@keyframes lensCursorBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
 }
 
 /* ============================================================
@@ -1332,15 +1455,26 @@ a[href*="neat.firecms"],
 }
 
 .bc-rec-dot {
+  position: relative;
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #155E75;
+  background: #10b981;
   flex-shrink: 0;
-  box-shadow:
-    inset 0 0 0 0.5px rgba(255, 255, 255, 0.6),
-    0 0 6px rgba(21, 94, 117, 0.9),
-    0 0 14px rgba(21, 94, 117, 0.4);
+  transition: background 1.5s ease, transform 0.6s ease-out;
+}
+
+.bc-rec-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid #155E75;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .bc-rec-text {
@@ -1349,55 +1483,54 @@ a[href*="neat.firecms"],
   font-weight: 600;
   color: #0F1115;
   letter-spacing: 0.04em;
+  transition: color 1.5s ease;
 }
 
-/* One-shot teal pulse triggered when lens arrives */
-.bc-recommended.is-pulsing .bc-rec-dot {
-  animation: recDotPulse 1.1s ease-out 1;
-}
-.bc-recommended.is-pulsing {
-  animation: recPillPulse 1.1s ease-out 1;
-}
-
-@keyframes recDotPulse {
-  0% {
-    transform: scale(1);
-    box-shadow:
-      inset 0 0 0 0.5px rgba(255,255,255,0.6),
-      0 0 6px rgba(21,94,117,0.9);
-  }
-  40% {
-    transform: scale(1.35);
-    box-shadow:
-      inset 0 0 0 0.5px rgba(255,255,255,0.7),
-      0 0 18px rgba(21,94,117,1),
-      0 0 40px rgba(21,94,117,0.65);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow:
-      inset 0 0 0 0.5px rgba(255,255,255,0.6),
-      0 0 6px rgba(21,94,117,0.9);
-  }
+/* Base pill transitions — slow when releasing, fast when activating */
+.bc-recommended {
+  transition:
+    background 1.5s ease,
+    border-color 1.5s ease,
+    box-shadow 1.5s ease;
 }
 
-@keyframes recPillPulse {
-  0%, 100% {
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,1),
-      inset 0 -1px 0 rgba(0,0,0,0.06),
-      0 2px 4px rgba(0,0,0,0.10),
-      0 10px 28px rgba(0,0,0,0.18),
-      0 20px 48px rgba(21, 94, 117, 0.14);
-  }
-  45% {
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,1),
-      inset 0 -1px 0 rgba(21,94,117,0.20),
-      0 4px 10px rgba(21,94,117,0.25),
-      0 16px 40px rgba(21,94,117,0.4),
-      0 30px 72px rgba(21,94,117,0.5);
-  }
+/* ACTIVE state — lens has arrived. Pill transforms to teal glow. */
+.bc-recommended.is-active {
+  background: rgba(21, 94, 117, 0.15);
+  border: 1px solid #155E75;
+  box-shadow:
+    0 0 20px rgba(21, 94, 117, 0.4),
+    0 0 40px rgba(21, 94, 117, 0.2);
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.bc-recommended.is-active .bc-rec-dot {
+  background: #155E75;
+  animation: recDotActivePulse 0.6s ease-out 1;
+  transition: background 0.3s ease;
+}
+
+.bc-recommended.is-active .bc-rec-ring {
+  animation: recRingExpand 0.8s ease-out 1;
+}
+
+.bc-recommended.is-active .bc-rec-text {
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+@keyframes recDotActivePulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes recRingExpand {
+  0%   { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(2.8); opacity: 0; }
 }
 
 /* ============================================================

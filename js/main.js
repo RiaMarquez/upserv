@@ -321,12 +321,24 @@ document.addEventListener('DOMContentLoaded', () => {
       bcBody.style.setProperty('--lens-y', state.y + '%');
       bcBody.style.setProperty('--lens-r', state.r + 'px');
     }
-    function setReadout(text) { readout.textContent = text; }
-    function pulsePill() {
+    // Fade current text out, swap, fade in — 0.2s each way via CSS transition
+    const readoutTextEl = readout.querySelector('.bc-lens-readout-text') || readout;
+    function setReadout(text) {
+      readoutTextEl.style.opacity = '0';
+      setTimeout(() => {
+        readoutTextEl.textContent = text;
+        readoutTextEl.style.opacity = '1';
+      }, 200);
+    }
+    function activatePill() {
       if (!recommended) return;
-      recommended.classList.remove('is-pulsing');
-      void recommended.offsetWidth; // force reflow to restart animation
-      recommended.classList.add('is-pulsing');
+      recommended.classList.remove('is-active');
+      void recommended.offsetWidth; // restart animations
+      recommended.classList.add('is-active');
+    }
+    function releasePill() {
+      if (!recommended) return;
+      recommended.classList.remove('is-active');
     }
 
     // Initial hidden state — no hole, lens invisible
@@ -385,16 +397,17 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .to({}, { duration: 0.5 });
 
-    // ---------- PHASE 7 — RECOMMENDATION (1.5s: 1.0 travel + 0.5 hold, pill pulses) ----------
+    // ---------- PHASE 7 — RECOMMENDATION (1.5s: 1.0 travel + 0.5 hold, pill activates) ----------
     tl.call(() => setReadout('RECOMMENDATION: SENT'))
       .to(state, {
         x: 50, y: 98, duration: 1.0, ease: 'power1.inOut', onUpdate: writeState
       })
-      .call(pulsePill)
+      .call(activatePill)
       .to({}, { duration: 0.5 });
 
     // ---------- PHASE 8 — EXIT + PAUSE (1s) ----------
-    tl.to(lens, { opacity: 0, duration: 0.5, ease: 'power2.in' })
+    tl.call(releasePill)   // pill begins its slow 1.5s return
+      .to(lens, { opacity: 0, duration: 0.5, ease: 'power2.in' })
       .to(state, { r: 0, duration: 0.5, ease: 'power2.in', onUpdate: writeState }, '<')
       .to({}, { duration: 0.5 });
   })();

@@ -134,39 +134,39 @@
 
                   <!-- SURFACE B: AI / machine-readable layer (z:1, beneath) -->
                   <div class="bc-ai-layer" aria-hidden="true">
-                    <div class="bc-ai-block bc-ai-block--nav">"@type": "Dentist"
-"name": "City Dental Group"
-"url": "citydentalgroup.com.au"</div>
+                    <div class="bc-ai-block bc-ai-block--nav" data-label="SCHEMA.ORG/DENTIST"><span class="ai-k">"@type"</span>: <span class="ai-v">"Dentist"</span>
+<span class="ai-k">"name"</span>: <span class="ai-v">"City Dental Group"</span>
+<span class="ai-k">"url"</span>: <span class="ai-v">"citydentalgroup.com.au"</span></div>
 
-                    <div class="bc-ai-block bc-ai-block--image">"image": {
-  "alt": "dental clinic Melbourne",
-  "context": "medical professional",
-  "location": "South Yarra clinic"
+                    <div class="bc-ai-block bc-ai-block--image" data-label="IMAGE_CONTEXT"><span class="ai-k">"image"</span>: {
+  <span class="ai-k">"alt"</span>: <span class="ai-v">"dental clinic Melbourne"</span>,
+  <span class="ai-k">"context"</span>: <span class="ai-v">"medical professional"</span>,
+  <span class="ai-k">"location"</span>: <span class="ai-v">"South Yarra clinic"</span>
 }</div>
 
-                    <div class="bc-ai-block bc-ai-block--category">"@type": "MedicalClinic"
-"medicalSpecialty": "Dentistry"
-"location": "Melbourne, VIC, AU"</div>
+                    <div class="bc-ai-block bc-ai-block--category" data-label="ENTITY_CLASSIFICATION"><span class="ai-k">"@type"</span>: <span class="ai-v">"MedicalClinic"</span>
+<span class="ai-k">"medicalSpecialty"</span>: <span class="ai-v">"Dentistry"</span>
+<span class="ai-k">"location"</span>: <span class="ai-v">"Melbourne, VIC, AU"</span></div>
 
-                    <div class="bc-ai-block bc-ai-block--title">"description": "General, cosmetic and orthodontic dental care. Melbourne, Australia. Est. 2009."</div>
+                    <div class="bc-ai-block bc-ai-block--title" data-label="DESCRIPTION"><span class="ai-k">"description"</span>: <span class="ai-v">"General, cosmetic and orthodontic dental care. Melbourne, Australia. Est. 2009."</span></div>
 
-                    <div class="bc-ai-block bc-ai-block--meta">"hasOfferCatalog": {
-  "General Dentistry": true,
-  "Cosmetic": true,
-  "Invisalign": true,
-  "Emergency": true
+                    <div class="bc-ai-block bc-ai-block--meta" data-label="SERVICE_CATALOG"><span class="ai-k">"hasOfferCatalog"</span>: {
+  <span class="ai-k">"General Dentistry"</span>: <span class="ai-v">true</span>,
+  <span class="ai-k">"Cosmetic"</span>: <span class="ai-v">true</span>,
+  <span class="ai-k">"Invisalign"</span>: <span class="ai-v">true</span>,
+  <span class="ai-k">"Emergency"</span>: <span class="ai-v">true</span>
 }
-"areaServed": "South Yarra, Richmond"</div>
+<span class="ai-k">"areaServed"</span>: <span class="ai-v">"South Yarra, Richmond"</span></div>
 
-                    <div class="bc-ai-block bc-ai-block--cta">"potentialAction": {
-  "@type": "ReserveAction",
-  "name": "Book Appointment"
+                    <div class="bc-ai-block bc-ai-block--cta" data-label="ACTION_POTENTIAL"><span class="ai-k">"potentialAction"</span>: {
+  <span class="ai-k">"@type"</span>: <span class="ai-v">"ReserveAction"</span>,
+  <span class="ai-k">"name"</span>: <span class="ai-v">"Book Appointment"</span>
 }</div>
 
-                    <div class="bc-ai-block bc-ai-block--rating">"aggregateRating": {
-  "ratingValue": "4.8",
-  "reviewCount": "200+",
-  "authority": "AHPRA registered"
+                    <div class="bc-ai-block bc-ai-block--rating" data-label="TRUST_SIGNALS"><span class="ai-k">"aggregateRating"</span>: {
+  <span class="ai-k">"ratingValue"</span>: <span class="ai-v">"4.8"</span>,
+  <span class="ai-k">"reviewCount"</span>: <span class="ai-v">"200+"</span>,
+  <span class="ai-k">"authority"</span>: <span class="ai-v">"AHPRA registered"</span>
 }</div>
                   </div>
 
@@ -223,23 +223,45 @@
 
                   <!-- LENS overlay — circular precision reveal -->
                   <div class="bc-lens" id="bcLens" aria-hidden="true">
-                    <div class="bc-lens-outer"></div>
                     <div class="bc-lens-ring"></div>
+                    <div class="bc-lens-inner"></div>
                     <div class="bc-lens-cross bc-lens-cross--h"></div>
                     <div class="bc-lens-cross bc-lens-cross--v"></div>
+                    <div class="bc-lens-center"></div>
+                    <!-- Primary ticks at 12/3/6/9 -->
                     <div class="bc-lens-tick bc-lens-tick--12"></div>
                     <div class="bc-lens-tick bc-lens-tick--3"></div>
                     <div class="bc-lens-tick bc-lens-tick--6"></div>
                     <div class="bc-lens-tick bc-lens-tick--9"></div>
-                    <div class="bc-lens-readout" id="bcLensReadout">AI_VISION: ACTIVE</div>
+                    <!-- Secondary ticks at 45° intervals -->
+                    <div class="bc-lens-tick-sm bc-lens-tick-sm--45"></div>
+                    <div class="bc-lens-tick-sm bc-lens-tick-sm--135"></div>
+                    <div class="bc-lens-tick-sm bc-lens-tick-sm--225"></div>
+                    <div class="bc-lens-tick-sm bc-lens-tick-sm--315"></div>
+                    <!-- 60° dotted arc along the bottom-right of the inner ring -->
+                    <svg class="bc-lens-arc" width="160" height="160" viewBox="0 0 160 160" aria-hidden="true">
+                      <path d="M 146.48,104.49 A 72 72 0 0 1 104.49,146.48"
+                            fill="none"
+                            stroke="rgba(21,94,117,0.4)"
+                            stroke-width="0.75"
+                            stroke-linecap="round"
+                            stroke-dasharray="1 3" />
+                    </svg>
+                    <span class="bc-lens-arc-label">∅ 160px</span>
+                    <!-- Readout label -->
+                    <div class="bc-lens-readout" id="bcLensReadout">
+                      <span class="bc-lens-readout-text">AI_VISION: ACTIVE</span>
+                    </div>
                   </div>
 
                 </div>
               </div>
 
-              <!-- Recommendation pill — sits below card, pulses when lens arrives -->
+              <!-- Recommendation pill — sits below card, activates when lens arrives -->
               <div class="bc-recommended" id="bcRecommended">
-                <span class="bc-rec-dot"></span>
+                <span class="bc-rec-dot">
+                  <span class="bc-rec-ring"></span>
+                </span>
                 <span class="bc-rec-text">Recommended by ChatGPT</span>
               </div>
 
