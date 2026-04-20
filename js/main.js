@@ -372,6 +372,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!recommended) return;
       recommended.classList.remove('is-active');
     }
+    // Phase 7 horizontal target: pill's center expressed as a % of
+    // bc-body width. Function-based — GSAP evaluates at tween start so
+    // it survives layout changes (resize, card resize, etc.).
+    function pillXPercent() {
+      if (!recommended || !bcBody) return 50;
+      const pillRect = recommended.getBoundingClientRect();
+      const bodyRect = bcBody.getBoundingClientRect();
+      if (!bodyRect.width) return 50;
+      const pillCenterX = pillRect.left + pillRect.width / 2;
+      const xInBody = pillCenterX - bodyRect.left;
+      return (xInBody / bodyRect.width) * 100;
+    }
 
     // Initial hidden state — no hole, lens invisible
     writeState();
@@ -434,13 +446,15 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .to({}, { duration: 0.5 });
 
-    // ---------- PHASE 7 — RECOMMENDATION (1.5s: 1.0 travel + 0.5 hold, pill activates) ----------
+    // ---------- PHASE 7 — RECOMMENDATION (1.75s: 1.0 travel + 0.25 dwell + pulse + 0.5 hold) ----------
     tl.call(() => setReadout('RECOMMENDATION: SENT'))
       .to(state, {
-        x: 50, y: 98, duration: 1.0, ease: 'power1.inOut', onUpdate: writeState
+        x: pillXPercent, y: 98,
+        duration: 1.0, ease: 'power1.inOut', onUpdate: writeState
       })
+      .to({}, { duration: 0.25 })   // 250ms thinking-beat before pulse
       .call(activatePill)
-      .to({}, { duration: 0.5 });
+      .to({}, { duration: 0.5 });   // 500ms hold after pulse fires
 
     // ---------- PHASE 8 — EXIT + PAUSE (1s) ----------
     tl.call(releasePill)   // pill begins its slow 1.5s return
