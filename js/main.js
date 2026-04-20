@@ -261,6 +261,104 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.registerPlugin(ScrollTrigger);
 
   /* ================================================================
+     AI READING GLASS — Layer 4: autonomous reading cycle
+     GSAP timeline drives --lens-x / --lens-y / --lens-r across the card
+     on a deliberate reading path. Mouseover pauses the cycle so the
+     3D tilt from Layer 1 can be observed cleanly.
+     ================================================================ */
+  (function initLensMotion() {
+    const bcBody = document.querySelector('.bc-body');
+    const lens = document.getElementById('bcLens');
+    const readout = document.getElementById('bcLensReadout');
+    const recommended = document.getElementById('bcRecommended');
+    if (!bcBody || !lens || !readout) return;
+    if (window.innerWidth <= 768) return; // desktop-only
+
+    const state = { x: 15, y: 10, r: 0 };
+    function writeState() {
+      bcBody.style.setProperty('--lens-x', state.x + '%');
+      bcBody.style.setProperty('--lens-y', state.y + '%');
+      bcBody.style.setProperty('--lens-r', state.r + 'px');
+    }
+    function setReadout(text) { readout.textContent = text; }
+    function pulsePill() {
+      if (!recommended) return;
+      recommended.classList.remove('is-pulsing');
+      void recommended.offsetWidth; // force reflow to restart animation
+      recommended.classList.add('is-pulsing');
+    }
+
+    // Initial hidden state — no hole, lens invisible
+    writeState();
+    gsap.set(lens, { opacity: 0, scale: 0.6, transformOrigin: 'center center' });
+
+    const tl = gsap.timeline({ repeat: -1, defaults: { overwrite: 'auto' } });
+
+    // ---------- PHASE 1 — ENTRY (0.8s) ----------
+    tl.call(() => {
+        state.x = 15; state.y = 10; state.r = 0;
+        writeState();
+        setReadout('AI_VISION: ACTIVE');
+      })
+      .fromTo(lens,
+        { opacity: 0, scale: 0.6 },
+        { opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out', immediateRender: false }
+      )
+      .to(state, {
+        r: 80, duration: 0.8, ease: 'power2.out', onUpdate: writeState
+      }, '<');
+
+    // ---------- PHASE 2 — NAV SCAN (1.5s, linear) ----------
+    tl.call(() => setReadout('STRUCTURE: INDEXED'))
+      .to(state, {
+        x: 85, y: 15, duration: 1.5, ease: 'none', onUpdate: writeState
+      });
+
+    // ---------- PHASE 3 — IMAGE DIAGONAL (2s) ----------
+    tl.call(() => setReadout('CONTEXT: PARSED'))
+      .to(state, {
+        x: 15, y: 50, duration: 2, ease: 'power1.inOut', onUpdate: writeState
+      });
+
+    // ---------- PHASE 4 — TITLE FOCUS (1.5s: 0.7 travel + 0.8 pulse) ----------
+    tl.call(() => setReadout('ENTITY: IDENTIFIED'))
+      .to(state, {
+        x: 50, y: 65, duration: 0.7, ease: 'power1.inOut', onUpdate: writeState
+      })
+      .to(lens, { scale: 1.05, duration: 0.4, ease: 'power1.inOut' })
+      .to(lens, { scale: 1.00, duration: 0.4, ease: 'power1.inOut' });
+
+    // ---------- PHASE 5 — SERVICES SWEEP (1.5s) ----------
+    tl.call(() => setReadout('CATALOG: MAPPED'))
+      .to(state, {
+        x: 10, y: 82, duration: 0.5, ease: 'power1.inOut', onUpdate: writeState
+      })
+      .to(state, {
+        x: 90, y: 82, duration: 1.0, ease: 'power1.inOut', onUpdate: writeState
+      });
+
+    // ---------- PHASE 6 — CTA SETTLE (1s: 0.5 travel + 0.5 hold) ----------
+    tl.call(() => setReadout('ACTION: REGISTERED'))
+      .to(state, {
+        x: 50, y: 91, duration: 0.5, ease: 'power1.inOut', onUpdate: writeState
+      })
+      .to({}, { duration: 0.5 });
+
+    // ---------- PHASE 7 — RECOMMENDATION (1.5s: 1.0 travel + 0.5 hold, pill pulses) ----------
+    tl.call(() => setReadout('RECOMMENDATION: SENT'))
+      .to(state, {
+        x: 50, y: 98, duration: 1.0, ease: 'power1.inOut', onUpdate: writeState
+      })
+      .call(pulsePill)
+      .to({}, { duration: 0.5 });
+
+    // ---------- PHASE 8 — EXIT + PAUSE (1s) ----------
+    tl.to(lens, { opacity: 0, duration: 0.5, ease: 'power2.in' })
+      .to(state, { r: 0, duration: 0.5, ease: 'power2.in', onUpdate: writeState }, '<')
+      .to({}, { duration: 0.5 });
+  })();
+
+  /* ================================================================
      S02: CLIP-PATH REVEAL — scroll-driven
      ================================================================ */
   const clipBgWrap = document.getElementById('clipBgWrap');

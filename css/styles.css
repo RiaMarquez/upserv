@@ -1067,13 +1067,13 @@ a[href*="neat.firecms"],
   background: #FFFFFF;
   -webkit-mask-image: radial-gradient(circle at var(--lens-x, 50%) var(--lens-y, 50%),
     transparent 0,
-    transparent 80px,
-    #000 80px,
+    transparent var(--lens-r, 80px),
+    #000 var(--lens-r, 80px),
     #000 100%);
   mask-image: radial-gradient(circle at var(--lens-x, 50%) var(--lens-y, 50%),
     transparent 0,
-    transparent 80px,
-    #000 80px,
+    transparent var(--lens-r, 80px),
+    #000 var(--lens-r, 80px),
     #000 100%);
 }
 
@@ -1278,6 +1278,104 @@ a[href*="neat.firecms"],
   white-space: nowrap;
 }
 
+/* ============================================================
+   Recommendation pill — sits below the card, pulses Cold Teal
+   when the lens arrives in Phase 7.
+   ============================================================ */
+.bc-recommended {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.97) 0%, rgba(246,249,252,0.93) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.06),
+    0 2px 4px rgba(0, 0, 0, 0.10),
+    0 10px 28px rgba(0, 0, 0, 0.18),
+    0 20px 48px rgba(21, 94, 117, 0.14);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.bc-rec-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #155E75;
+  flex-shrink: 0;
+  box-shadow:
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.6),
+    0 0 6px rgba(21, 94, 117, 0.9),
+    0 0 14px rgba(21, 94, 117, 0.4);
+}
+
+.bc-rec-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: #0F1115;
+  letter-spacing: 0.04em;
+}
+
+/* One-shot teal pulse triggered when lens arrives */
+.bc-recommended.is-pulsing .bc-rec-dot {
+  animation: recDotPulse 1.1s ease-out 1;
+}
+.bc-recommended.is-pulsing {
+  animation: recPillPulse 1.1s ease-out 1;
+}
+
+@keyframes recDotPulse {
+  0% {
+    transform: scale(1);
+    box-shadow:
+      inset 0 0 0 0.5px rgba(255,255,255,0.6),
+      0 0 6px rgba(21,94,117,0.9);
+  }
+  40% {
+    transform: scale(1.35);
+    box-shadow:
+      inset 0 0 0 0.5px rgba(255,255,255,0.7),
+      0 0 18px rgba(21,94,117,1),
+      0 0 40px rgba(21,94,117,0.65);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow:
+      inset 0 0 0 0.5px rgba(255,255,255,0.6),
+      0 0 6px rgba(21,94,117,0.9);
+  }
+}
+
+@keyframes recPillPulse {
+  0%, 100% {
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,1),
+      inset 0 -1px 0 rgba(0,0,0,0.06),
+      0 2px 4px rgba(0,0,0,0.10),
+      0 10px 28px rgba(0,0,0,0.18),
+      0 20px 48px rgba(21, 94, 117, 0.14);
+  }
+  45% {
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,1),
+      inset 0 -1px 0 rgba(21,94,117,0.20),
+      0 4px 10px rgba(21,94,117,0.25),
+      0 16px 40px rgba(21,94,117,0.4),
+      0 30px 72px rgba(21,94,117,0.5);
+  }
+}
+
 /* --- Site nav --- */
 .bc-site-nav {
   display: flex;
@@ -1477,6 +1575,7 @@ a[href*="neat.firecms"],
   }
   .bc-ai-layer { display: none !important; }
   .bc-lens { display: none !important; }
+  .bc-recommended { display: none !important; }
   /* No mask on Surface A at mobile — no lens means no reveal needed */
   .bc-human-layer {
     -webkit-mask-image: none !important;
