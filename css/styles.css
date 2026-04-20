@@ -833,67 +833,70 @@ a[href*="neat.firecms"],
       0 90px 140px -20px rgba(31, 143, 170, 0.20) !important;
   }
 
-  /* Mobile card content simplification — show only essentials */
-  .bc-desc { display: none !important; }
+  /* Mobile card content — readable proportions, no clipping */
   .bc-rating { display: none !important; }
 
-  /* Compact meta — single horizontal row of two chips */
+  /* Meta — stacked single column so services + locations don't collide */
   .bc-meta {
-    margin: 8px 12px 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    margin: 12px 16px 0 !important;
     background: transparent !important;
-    gap: 6px !important;
   }
   .bc-meta-col {
     background: rgba(21, 94, 117, 0.06) !important;
     border: 1px solid rgba(21, 94, 117, 0.10) !important;
     border-radius: 6px !important;
-    padding: 5px 8px !important;
+    padding: 8px 12px !important;
   }
-  .bc-meta-val { font-size: 6.5px !important; }
-  .bc-meta-key { font-size: 5.5px !important; }
+  .bc-meta-val { font-size: 12px !important; color: #0A0A0A !important; line-height: 1.4 !important; }
+  .bc-meta-key { font-size: 9px !important; }
 
-  /* Tighter internal padding — clean not cramped */
-  .bc-chrome {
-    padding: 7px 12px;
-  }
-  .bc-site-nav {
-    padding: 6px 14px;
-  }
+  /* Card body padding — 16px clearance so content never touches card edges */
+  .bc-chrome { padding: 10px 16px; }
+  .bc-site-nav { padding: 10px 16px; }
 
-  /* Shorter landscape crop for hero image */
+  /* Hero image — landscape crop, full width minus 16px clearance */
   .bc-hero-img {
-    margin-top: 8px !important;
-    height: 110px !important;
+    margin: 12px 16px 0 !important;
+    width: calc(100% - 32px) !important;
+    height: 140px !important;
   }
-  .bc-hero-img img {
-    height: 110px !important;
-  }
+  .bc-hero-img img { height: 140px !important; }
 
-  /* Category tag — slightly tighter */
-  .bc-category {
-    padding: 8px 14px 0 !important;
-  }
+  /* Category tag — 16px clearance */
+  .bc-category { padding: 12px 16px 0 !important; }
+  .bc-category-text { font-size: 10px !important; }
 
-  /* Title — short, max 2 lines, smaller font */
+  /* Title — bigger, wraps freely (no clamp) */
   .bc-title {
-    padding: 4px 14px 0 !important;
-    font-size: 11px !important;
-    line-height: 1.3 !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
+    padding: 8px 16px 0 !important;
+    font-size: 16px !important;
+    line-height: 1.35 !important;
+    display: block !important;
+    -webkit-line-clamp: unset !important;
+    overflow: visible !important;
   }
 
-  /* CTA — compact placement */
+  /* Description — re-enabled, 13px */
+  .bc-desc {
+    display: block !important;
+    padding: 6px 16px 0 !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    color: #888 !important;
+  }
+
+  /* CTA — auto-width, comfortable padding */
   .bc-cta-row {
-    padding: 10px 14px 14px !important;
+    padding: 14px 16px 16px !important;
     opacity: 1 !important;
     transform: none !important;
   }
   .bc-cta-btn {
-    font-size: 8.5px !important;
-    padding: 7px 14px !important;
+    font-size: 12px !important;
+    padding: 10px 18px !important;
   }
 
   /* Force final-state visibility on mobile — no scroll-stage reveal needed.
@@ -1806,12 +1809,14 @@ a[href*="neat.firecms"],
   padding: 8px 16px 14px;
 }
 
-/* --- Mobile: centered card, no 3D tilt; lens static at center,
-       Surface B revealed through it ("fully read" final state) --- */
+/* --- Mobile: centered card, no 3D tilt; lens scaled to 100px
+       with proportionally scaled chrome --- */
 @media (max-width: 768px) {
   .hero-transform {
     justify-content: center;
     perspective: none;
+    padding-right: 0;
+    padding-bottom: 60px; /* breathing room below pill before next section */
   }
   .browser-card {
     width: 100%;
@@ -1820,28 +1825,68 @@ a[href*="neat.firecms"],
     transform-style: flat;
     transition: none;
   }
-  /* Scale lens to fit narrower card */
-  .bc-lens { width: 130px; height: 130px; margin-left: -65px; margin-top: -65px; }
-  .bc-lens-outer { width: 146px; height: 146px; }
-  /* Match mask radius to scaled lens */
+
+  /* Lens shrunk to 100px, crosshair + ticks + glow scaled proportionally */
+  .bc-lens { width: 100px; height: 100px; margin-left: -50px; margin-top: -50px; }
+  .bc-lens-inner { width: 94px; height: 94px; }
+  .bc-lens-ring {
+    box-shadow:
+      0 0 0 1px rgba(21, 94, 117, 0.3),
+      0 0 14px rgba(21, 94, 117, 0.35),
+      0 0 28px rgba(21, 94, 117, 0.15),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+      inset 0 1px 5px rgba(255, 255, 255, 0.08);
+  }
+  .bc-lens-cross--h { width: 12px; height: 1px; }
+  .bc-lens-cross--v { width: 1px; height: 12px; }
+  .bc-lens-tick--12 { top: 3px; height: 6px; }
+  .bc-lens-tick--6  { bottom: 3px; height: 6px; }
+  .bc-lens-tick--3  { right: 3px; width: 6px; }
+  .bc-lens-tick--9  { left: 3px; width: 6px; }
+  .bc-lens-tick-sm--45  { transform: translate(-0.5px, 0) rotate(45deg)  translateY(-47px) scaleX(0.5); }
+  .bc-lens-tick-sm--135 { transform: translate(-0.5px, 0) rotate(135deg) translateY(-47px) scaleX(0.5); }
+  .bc-lens-tick-sm--225 { transform: translate(-0.5px, 0) rotate(225deg) translateY(-47px) scaleX(0.5); }
+  .bc-lens-tick-sm--315 { transform: translate(-0.5px, 0) rotate(315deg) translateY(-47px) scaleX(0.5); }
+  .bc-lens-arc { width: 100px; height: 100px; }
+  .bc-lens-arc svg, .bc-lens-arc { width: 100px !important; height: 100px !important; }
+  .bc-lens-arc-label { display: none; }
+
+  /* Readout INSIDE the lens — never spills onto the gradient */
+  .bc-lens-readout {
+    top: auto;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 6px;
+  }
+  .bc-lens-readout-text {
+    font-size: 7px;
+    letter-spacing: 0.10em;
+  }
+  .bc-lens-readout::after { height: 6px; }
+
+  /* Match mask radius to scaled 100px lens */
   .bc-human-layer {
     -webkit-mask-image: radial-gradient(circle at
       calc(var(--lens-x, 50%) + var(--lens-offset-x, 0px))
       calc(var(--lens-y, 50%) + var(--lens-offset-y, 0px)),
       transparent 0,
-      transparent 65px,
-      #000 65px,
+      transparent 50px,
+      #000 50px,
       #000 100%);
     mask-image: radial-gradient(circle at
       calc(var(--lens-x, 50%) + var(--lens-offset-x, 0px))
       calc(var(--lens-y, 50%) + var(--lens-offset-y, 0px)),
       transparent 0,
-      transparent 65px,
-      #000 65px,
+      transparent 50px,
+      #000 50px,
       #000 100%);
   }
   /* No drift on mobile — particles render but stay still */
   .bc-ai-particle { animation: none !important; }
+
+  /* Pill — breathing room below before next section */
+  .bc-recommended { bottom: -20px; }
 }
 
 /* --- Reduced motion: no lens, no animation, plain card --- */
