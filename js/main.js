@@ -219,164 +219,37 @@ document.addEventListener('DOMContentLoaded', () => {
      ================================================================ */
 
   /* ================================================================
-     S01c: BROWSER CARD — Scroll-Triggered Transformation
-     5 stages across 300vh of pinned scroll distance.
-     Each stage reveals one layer of AI-readiness.
+     S01c: AI READING GLASS — Layer 1: base card with 3D parallax tilt
+     Desktop only. Mouse-tracked rotateX/Y with scale lift.
+     Mouseleave returns card to resting state with a slow ease-out.
      ================================================================ */
-  (function initBrowserCardTransform() {
-    const heroPin = document.getElementById('heroPin');
-    const browserCard = document.getElementById('browserCard');
-    if (!heroPin || !browserCard) return;
+  (function initCardTilt() {
+    const hero = document.querySelector('.landing-section');
+    const card = document.getElementById('browserCard');
+    if (!hero || !card) return;
+    if (window.innerWidth <= 768) return; // no tilt on touch/mobile
 
-    // Mobile: simplified scroll interaction via gsap.ticker (every frame).
-    // gsap.ticker bypasses Lenis interception of native scroll events,
-    // and reads document.scrollingElement.scrollTop directly each frame.
-    if (window.innerWidth <= 768) {
-      const heroImg = browserCard.querySelector('.bc-hero-img');
-      const bcBody = browserCard.querySelector('.bc-body');
-      let scrollRange = window.innerHeight * 0.8;
-      let lastP = -1;
+    const MAX_ROT_Y = 8; // mouse X  →  -8..+8 deg
+    const MAX_ROT_X = 6; // mouse Y  →  +6..-6 deg (inverted)
 
-      function applyParallax() {
-        const sy = window.pageYOffset || document.documentElement.scrollTop || 0;
-        const p = Math.min(1, Math.max(0, sy / scrollRange));
-        if (Math.abs(p - lastP) < 0.001) return; // skip if no change
-        lastP = p;
-        // Card lifts up to 24px with micro-scale for depth
-        browserCard.style.transform =
-          `translate3d(0, ${(-24 * p).toFixed(1)}px, 0) scale(${(1 - 0.008 * p).toFixed(4)})`;
-        // Image lags slightly (parallax depth) — moves down within card
-        if (heroImg) {
-          heroImg.style.transform = `translate3d(0, ${(8 * p).toFixed(1)}px, 0)`;
-        }
-        // Content drifts subtly up
-        if (bcBody) {
-          bcBody.style.transform = `translate3d(0, ${(-6 * p).toFixed(1)}px, 0)`;
-        }
-      }
-
-      // Continuous rAF loop — works regardless of Lenis/GSAP scroll interception
-      (function parallaxLoop() {
-        applyParallax();
-        requestAnimationFrame(parallaxLoop);
-      })();
-      window.addEventListener('resize', () => {
-        scrollRange = window.innerHeight * 0.8;
-      });
-      return;
+    function onMove(e) {
+      const rect = hero.getBoundingClientRect();
+      const nx = (e.clientX - rect.left) / rect.width;   // 0..1
+      const ny = (e.clientY - rect.top)  / rect.height;  // 0..1
+      const rotY = (nx - 0.5) * 2 * MAX_ROT_Y;           // -8..+8
+      const rotX = (0.5 - ny) * 2 * MAX_ROT_X;           // +6..-6
+      card.style.transition = 'transform 0.1s ease-out';
+      card.style.transform =
+        `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.02)`;
     }
 
-    // Grab elements
-    const heroImg = browserCard.querySelector('.bc-hero-img');
-    const siteNav = browserCard.querySelector('.bc-site-nav');
-    const category = browserCard.querySelector('.bc-category');
-    const pulse = browserCard.querySelector('.bc-pulse');
-    const title = browserCard.querySelector('.bc-title');
-    const desc = browserCard.querySelector('.bc-desc');
-    const meta = browserCard.querySelector('.bc-meta');
-    const ctaRow = browserCard.querySelector('.bc-cta-row');
-    const rating = browserCard.querySelector('.bc-rating');
-    const recommended = document.getElementById('bcRecommended');
-    const annotations = browserCard.closest('.hero-transform').querySelectorAll('.bc-annotation');
-
-    let currentStage = -1;
-
-    function setStage(stage) {
-      if (stage === currentStage) return;
-      currentStage = stage;
-
-      // Stage 1: Image gains color
-      if (stage >= 1) {
-        heroImg.classList.add('s1');
-      } else {
-        heroImg.classList.remove('s1');
-      }
-
-      // Stage 2: Nav restructures
-      if (stage >= 2) {
-        siteNav.classList.add('s2');
-      } else {
-        siteNav.classList.remove('s2');
-      }
-
-      // Stage 3: Category + title + description
-      if (stage >= 3) {
-        category.classList.add('s3');
-        pulse.classList.add('active');
-        title.classList.add('s3');
-        desc.classList.add('s3');
-      } else {
-        category.classList.remove('s3');
-        pulse.classList.remove('active');
-        title.classList.remove('s3');
-        desc.classList.remove('s3');
-      }
-
-      // Stage 4: Meta grid + CTA
-      if (stage >= 4) {
-        meta.classList.add('s4');
-        ctaRow.classList.add('s4');
-      } else {
-        meta.classList.remove('s4');
-        ctaRow.classList.remove('s4');
-      }
-
-      // Stage 5: Rating + recommended + final shadow
-      if (stage >= 5) {
-        rating.classList.add('s5');
-        browserCard.classList.add('stage-5');
-        recommended.classList.add('visible');
-      } else {
-        rating.classList.remove('s5');
-        browserCard.classList.remove('stage-5');
-        recommended.classList.remove('visible');
-      }
-
-      // Annotations: GSAP reveal, then hand off to CSS drift animation
-      annotations.forEach(ann => {
-        const annStage = parseInt(ann.getAttribute('data-stage'));
-        if (annStage <= stage && !ann._revealed) {
-          ann._revealed = true;
-          gsap.to(ann, {
-            opacity: 1,
-            visibility: 'visible',
-            y: 0,
-            duration: 0.6,
-            ease: 'power2.out',
-            onComplete: () => {
-              // Clear inline transform so CSS drift animation can take over
-              gsap.set(ann, { clearProps: 'transform,y' });
-              ann.classList.add('is-drifting');
-            }
-          });
-        }
-      });
+    function onLeave() {
+      card.style.transition = 'transform 0.6s ease-out';
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
     }
 
-    ScrollTrigger.create({
-      trigger: heroPin,
-      start: 'top top',
-      end: '+=300%',
-      pin: true,
-      scrub: 0.5,
-      onUpdate: function(self) {
-        const p = self.progress; // 0 to 1 across 300vh
-
-        if (p < 0.04) {
-          setStage(0);
-        } else if (p < 0.20) {
-          setStage(1);
-        } else if (p < 0.40) {
-          setStage(2);
-        } else if (p < 0.60) {
-          setStage(3);
-        } else if (p < 0.80) {
-          setStage(4);
-        } else {
-          setStage(5);
-        }
-      }
-    });
+    hero.addEventListener('mousemove', onMove, { passive: true });
+    hero.addEventListener('mouseleave', onLeave);
   })();
 
   /* ================================================================
