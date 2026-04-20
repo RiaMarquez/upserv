@@ -365,7 +365,7 @@ a[href*="neat.firecms"],
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 55fr 45fr;
   align-items: center;
   gap: 0;
   width: 100%;
