@@ -337,7 +337,7 @@ input { font: inherit; }
   padding-top: 40px;
 }
 
-/* --- Neat gradient — living 3D wave field on dark cinematic base --- */
+/* --- Neat gradient — full-vibrancy canvas, no overlays/filters --- */
 .hero-fluid {
   position: absolute;
   inset: 0;
@@ -346,13 +346,7 @@ input { font: inherit; }
   z-index: 0;
   pointer-events: none;
   display: block;
-  opacity: 0.45;
-  mix-blend-mode: screen;
-  /* Light blur preserves wave structure while smoothing pixel grain */
-  filter: blur(8px);
-  /* Soft falloff to corners — keeps vignette dark, body luminous */
-  -webkit-mask-image: radial-gradient(ellipse 120% 100% at 45% 55%, black 60%, transparent 100%);
-  mask-image: radial-gradient(ellipse 120% 100% at 45% 55%, black 60%, transparent 100%);
+  opacity: 1;
 }
 
 /* Hide Neat gradient watermark / branding link */
