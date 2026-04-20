@@ -821,8 +821,8 @@ a[href*="neat.firecms"],
     animation: fadeUp 800ms ease 500ms forwards;
   }
   .browser-card {
-    max-width: 71vw !important;
-    width: 71vw !important;
+    max-width: calc(100vw - 40px) !important; /* ~20px each side */
+    width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
     box-shadow:
@@ -1854,84 +1854,102 @@ a[href*="neat.firecms"],
   padding: 8px 16px 14px;
 }
 
-/* --- Mobile: centered card, no 3D tilt; lens scaled to 100px
-       with proportionally scaled chrome --- */
+/* --- Mobile: column flex (card → readout → pill stack), lens shrunk
+       to 80px (~22% of card width). Readout pulled out of lens via JS
+       and styled as a label below the card. --- */
 @media (max-width: 768px) {
   .hero-transform {
-    justify-content: center;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
     perspective: none;
     padding-right: 0;
-    padding-bottom: 60px; /* breathing room below pill before next section */
+    padding-bottom: 60px;
   }
   .browser-card {
     width: 100%;
-    max-width: 320px;
+    max-width: calc(100vw - 40px); /* ~20px each side */
     transform: none;
     transform-style: flat;
     transition: none;
   }
 
-  /* Lens shrunk to 100px, crosshair + ticks + glow scaled proportionally */
-  .bc-lens { width: 100px; height: 100px; margin-left: -50px; margin-top: -50px; }
-  .bc-lens-inner { width: 94px; height: 94px; }
+  /* Lens shrunk to 80px, chrome scaled to ~50% glow */
+  .bc-lens { width: 80px; height: 80px; margin-left: -40px; margin-top: -40px; }
+  .bc-lens-inner { width: 74px; height: 74px; }
   .bc-lens-ring {
     box-shadow:
       0 0 0 1px rgba(21, 94, 117, 0.3),
-      0 0 14px rgba(21, 94, 117, 0.35),
-      0 0 28px rgba(21, 94, 117, 0.15),
+      0 0 10px rgba(21, 94, 117, 0.35),
+      0 0 20px rgba(21, 94, 117, 0.15),
       inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-      inset 0 1px 5px rgba(255, 255, 255, 0.08);
+      inset 0 1px 4px rgba(255, 255, 255, 0.08);
   }
   .bc-lens-cross--h { width: 12px; height: 1px; }
   .bc-lens-cross--v { width: 1px; height: 12px; }
-  .bc-lens-tick--12 { top: 3px; height: 6px; }
-  .bc-lens-tick--6  { bottom: 3px; height: 6px; }
-  .bc-lens-tick--3  { right: 3px; width: 6px; }
-  .bc-lens-tick--9  { left: 3px; width: 6px; }
-  .bc-lens-tick-sm--45  { transform: translate(-0.5px, 0) rotate(45deg)  translateY(-47px) scaleX(0.5); }
-  .bc-lens-tick-sm--135 { transform: translate(-0.5px, 0) rotate(135deg) translateY(-47px) scaleX(0.5); }
-  .bc-lens-tick-sm--225 { transform: translate(-0.5px, 0) rotate(225deg) translateY(-47px) scaleX(0.5); }
-  .bc-lens-tick-sm--315 { transform: translate(-0.5px, 0) rotate(315deg) translateY(-47px) scaleX(0.5); }
-  .bc-lens-arc { width: 100px; height: 100px; }
-  .bc-lens-arc svg, .bc-lens-arc { width: 100px !important; height: 100px !important; }
+  .bc-lens-tick--12 { top: 2px; height: 6px; }
+  .bc-lens-tick--6  { bottom: 2px; height: 6px; }
+  .bc-lens-tick--3  { right: 2px; width: 6px; }
+  .bc-lens-tick--9  { left: 2px; width: 6px; }
+  .bc-lens-tick-sm--45  { transform: translate(-0.5px, 0) rotate(45deg)  translateY(-37px) scaleX(0.5); }
+  .bc-lens-tick-sm--135 { transform: translate(-0.5px, 0) rotate(135deg) translateY(-37px) scaleX(0.5); }
+  .bc-lens-tick-sm--225 { transform: translate(-0.5px, 0) rotate(225deg) translateY(-37px) scaleX(0.5); }
+  .bc-lens-tick-sm--315 { transform: translate(-0.5px, 0) rotate(315deg) translateY(-37px) scaleX(0.5); }
+  .bc-lens-arc { width: 80px; height: 80px; }
+  .bc-lens-arc svg, .bc-lens-arc { width: 80px !important; height: 80px !important; }
   .bc-lens-arc-label { display: none; }
 
-  /* Readout INSIDE the lens — never spills onto the gradient */
-  .bc-lens-readout {
-    top: auto;
-    bottom: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 2px 6px;
-  }
-  .bc-lens-readout-text {
-    font-size: 7px;
-    letter-spacing: 0.10em;
-  }
-  .bc-lens-readout::after { height: 6px; }
-
-  /* Match mask radius to scaled 100px lens */
+  /* Mask radius matched to 80px lens (40px) */
   .bc-human-layer {
     -webkit-mask-image: radial-gradient(circle at
       calc(var(--lens-x, 50%) + var(--lens-offset-x, 0px))
       calc(var(--lens-y, 50%) + var(--lens-offset-y, 0px)),
       transparent 0,
-      transparent 50px,
-      #000 50px,
+      transparent 40px,
+      #000 40px,
       #000 100%);
     mask-image: radial-gradient(circle at
       calc(var(--lens-x, 50%) + var(--lens-offset-x, 0px))
       calc(var(--lens-y, 50%) + var(--lens-offset-y, 0px)),
       transparent 0,
-      transparent 50px,
-      #000 50px,
+      transparent 40px,
+      #000 40px,
       #000 100%);
   }
-  /* No drift on mobile — particles render but stay still */
   .bc-ai-particle { animation: none !important; }
 
-  /* Pill — breathing room below before next section */
-  .bc-recommended { bottom: -20px; }
+  /* READOUT — moved out of lens via JS; sits 8px below card,
+     12px above pill in the column flex flow */
+  .bc-lens-readout {
+    position: static !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin-top: 8px !important;
+    display: inline-flex !important;
+    padding: 6px 12px !important;
+    background: rgba(5, 13, 16, 0.9) !important;
+    border: 1px solid rgba(21, 94, 117, 0.4) !important;
+    border-radius: 4px !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .bc-lens-readout-text {
+    font-size: 10px !important;
+    letter-spacing: 0.10em !important;
+    color: #4BADC5 !important;
+  }
+  .bc-lens-readout::after { display: none !important; }
+
+  /* PILL — static in flex flow, 12px below readout */
+  .bc-recommended {
+    position: static !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 12px 0 0 !important;
+  }
 }
 
 /* --- Reduced motion: no lens, no animation, plain card --- */

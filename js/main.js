@@ -320,7 +320,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!bcBody || !lens || !readout) { console.warn('[ReadingGlass] missing required elements — aborting'); return; }
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { console.log('[ReadingGlass] reduced motion, skipping'); return; }
     const isMobile = window.innerWidth <= 768;
-    if (isMobile) { console.log('[ReadingGlass] mobile — running animation at restrained tempo'); }
+    if (isMobile) {
+      console.log('[ReadingGlass] mobile — running animation at restrained tempo');
+      // Move readout DOM out of the lens (which sits inside .browser-card
+      // with overflow:hidden and clips its content). Reparenting to
+      // .hero-transform so it can render below the card. The JS reference
+      // (`readout`, `readoutTextEl`) is preserved — just the DOM node moves.
+      const wrap = document.querySelector('.browser-card-wrap');
+      if (wrap && wrap.parentElement) {
+        wrap.parentElement.insertBefore(readout, wrap.nextSibling);
+      }
+    }
 
     // Inject a Surface B clone inside the lens for the magnified reveal
     (function mountLensClone() {
