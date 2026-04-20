@@ -1202,7 +1202,10 @@ a[href*="neat.firecms"],
   top: calc(var(--lens-y, 50%) + var(--lens-offset-y, 0px));
   width: 160px;
   height: 160px;
-  transform: translate(-50%, -50%);
+  /* Centering via margins so GSAP's scale/opacity transforms don't
+     overwrite a CSS translate. */
+  margin-left: -80px;
+  margin-top: -80px;
   pointer-events: none;
   z-index: 10;
   overflow: visible;
@@ -1755,7 +1758,7 @@ a[href*="neat.firecms"],
     transition: none;
   }
   /* Scale lens to fit narrower card */
-  .bc-lens { width: 130px; height: 130px; }
+  .bc-lens { width: 130px; height: 130px; margin-left: -65px; margin-top: -65px; }
   .bc-lens-outer { width: 146px; height: 146px; }
   /* Match mask radius to scaled lens */
   .bc-human-layer {

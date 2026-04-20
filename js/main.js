@@ -308,12 +308,19 @@ document.addEventListener('DOMContentLoaded', () => {
   (function initLensMotion() {
     const bcBody = document.querySelector('.bc-body');
     const lens = document.getElementById('bcLens');
+    const aiLayer = document.querySelector('.bc-ai-layer');
+    const humanLayer = document.querySelector('.bc-human-layer');
     const readout = document.getElementById('bcLensReadout');
     const recommended = document.getElementById('bcRecommended');
-    if (!bcBody || !lens || !readout) return;
-    if (window.innerWidth <= 768) return; // desktop-only
-    // Honor user's reduced-motion preference — no animation, no lens
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // Diagnostics — confirm DOM + dimensions from DevTools console
+    console.log('[ReadingGlass] lens:', lens, lens && lens.getBoundingClientRect());
+    console.log('[ReadingGlass] ai-layer (Surface B):', aiLayer, aiLayer && aiLayer.getBoundingClientRect());
+    console.log('[ReadingGlass] human-layer (Surface A):', humanLayer, humanLayer && humanLayer.getBoundingClientRect());
+
+    if (!bcBody || !lens || !readout) { console.warn('[ReadingGlass] missing required elements — aborting'); return; }
+    if (window.innerWidth <= 768) { console.log('[ReadingGlass] mobile, skipping animation'); return; }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { console.log('[ReadingGlass] reduced motion, skipping'); return; }
 
     const state = { x: 15, y: 10, r: 0 };
     function writeState() {
@@ -345,7 +352,12 @@ document.addEventListener('DOMContentLoaded', () => {
     writeState();
     gsap.set(lens, { opacity: 0, scale: 0.6, transformOrigin: 'center center' });
 
-    const tl = gsap.timeline({ repeat: -1, defaults: { overwrite: 'auto' } });
+    const tl = gsap.timeline({
+      repeat: -1,
+      defaults: { overwrite: 'auto' },
+      onStart:    () => console.log('[ReadingGlass] timeline started'),
+      onRepeat:   () => console.log('[ReadingGlass] cycle restart'),
+    });
 
     // ---------- PHASE 1 — ENTRY (0.8s) ----------
     tl.call(() => {
