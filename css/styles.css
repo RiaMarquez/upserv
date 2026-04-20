@@ -365,7 +365,7 @@ a[href*="neat.firecms"],
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 60fr 40fr;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 0;
   width: 100%;
@@ -999,8 +999,8 @@ a[href*="neat.firecms"],
 
 /* --- Browser card container — frosted glass in the Neat gradient --- */
 .browser-card {
-  width: 90%;
-  max-width: 420px;
+  width: 100%;
+  max-width: 520px;
   border-radius: 16px;
   overflow: hidden;
   /* Frosted glass surface — saturate(180%) blooms gradient hues at edges */
