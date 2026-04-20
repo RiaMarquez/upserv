@@ -1081,7 +1081,7 @@ a[href*="neat.firecms"],
 .bc-human-layer {
   position: relative;
   z-index: 2;
-  background: #FFFFFF;
+  background: #FDFAFC;
 }
 
 /* SURFACE B — AI machine-readable layer
@@ -1757,7 +1757,7 @@ a[href*="neat.firecms"],
 
 .bc-meta-col {
   flex: 1;
-  background: #FAFAFA;
+  background: #FBF7FA;
   padding: 6px 10px;
   display: flex;
   flex-direction: column;
