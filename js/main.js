@@ -19,15 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
         : (typeof NeatGradient !== 'undefined') ? NeatGradient : null;
       if (!GradientClass) return;
 
-      // Vibrant, playful gradient — replaces the prior dark teal field
+      // Cool-palette gradient — purples / magentas / indigos only.
+      // Every animation frame stays in the cool half of the spectrum so
+      // headline contrast holds and the hero never tips into glare.
       const config = {
         colors: [
-          { color: '#FF5772', enabled: true },
-          { color: '#00B7FF', enabled: true },
-          { color: '#FFC600', enabled: true },
-          { color: '#8B6AE6', enabled: true },
-          { color: '#2E0EC7', enabled: true },
-          { color: '#FF9A9E', enabled: true },
+          { color: '#1E1B4B', enabled: true },  // deep indigo — anchor
+          { color: '#4C1D95', enabled: true },  // royal purple
+          { color: '#7C3AED', enabled: true },  // vivid violet
+          { color: '#C026D3', enabled: true },  // magenta — warmest allowed
+          { color: '#5B21B6', enabled: true },  // purple-blue
         ],
         speed: 2.5,
         horizontalPressure: 2,
@@ -78,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fresnelEnabled: true,
         fresnelPower: 2,
         fresnelIntensity: 0.6,
-        fresnelColor: '#F90707',
+        fresnelColor: '#7C3AED',
         iridescenceEnabled: false,
         iridescenceIntensity: 0.5,
         iridescenceSpeed: 1,
