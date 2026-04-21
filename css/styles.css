@@ -817,9 +817,12 @@ a[href*="neat.firecms"],
      the layout-box/visual-size discrepancy so the pill + because-line
      don't inherit a phantom gap. */
   .browser-card-wrap {
-    transform: scale(0.88);
+    transform: scale(0.98);
     transform-origin: center top;
-    margin-bottom: -56px;
+    /* Pill overlap fix: at 0.98 scale the visual-vs-layout gap is
+       ~2% of card height (~8-10px), so negligible margin needed.
+       0 keeps pill sitting cleanly below the card's visible edge. */
+    margin-bottom: 0;
   }
   /* MOBILE ALIGNMENT RULE (intentional + device-appropriate):
      Left-align on desktop, center on mobile.

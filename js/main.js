@@ -566,8 +566,10 @@ document.addEventListener('DOMContentLoaded', () => {
       onStart:    () => console.log('[ReadingGlass] timeline started'),
       onRepeat:   () => console.log('[ReadingGlass] cycle restart'),
     });
-    // Mobile: slow the whole cycle ~1.65× → ~18s total (was ~11s on desktop)
-    if (isMobile) tl.timeScale(0.6);
+    // Mobile: play the cycle ~1.5× faster than desktop so each phase
+    // feels purposefully active on the smaller card (was 0.6, reading
+    // as lingering). ~7s mobile cycle vs ~11s desktop.
+    if (isMobile) tl.timeScale(1.5);
 
     // Mobile lens path — constrained to y 10-40 so the lens never
     // overlaps the card title or services row. Desktop path unchanged.
