@@ -3088,17 +3088,60 @@ a[href*="neat.firecms"],
 }
 .text-wrap.active { position: relative; opacity: 1; transform: translateY(0); }
 
+
 /* ============================================================
-   PRICING
+   PRICING — atmospheric gradient, frosted cards, Cold Teal signal,
+   lifted featured card, breathing animation, hero-style CTAs.
    ============================================================ */
 .pricing-section {
-  background: #FAFAFA;
   position: relative;
+  overflow: hidden;
   z-index: 100;
+  padding: 120px 0;
+  background: linear-gradient(
+    165deg,
+    #F8F7FA 0%,
+    #EEEBF2 25%,
+    #E4DFEB 55%,
+    #D9D3E3 80%,
+    #CDC5DB 100%
+  );
 }
 
-.pricing-intro {
-  padding: 120px 80px 80px;
+/* Atmospheric warm bloom in the upper-left (matches hero moonlight) */
+.pricing-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 20% 25%,
+    rgba(255, 245, 235, 0.50) 0%,
+    rgba(255, 245, 235, 0.15) 35%,
+    transparent 65%
+  );
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Noise grain overlay — same SVG technique as hero + S03 + industry panels */
+.pricing-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* --- Section header --- */
+.pricing-intro-wrap {
+  position: relative;
+  z-index: 3;
+  padding: 0 80px;
+  margin-bottom: 80px;
 }
 
 .pricing-mono-tag {
@@ -3111,15 +3154,15 @@ a[href*="neat.firecms"],
   display: block;
   width: 20px;
   height: 1px;
-  background: #155E75;
+  background: #1A7A97;
 }
 .pricing-mono-tag__text {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 400;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #155E75;
+  color: #1A7A97;
 }
 
 .pricing-headline {
@@ -3132,253 +3175,284 @@ a[href*="neat.firecms"],
   margin: 0 0 24px;
 }
 
-.pricing-subhead {
+.pricing-intro {
   font-family: var(--font-primary);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 400;
-  color: #888;
-  line-height: 1.65;
+  color: rgba(10, 10, 10, 0.55);
+  line-height: 1.55;
   letter-spacing: -0.01em;
-  max-width: 560px;
+  max-width: 600px;
   margin: 0;
 }
+.intro-emphasis {
+  color: rgba(10, 10, 10, 0.95);
+}
 
-/* Cards grid */
+/* --- Cards grid --- */
 .pricing-grid {
+  position: relative;
+  z-index: 3;
   margin: 0 80px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 1px;
-  background: rgba(0, 0, 0, 0.07);
-  border-radius: 14px;
-  overflow: hidden;
+  gap: 24px;
+  /* Allow the featured card's translateY(-24px) + scale(1.05) to
+     breathe without clipping against the grid top. */
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
+/* --- Base card: frosted material, layered shadow stack --- */
 .pricing-card {
-  background: #FAFAFA;
-  padding: 48px 40px;
+  position: relative;
+  background: rgba(253, 250, 252, 0.94);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.60);
+  padding: 40px 36px;
   display: flex;
   flex-direction: column;
+  z-index: 3;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    0 20px 48px rgba(0, 0, 0, 0.08),
+    0 40px 80px rgba(124, 58, 237, 0.08),
+    0 60px 120px rgba(192, 38, 211, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.90),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+}
+.pricing-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    0 24px 56px rgba(0, 0, 0, 0.10),
+    0 48px 96px rgba(124, 58, 237, 0.12),
+    0 72px 144px rgba(192, 38, 211, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.90),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
 }
 
+/* --- Featured card: elevated + breathing + Cold Teal hairline --- */
 .pricing-card--featured {
-  background: #0A0A0A;
+  transform: translateY(-24px) scale(1.05);
+  z-index: 4;
+  border: 1px solid rgba(26, 122, 151, 0.20);
+  animation: featuredCardBreathe 6s ease-in-out infinite;
+}
+.pricing-card--featured:hover {
+  /* Compose hover lift on top of the -24px elevation */
+  transform: translateY(-28px) scale(1.05);
+  animation-play-state: paused;
 }
 
-/* Popular indicator */
-.pricing-popular {
-  display: flex;
+@keyframes featuredCardBreathe {
+  0%, 100% {
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.06),
+      0 32px 72px rgba(0, 0, 0, 0.12),
+      0 56px 128px rgba(124, 58, 237, 0.15),
+      0 80px 160px rgba(192, 38, 211, 0.10),
+      0 120px 200px rgba(26, 122, 151, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+  }
+  50% {
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.06),
+      0 32px 72px rgba(0, 0, 0, 0.12),
+      0 56px 128px rgba(124, 58, 237, 0.20),
+      0 80px 160px rgba(192, 38, 211, 0.14),
+      0 120px 200px rgba(26, 122, 151, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pricing-card--featured { animation: none; }
+}
+
+/* --- MOST POPULAR pill (featured only) --- */
+.most-popular-pill {
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 8px;
-  color: #155E75;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 32px;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: rgba(26, 122, 151, 0.08);
+  border: 1px solid rgba(26, 122, 151, 0.25);
+  margin-bottom: 24px;
+  align-self: flex-start;
 }
-.pricing-popular-dot {
-  width: 5px;
-  height: 5px;
+.most-popular-pill .pill-dot {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: #155E75;
+  background: #1A7A97;
+  box-shadow: 0 0 8px rgba(26, 122, 151, 0.6);
+  animation: pillDotBreathe 3s ease-in-out infinite;
+  flex-shrink: 0;
 }
-
-/* Plan label */
-.pricing-plan-label {
+.most-popular-pill .pill-text {
   font-family: var(--font-mono);
-  font-size: 9px;
-  color: #aaa;
+  font-size: 11px;
+  font-weight: 400;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 32px;
+  color: #1A7A97;
+}
+
+/* --- Plan label (STARTER / GROWTH / SCALE) --- */
+.pricing-plan-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(10, 10, 10, 0.50);
+  margin-bottom: 20px;
   display: block;
 }
 .pricing-card--featured .pricing-plan-label {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(10, 10, 10, 0.70);
 }
 
-/* Price */
+/* --- Price --- */
 .pricing-price {
   font-family: var(--font-display);
-  font-size: 52px;
-  font-weight: 700;
-  letter-spacing: -0.04em;
+  font-size: 56px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
   color: #0A0A0A;
   line-height: 1;
 }
-.pricing-card--featured .pricing-price {
-  color: #ffffff;
-}
 
-/* Setup + monthly */
 .pricing-setup {
   font-family: var(--font-primary);
-  font-size: 12px;
-  color: #aaa;
-  margin-bottom: 6px;
+  font-size: 14px;
+  color: rgba(10, 10, 10, 0.50);
+  margin: 4px 0 16px;
   display: block;
-}
-.pricing-card--featured .pricing-setup {
-  color: rgba(255, 255, 255, 0.3);
 }
 
 .pricing-monthly {
   font-family: var(--font-primary);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
-  color: #155E75;
-  margin-bottom: 40px;
+  color: #1A7A97;
+  margin-bottom: 8px;
   display: block;
 }
-.pricing-card--featured .pricing-monthly {
-  color: #4BADC5;
-}
 
-/* Divider */
+/* --- Hairline divider between pricing block and features --- */
 .pricing-divider {
   height: 1px;
-  background: rgba(0, 0, 0, 0.07);
-  margin-bottom: 32px;
-}
-.pricing-card--featured .pricing-divider {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(10, 10, 10, 0.08);
+  margin: 24px 0;
 }
 
-/* Features */
+/* --- Features --- */
 .pricing-features {
   flex: 1;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
-
 .pricing-feature {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 14px;
   font-family: var(--font-primary);
-  font-size: 13px;
-  color: #555;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(10, 10, 10, 0.85);
   letter-spacing: -0.01em;
   line-height: 1.5;
 }
-.pricing-card--featured .pricing-feature {
-  color: rgba(255, 255, 255, 0.6);
-}
-
 .pricing-check {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: rgba(21, 94, 117, 0.12);
-  display: flex;
+  background: rgba(26, 122, 151, 0.10);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
-.pricing-card--featured .pricing-check {
-  background: rgba(255, 255, 255, 0.08);
-}
 
-/* AI feature box */
-.pricing-ai-box {
-  padding: 14px 16px;
-  background: rgba(21, 94, 117, 0.06);
-  border: 1px solid rgba(21, 94, 117, 0.12);
-  border-radius: 8px;
-  margin-bottom: 32px;
+/* --- INCLUDED chip — frosted mini-card with Cold Teal accent --- */
+.included-chip {
+  background: rgba(26, 122, 151, 0.06);
+  border: 1px solid rgba(26, 122, 151, 0.15);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
 }
-.pricing-ai-box--dark {
-  background: rgba(21, 94, 117, 0.2);
-  border-color: rgba(21, 94, 117, 0.4);
+.pricing-card--featured .included-chip {
+  background: rgba(26, 122, 151, 0.09);
+  border: 1px solid rgba(26, 122, 151, 0.20);
 }
-
-.pricing-ai-label {
-  display: block;
+.included-chip-label {
   font-family: var(--font-mono);
-  font-size: 8px;
-  color: #155E75;
-  letter-spacing: 0.08em;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  margin-bottom: 4px;
+  color: #1A7A97;
+  margin-bottom: 6px;
 }
-
-.pricing-ai-text {
-  display: block;
+.included-chip-text {
   font-family: var(--font-primary);
-  font-size: 12px;
-  color: #444;
-  line-height: 1.5;
-}
-.pricing-card--featured .pricing-ai-text {
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  color: rgba(10, 10, 10, 0.80);
+  line-height: 1.45;
 }
 
-/* CTA */
+/* --- CTA button — matches hero CTA material identity --- */
 .pricing-cta {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
   width: 100%;
-  text-align: center;
-  padding: 14px;
-  border-radius: 9px;
+  padding: 16px 28px;
+  border-radius: 14px;
   font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: linear-gradient(180deg, #0F0F12 0%, #050507 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   text-decoration: none;
-  background: transparent;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  color: #0A0A0A;
-  transition: background 150ms ease, border-color 150ms ease;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.10),
+    0 8px 24px rgba(26, 122, 151, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.pricing-cta-arrow {
+  color: #1A7A97;
+  transition: transform 0.3s ease;
 }
 .pricing-cta:hover {
-  background: rgba(0, 0, 0, 0.03);
-  border-color: rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.15),
+    0 16px 36px rgba(26, 122, 151, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
 }
-.pricing-cta--featured {
-  background: #155E75;
-  border: none;
-  color: #ffffff;
+.pricing-cta:hover .pricing-cta-arrow {
+  transform: translateX(3px);
 }
-.pricing-cta--featured:hover {
-  background: #0E4352;
-}
-
-/* Mini FAQ */
-.pricing-mini-faq {
-  padding: 80px 80px;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  margin: 80px 80px 0;
-}
-.pricing-mini-faq__title {
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 600;
-  color: #0A0A0A;
-  letter-spacing: -0.02em;
-  margin: 0 0 20px;
-}
-.pricing-mini-faq__row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  text-decoration: none;
-  font-family: var(--font-primary);
-  font-size: 13px;
-  color: #555;
-  letter-spacing: -0.01em;
-  transition: color 150ms ease;
-}
-.pricing-mini-faq__row:hover {
-  color: #0A0A0A;
-}
-.pricing-mini-faq__arrow {
-  color: #ccc;
-  font-size: 11px;
+.pricing-cta:active {
+  transform: translateY(1px);
 }
 
-/* Scroll reveal */
+/* --- Scroll reveal --- */
 .pricing-reveal {
   opacity: 0;
   transform: translateY(12px);
@@ -3389,120 +3463,39 @@ a[href*="neat.firecms"],
   transform: translateY(0);
 }
 
-/* Mobile */
+/* --- Mobile --- */
 @media (max-width: 768px) {
-  .pricing-intro {
-    padding: 80px 24px 48px;
+  .pricing-section {
+    padding: 80px 0;
   }
-  .pricing-headline {
-    font-size: 44px;
+  .pricing-intro-wrap {
+    padding: 0 24px;
+    margin-bottom: 48px;
   }
-  .pricing-subhead {
-    font-size: 14px;
-  }
+  .pricing-headline { font-size: 44px; }
+  .pricing-intro { font-size: 15px; }
   .pricing-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
     margin: 0 24px;
+    padding-top: 0;
+    padding-bottom: 0;
   }
   .pricing-card {
-    padding: 40px 24px;
+    padding: 32px 28px;
   }
-  .pricing-mini-faq {
-    padding: 48px 24px;
-    margin: 48px 24px 0;
+  /* Featured card's elevated transform doesn't read well stacked —
+     reduce to a modest lift so it still feels primary without
+     crashing into adjacent cards. */
+  .pricing-card--featured {
+    transform: translateY(-8px) scale(1);
   }
+  .pricing-card--featured:hover {
+    transform: translateY(-12px) scale(1);
+  }
+  .pricing-price { font-size: 44px; }
 }
 
-/* ============================================================
-   S06: FAQ
-   ============================================================ */
-.faq-section {
-  background: #FAFAFA; position: relative; z-index: 100;
-}
-.faq-container {
-  max-width: 100%; margin: 0; padding: 120px 80px;
-}
-@media (max-width: 690px) { .faq-container { padding: 60px 24px; } }
-
-.faq-title {
-  font-family: var(--font-display); font-size: 48px; font-weight: 600;
-  color: #0A0A0A; letter-spacing: -0.03em; line-height: 1.1;
-  margin-bottom: 40px; text-align: left; padding-left: 0;
-}
-@media (max-width: 690px) { .faq-title { font-size: 28px; margin-bottom: 40px; } }
-
-/* Level 1 — Category */
-.faq-category { border-bottom: 0.5px solid rgba(0, 0, 0, 0.08); }
-.faq-category.open { border-bottom-color: #155E75; }
-.cat-header {
-  padding: 24px 0; display: flex; align-items: center;
-  justify-content: space-between; cursor: pointer;
-  font-family: var(--font-display); font-size: 14px;
-  font-weight: 600; color: #0A0A0A; letter-spacing: -0.02em;
-  transition: color 300ms ease, background 200ms ease;
-  border: none; background: none; width: 100%; text-align: left;
-}
-.cat-header:hover { background: rgba(21, 94, 117, 0.03); }
-.faq-category.open .cat-header { color: #155E75; }
-
-.cat-icon {
-  font-size: 18px; color: #999; flex-shrink: 0;
-  transition: color 300ms ease;
-}
-.cat-icon::after { content: '+'; }
-.faq-category.open .cat-icon { color: #155E75; }
-.faq-category.open .cat-icon::after { content: '−'; }
-
-.cat-body {
-  max-height: 0; overflow: hidden;
-  transition: max-height 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.faq-category.open .cat-body { max-height: 4000px; }
-
-/* Level 2 — Subcategory (hidden — two-level structure) */
-.faq-sub { border-bottom: none; }
-.sub-header { display: none; }
-.sub-body { max-height: none; overflow: visible; }
-.faq-sub.open .sub-body { max-height: none; }
-
-/* Questions — directly under category */
-.faq-question { border-bottom: 0.5px solid rgba(0, 0, 0, 0.06); }
-.q-header {
-  padding: 16px 0 16px 24px; display: flex; align-items: center;
-  justify-content: space-between; cursor: pointer;
-  font-family: var(--font-primary); font-size: 15px;
-  font-weight: 400; color: #0A0A0A; letter-spacing: -0.01em;
-  transition: color 300ms ease, background 200ms ease;
-  border: none; background: none; width: 100%; text-align: left;
-}
-.q-header:hover, .faq-question.open .q-header { color: #0A0A0A; background: rgba(21, 94, 117, 0.03); }
-.q-chevron {
-  font-size: 12px; color: #ccc; transition: transform 300ms ease, color 300ms ease; flex-shrink: 0;
-}
-.faq-question.open .q-chevron { transform: rotate(90deg); color: #155E75; }
-
-/* Answer */
-.q-answer {
-  max-height: 0; overflow: hidden;
-  transition: max-height 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.faq-question.open .q-answer { max-height: 2000px; }
-.q-answer-inner {
-  padding: 20px 0 24px 24px;
-  font-family: var(--font-primary); font-size: 15px;
-  font-weight: 400; color: #666666; line-height: 1.7;
-  letter-spacing: -0.01em;
-  max-width: 100%;
-  width: 100%;
-  background: transparent;
-  border-left: 2px solid #155E75;
-  margin-left: 24px; margin-bottom: 4px;
-  border-radius: 0;
-}
-@media (max-width: 690px) {
-  .q-header { padding-left: 16px; }
-  .q-answer-inner { padding: 16px 16px 20px 16px; margin-left: 16px; }
-}
 
 /* ============================================================
    FOOTER
