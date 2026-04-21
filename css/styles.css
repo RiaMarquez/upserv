@@ -819,7 +819,7 @@ a[href*="neat.firecms"],
   .browser-card-wrap {
     transform: scale(0.8);
     transform-origin: center top;
-    margin-bottom: -80px;
+    margin-bottom: -64px;
   }
   /* MOBILE ALIGNMENT RULE (intentional + device-appropriate):
      Left-align on desktop, center on mobile.
@@ -2150,7 +2150,7 @@ a[href*="neat.firecms"],
     align-items: center !important;
     perspective: none;
     padding-right: 0;
-    padding-bottom: 20px;
+    padding-bottom: 32px;
   }
   .browser-card {
     width: 100%;
