@@ -19,16 +19,17 @@ document.addEventListener('DOMContentLoaded', () => {
         : (typeof NeatGradient !== 'undefined') ? NeatGradient : null;
       if (!GradientClass) return;
 
-      // Cool-palette gradient — purples / magentas / indigos only.
-      // Every animation frame stays in the cool half of the spectrum so
-      // headline contrast holds and the hero never tips into glare.
+      // Cool-palette gradient — rebalanced toward blue presence.
+      // Three blues (anchor indigo, deep, vivid) + one purple bridge +
+      // one magenta warm accent. Frames cycle across the cool spectrum
+      // without skewing uniformly pink/purple as the prior palette did.
       const config = {
         colors: [
           { color: '#1E1B4B', enabled: true },  // deep indigo — anchor
-          { color: '#4C1D95', enabled: true },  // royal purple
-          { color: '#7C3AED', enabled: true },  // vivid violet
-          { color: '#C026D3', enabled: true },  // magenta — warmest allowed
-          { color: '#5B21B6', enabled: true },  // purple-blue
+          { color: '#1E3A8A', enabled: true },  // deep blue
+          { color: '#2563EB', enabled: true },  // vivid blue
+          { color: '#7C3AED', enabled: true },  // royal purple — bridge
+          { color: '#C026D3', enabled: true },  // magenta — warm accent
         ],
         speed: 2.5,
         horizontalPressure: 2,
