@@ -561,16 +561,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroPin = document.getElementById('heroPin');
 
   if (clipBgWrap && clipReveal) {
-    // Pin the hero so S02 climbs UP OVER it while it stays fixed for
-    // ~1 viewport of scroll. Restores the original S01→S02 overlap feel.
-    // (The Reading Glass lens timeline is independent — unaffected.)
+    // Pin the hero so S02 climbs UP OVER it. pinSpacing: false is the
+    // key — without a spacer GSAP adds after the pin, S02 scrolls UP
+    // into the same viewport position the fixed hero occupies, creating
+    // the overlap/climb effect. (pinSpacing:true would leave a gap and
+    // S02 would flow below, no overlap.)
     if (heroPin) {
       ScrollTrigger.create({
         trigger: heroPin,
         start: 'top top',
-        end: '+=100%',   // hold for 1 viewport of scroll
+        end: '+=100%',
         pin: true,
-        pinSpacing: true,
+        pinSpacing: false,
       });
     }
 
