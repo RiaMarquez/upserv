@@ -2480,7 +2480,7 @@ a[href*="neat.firecms"],
   font-size: 17px;
   font-weight: 400;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.45);
   letter-spacing: -0.01em;
   margin-bottom: 0;
 }
@@ -2675,7 +2675,7 @@ a[href*="neat.firecms"],
    in Section 4. */
 .terminal-missing {
   position: relative;
-  margin-top: 24px;
+  margin-top: 12px;
   padding: 28px 24px 24px;
   background: rgba(253, 250, 252, 0.94);   /* matches hero card #FDFAFC */
   backdrop-filter: blur(40px) saturate(180%);
