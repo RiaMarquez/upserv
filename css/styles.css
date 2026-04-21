@@ -337,7 +337,8 @@ input { font: inherit; }
   padding-top: 40px;
 }
 
-/* --- Neat gradient — full-vibrancy canvas, no overlays/filters --- */
+/* --- Neat gradient — full-vibrancy canvas + atmospheric blur (2px)
+       so foreground reads as comparatively crisper (depth cue) --- */
 .hero-fluid {
   position: absolute;
   inset: 0;
@@ -347,6 +348,31 @@ input { font: inherit; }
   pointer-events: none;
   display: block;
   opacity: 1;
+  filter: blur(2px);
+}
+
+/* --- Primary light source: soft warm off-white bloom in upper-left.
+       Reads as the "sun" the rest of the hero is lit by. --- */
+.hero-bloom {
+  position: absolute;
+  top: -10%;
+  left: 5%;
+  width: 40%;
+  height: 50%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 245, 235, 0.18) 0%,
+    rgba(255, 235, 220, 0.08) 30%,
+    rgba(255, 225, 210, 0) 65%
+  );
+  filter: blur(60px);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  z-index: 1;
+}
+@media (max-width: 768px) {
+  .hero-bloom { width: 60%; height: 40%; }
 }
 
 /* Hide Neat gradient watermark / branding link */
@@ -444,8 +470,13 @@ a[href*="neat.firecms"],
 .hs-line.hs-bold {
   color: #ffffff !important;
   font-weight: 700 !important;
-  letter-spacing: -0.04em;
-  text-shadow: 0 0 80px rgba(31, 143, 170, 0.20);
+  /* Slightly tighter (-0.045em) — micro-sense of weight/closeness */
+  letter-spacing: -0.045em;
+  /* Keep existing teal halo + add soft under-shadow for forward depth
+     (text appears to float a few mm above the gradient) */
+  text-shadow:
+    0 0 80px rgba(31, 143, 170, 0.20),
+    0 4px 24px rgba(0, 0, 0, 0.08);
 }
 
 .hs-line.hs-accent {
