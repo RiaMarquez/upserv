@@ -880,6 +880,37 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ================================================================
+     PRICING — dominant card transfers on hover, returns to Growth
+     on mouseleave from the cards grid. MOST POPULAR pill stays
+     hardcoded to Growth in HTML (semantic truth, not hover state).
+     Hover listeners gated behind (hover: hover) so touch devices
+     keep Growth dominant permanently.
+     ================================================================ */
+  (function initPricingDominance() {
+    const cards = document.querySelectorAll('.pricing-card');
+    const growthCard = document.querySelector('.pricing-card--growth');
+    const cardsGrid = document.querySelector('.pricing-grid');
+    if (!cards.length || !growthCard || !cardsGrid) return;
+
+    function setDominant(targetCard) {
+      cards.forEach(c => c.classList.remove('dominant'));
+      targetCard.classList.add('dominant');
+    }
+
+    // Initial state: Growth is dominant on page load
+    setDominant(growthCard);
+
+    // Only attach hover transfer on pointer-capable devices
+    const hasHover = window.matchMedia('(hover: hover)').matches;
+    if (!hasHover) return;
+
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => setDominant(card));
+    });
+    cardsGrid.addEventListener('mouseleave', () => setDominant(growthCard));
+  })();
+
+  /* ================================================================
      S06: FAQ ACCORDION
      ================================================================ */
   document.querySelectorAll('.toggle-title').forEach(btn => {

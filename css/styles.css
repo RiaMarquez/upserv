@@ -3205,7 +3205,12 @@ a[href*="neat.firecms"],
   display: flex;
   flex-direction: column;
   z-index: 3;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Smoother easing on elevation/glow transitions so dominance
+     transfer between cards reads as intentional motion, not a snap. */
+  transition:
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.04),
     0 20px 48px rgba(0, 0, 0, 0.08),
@@ -3225,14 +3230,17 @@ a[href*="neat.firecms"],
     inset 0 -1px 0 rgba(0, 0, 0, 0.03);
 }
 
-/* --- Featured card: elevated + breathing + Cold Teal hairline --- */
-.pricing-card--featured {
+/* --- Dominant card: elevated + breathing + Cold Teal hairline.
+       Applied dynamically via JS — Growth carries it on page load,
+       hovering any other card transfers dominance to that card,
+       mouseleave from the grid returns dominance to Growth. --- */
+.pricing-card.dominant {
   transform: translateY(-24px) scale(1.05);
   z-index: 4;
   border: 1px solid rgba(26, 122, 151, 0.20);
   animation: featuredCardBreathe 6s ease-in-out infinite;
 }
-.pricing-card--featured:hover {
+.pricing-card.dominant:hover {
   /* Compose hover lift on top of the -24px elevation */
   transform: translateY(-28px) scale(1.05);
   animation-play-state: paused;
@@ -3261,7 +3269,7 @@ a[href*="neat.firecms"],
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .pricing-card--featured { animation: none; }
+  .pricing-card.dominant { animation: none; }
 }
 
 /* --- MOST POPULAR pill (featured only) --- */
@@ -3450,13 +3458,14 @@ a[href*="neat.firecms"],
   .pricing-card {
     padding: 32px 28px;
   }
-  /* Featured card's elevated transform doesn't read well stacked —
+  /* Dominant card's elevated transform doesn't read well stacked —
      reduce to a modest lift so it still feels primary without
-     crashing into adjacent cards. */
-  .pricing-card--featured {
+     crashing into adjacent cards. Hover transfer is disabled on
+     touch (see JS gate), so dominant stays on Growth here. */
+  .pricing-card.dominant {
     transform: translateY(-8px) scale(1);
   }
-  .pricing-card--featured:hover {
+  .pricing-card.dominant:hover {
     transform: translateY(-12px) scale(1);
   }
   .pricing-price { font-size: 44px; }
