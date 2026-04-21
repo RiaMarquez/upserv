@@ -1365,7 +1365,8 @@ a[href*="neat.firecms"],
 }
 
 /* Specular highlight — soft angled arc at 10 o'clock position.
-   Sits inside the lens view (clipped to circle by the view's mask). */
+   Sits inside the lens view (clipped to circle by the view's mask).
+   --spec-dx/dy/scale driven by JS cursor parallax. */
 .bc-lens-specular {
   position: absolute;
   top: 18%;
@@ -1378,10 +1379,14 @@ a[href*="neat.firecms"],
     rgba(255, 255, 255, 0) 100%);
   filter: blur(2px);
   border-radius: 50%;
-  transform: rotate(-30deg);
+  transform:
+    rotate(-30deg)
+    translate(var(--spec-dx, 0px), var(--spec-dy, 0px))
+    scale(var(--spec-scale, 1));
   mix-blend-mode: screen;
   pointer-events: none;
-  z-index: 2;  /* above .bc-lens-view (z:1), below ring (z:3) */
+  will-change: transform;
+  z-index: 2;
 }
 /* Chromatic aberration — red 1px left, blue 1px right (1px matched to new border) */
 .bc-lens-ring::before,
@@ -1430,18 +1435,21 @@ a[href*="neat.firecms"],
   left: 50%;
   width: 20px;
   height: 1px;
-  transform: translate(-50%, -50%);
+  transform: translate(calc(-50% + var(--cross-dx, 0px)), calc(-50% + var(--cross-dy, 0px)));
+  will-change: transform;
 }
 .bc-lens-cross--v {
   top: 50%;
   left: 50%;
   width: 1px;
   height: 20px;
-  transform: translate(-50%, -50%);
+  transform: translate(calc(-50% + var(--cross-dx, 0px)), calc(-50% + var(--cross-dy, 0px)));
+  will-change: transform;
 }
 
 /* Center point — 3px active focal dot + soft teal glow.
-   Sits above crosshair + ring insets, below the rim border. */
+   Sits above crosshair + ring insets, below the rim border.
+   --center-opacity / --center-glow driven by JS cursor distance. */
 .bc-lens-center {
   position: absolute;
   top: 50%;
@@ -1451,8 +1459,10 @@ a[href*="neat.firecms"],
   border-radius: 50%;
   background: #155E75;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 4px rgba(21, 94, 117, 0.8);
+  opacity: var(--center-opacity, 1);
+  box-shadow: 0 0 4px rgba(21, 94, 117, var(--center-glow, 0.8));
   pointer-events: none;
+  will-change: opacity, box-shadow;
   z-index: 4;
 }
 

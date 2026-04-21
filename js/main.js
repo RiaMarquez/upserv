@@ -269,6 +269,58 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* ================================================================
+     LENS PARALLAX (Layer 2) — cursor-responsive micro-motion on the
+     specular highlight, crosshair, and center dot. GSAP path motion
+     unaffected. Disabled on mobile + reduced-motion.
+     ================================================================ */
+  (function initLensParallax() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.innerWidth <= 768) return;
+
+    const hero = document.getElementById('heroPin') || document.querySelector('.landing-section');
+    const lens = document.getElementById('bcLens');
+    if (!hero || !lens) return;
+
+    let tX = 0, tY = 0, tDist = 0;   // targets (-1..1, 0..1)
+    let cX = 0, cY = 0, cDist = 0;   // current (eased)
+    const EASE = 0.1;
+
+    document.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      const halfW = rect.width / 2;
+      const halfH = rect.height / 2;
+      const cx = e.clientX - (rect.left + halfW);
+      const cy = e.clientY - (rect.top  + halfH);
+      tX = Math.max(-1, Math.min(1, cx / halfW));
+      tY = Math.max(-1, Math.min(1, cy / halfH));
+      tDist = Math.min(1, Math.sqrt(tX * tX + tY * tY) / Math.SQRT2); // normalize so corner ≈ 1
+    }, { passive: true });
+
+    (function tick() {
+      cX    += (tX    - cX)    * EASE;
+      cY    += (tY    - cY)    * EASE;
+      cDist += (tDist - cDist) * EASE;
+
+      // Specular — OPPOSITE direction (real-glass reflection behavior),
+      // max ±3px, scale 1.05 at center → 0.95 at edges
+      lens.style.setProperty('--spec-dx',    (-cX * 3).toFixed(2) + 'px');
+      lens.style.setProperty('--spec-dy',    (-cY * 3).toFixed(2) + 'px');
+      lens.style.setProperty('--spec-scale', (1.05 - cDist * 0.10).toFixed(3));
+
+      // Crosshair — SAME direction, max ±1px (subtle "tracking" drift)
+      lens.style.setProperty('--cross-dx', (cX * 1).toFixed(2) + 'px');
+      lens.style.setProperty('--cross-dy', (cY * 1).toFixed(2) + 'px');
+
+      // Center dot — opacity + glow intensity pulse based on cursor
+      // distance from hero center (closer = brighter, "aware" of viewer)
+      lens.style.setProperty('--center-opacity', (0.7 + (1 - cDist) * 0.3).toFixed(3));
+      lens.style.setProperty('--center-glow',    (0.5 + (1 - cDist) * 0.5).toFixed(3));
+
+      requestAnimationFrame(tick);
+    })();
+  })();
+
+  /* ================================================================
      AI READING GLASS — Layer 5 polish: ambient particles in AI layer
      14 tiny teal dots drifting slowly. Felt more than seen.
      ================================================================ */
