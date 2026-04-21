@@ -558,8 +558,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const clipBgWrap = document.getElementById('clipBgWrap');
   const clipImage = document.getElementById('clipImage');
   const clipReveal = document.getElementById('clipReveal');
+  const heroPin = document.getElementById('heroPin');
 
   if (clipBgWrap && clipReveal) {
+    // Pin the hero so S02 climbs UP OVER it while it stays fixed for
+    // ~1 viewport of scroll. Restores the original S01→S02 overlap feel.
+    // (The Reading Glass lens timeline is independent — unaffected.)
+    if (heroPin) {
+      ScrollTrigger.create({
+        trigger: heroPin,
+        start: 'top top',
+        end: '+=100%',   // hold for 1 viewport of scroll
+        pin: true,
+        pinSpacing: true,
+      });
+    }
+
     gsap.fromTo(clipBgWrap,
       { clipPath: 'inset(15% 25% 15% 25% round 50px)' },
       {
