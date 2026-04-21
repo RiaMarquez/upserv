@@ -293,6 +293,77 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* ================================================================
+     VERDICT CYCLE — Verdict Pill + Query Ticker, driven by one shared
+     state so the pill color and the ticker query advance in lockstep.
+     Three states on a 5s hold each, 500ms opacity fade between.
+     prefers-reduced-motion: freeze on State 1.
+     ================================================================ */
+  (function initVerdictCycle() {
+    const pill    = document.getElementById('bcRecommended');
+    const pillTxt = pill && pill.querySelector('.bc-rec-text');
+    const pillDot = pill && pill.querySelector('.bc-rec-dot');
+    const ticker  = document.getElementById('heroTicker');
+    const qText   = ticker && ticker.querySelector('.ht-query-text');
+    const oText   = ticker && ticker.querySelector('.ht-outcome-text');
+    if (!pill || !pillTxt || !ticker || !qText || !oText) return;
+
+    const STATES = [
+      {
+        verdict: 'Recommended by ChatGPT',
+        query:   "Who's the best dentist in South Yarra for Invisalign?",
+        outcome: '3 businesses recommended — including City Dental Group',
+      },
+      {
+        verdict: 'Mentioned by ChatGPT — not first choice',
+        query:   'Emergency dentist near Richmond available today?',
+        outcome: '5 businesses mentioned — City Dental Group not first',
+      },
+      {
+        verdict: "Not in ChatGPT's recommendations",
+        query:   'Affordable dental cleaning in Melbourne CBD?',
+        outcome: "4 businesses recommended — City Dental Group not included",
+      },
+    ];
+
+    // Prime State 1 immediately so the pill doesn't flash the HTML default
+    function render(idx, instant) {
+      const s = STATES[idx];
+      // Text crossfade: fade out → swap → fade in
+      const fade = () => {
+        pillTxt.textContent = s.verdict;
+        qText.textContent   = s.query;
+        oText.textContent   = s.outcome;
+        pill.setAttribute('data-state', String(idx + 1));
+        // pulse dot scale 0.9 → 1.0 during fade-in
+        if (pillDot) {
+          pillDot.style.transform = 'scale(0.9)';
+          requestAnimationFrame(() => { pillDot.style.transform = 'scale(1)'; });
+        }
+        pillTxt.style.opacity = '1';
+        qText.style.opacity   = '1';
+        oText.style.opacity   = '1';
+      };
+      if (instant) { fade(); return; }
+      pillTxt.style.opacity = '0';
+      qText.style.opacity   = '0';
+      oText.style.opacity   = '0';
+      setTimeout(fade, 500);
+    }
+
+    // Initial render to State 1 without fade
+    render(0, true);
+
+    // Honor reduced motion — freeze on State 1, no interval
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let idx = 0;
+    setInterval(() => {
+      idx = (idx + 1) % STATES.length;
+      render(idx, false);
+    }, 5000);
+  })();
+
+  /* ================================================================
      GSAP + SCROLLTRIGGER — everything below requires these libs
      ================================================================ */
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;

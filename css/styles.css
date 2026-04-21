@@ -1573,10 +1573,17 @@ a[href*="neat.firecms"],
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #10b981;
+  background: #22C55E;  /* default — State 1 green; JS updates via [data-state] */
   flex-shrink: 0;
-  transition: background 1.5s ease, transform 0.6s ease-out;
+  transform: scale(1);
+  transition: background 500ms ease, transform 500ms ease;
 }
+
+/* Three-state verdict cycle — JS toggles [data-state] 1/2/3 */
+.bc-recommended[data-state="1"] .bc-rec-dot { background: #22C55E; }  /* green */
+.bc-recommended[data-state="2"] .bc-rec-dot { background: #EAB308; }  /* yellow */
+.bc-recommended[data-state="3"] .bc-rec-dot { background: #EF4444; }  /* red */
+.bc-rec-text { transition: opacity 500ms ease; }
 
 .bc-rec-ring {
   position: absolute;
@@ -1646,6 +1653,74 @@ a[href*="neat.firecms"],
   /* 9px dot → 20px diameter exit (scale 2.22) */
   0%   { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
   100% { transform: translate(-50%, -50%) scale(2.22); opacity: 0; }
+}
+
+/* ============================================================
+   HERO TICKER — three-line live query strip at bottom of hero.
+   Synced with verdict pill via shared state in JS.
+   ============================================================ */
+.hero-ticker {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 8px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  text-align: center;
+  pointer-events: none;
+}
+.ht-caption {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1.4;
+  margin-bottom: 3px;
+}
+.ht-query {
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+.ht-query-text {
+  font-family: var(--font-primary);
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  transition: opacity 500ms ease;
+  display: inline-block;
+}
+.ht-outcome {
+  line-height: 1.4;
+}
+.ht-outcome-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  transition: opacity 500ms ease;
+  display: inline-block;
+}
+
+/* Mobile — tighter type, allow query to wrap */
+@media (max-width: 768px) {
+  .hero-ticker {
+    bottom: 24px;
+    padding: 8px 16px;
+  }
+  .ht-query-text { font-size: 12px; }
+  .ht-outcome-text { font-size: 9px; }
+}
+
+/* Reduced motion — freeze transitions (JS also skips the cycle) */
+@media (prefers-reduced-motion: reduce) {
+  .bc-rec-text,
+  .bc-rec-dot,
+  .ht-query-text,
+  .ht-outcome-text {
+    transition: none !important;
+  }
 }
 
 /* ============================================================
