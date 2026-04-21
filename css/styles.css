@@ -3000,20 +3000,26 @@ a[href*="neat.firecms"],
   padding-left: 24px;
 }
 
-/* C6 — typography refinement + raised opacity for readability.
-   Setup 0.80α, payoff 1.0α — still a visible delta, both bright
-   enough to read cleanly over the darker gradient + copy backdrop.
-   Font-family uses var(--font-primary) which correctly resolves to
-   the registered 'Sohne' family (weight 400 = Buch). */
+/* C6 — editorial serif treatment on industry card body copy.
+   Brand-level shift from Söhne Buch to Fraunces to match the
+   atmospheric imagery. 20px size + variable optical-sizing gives
+   proper presence on the dark gradient without shouting.
+   Emphasis differentiates via weight (400 → 500) plus opacity
+   (0.75 → 1.0), stronger delta than opacity alone. */
 .panel--crafted .panel-fact {
-  font-family: var(--font-primary);
-  font-size: 18px;
-  line-height: 1.55;
+  font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  font-weight: 400;
+  font-optical-sizing: auto;
+  line-height: 1.5;
   letter-spacing: -0.015em;
-  color: rgba(255, 255, 255, 0.80);
+  color: rgba(255, 255, 255, 0.75);
   max-width: 560px;
 }
 .panel--crafted .panel-fact-emphasis {
+  font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+  font-weight: 500;
+  font-style: normal;
   color: rgba(255, 255, 255, 1);
 }
 
@@ -3054,6 +3060,16 @@ a[href*="neat.firecms"],
 .panel--crafted .marquee-divider {
   color: #1A7A97;
   opacity: 0.7;
+}
+
+/* C8 — marquee display text in Fraunces (serif) 600 weight.
+   Editorial register at display size; slight positive tracking
+   gives the serif room to breathe. Ghost opacity preserved. */
+.panel--crafted .nectar-scrolling-text-inner__text-chunk {
+  font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+  font-weight: 600;
+  font-optical-sizing: auto;
+  letter-spacing: 0.02em;
 }
 
 /* Mobile — keep pill compact, reduce body padding-left so the
