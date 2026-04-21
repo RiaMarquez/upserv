@@ -3097,7 +3097,7 @@ a[href*="neat.firecms"],
   position: relative;
   overflow: hidden;
   z-index: 100;
-  padding: 120px 0;
+  padding: 80px 0;
   /* Saturation lifted at every stop so the lavender canvas reads as
      present rather than near-white. Still firmly in the light
      register — no value below ~0.7 lightness. */
@@ -3156,7 +3156,7 @@ a[href*="neat.firecms"],
   position: relative;
   z-index: 3;
   padding: 0 80px;
-  margin-bottom: 80px;
+  margin-bottom: 64px;
 }
 
 .pricing-headline {
@@ -3166,7 +3166,7 @@ a[href*="neat.firecms"],
   letter-spacing: -0.04em;
   line-height: 1.04;
   color: #0A0A0A;
-  margin: 0 0 24px;
+  margin: 0 0 24px;  /* tightened — headline → intro 24px */
 }
 
 .pricing-intro {
@@ -3202,7 +3202,7 @@ a[href*="neat.firecms"],
   -webkit-backdrop-filter: blur(40px) saturate(180%);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.60);
-  padding: 40px 36px;
+  padding: 32px 28px;
   display: flex;
   flex-direction: column;
   z-index: 3;
@@ -3320,40 +3320,26 @@ a[href*="neat.firecms"],
   line-height: 1;
 }
 
-.pricing-setup {
-  font-family: var(--font-primary);
-  font-size: 14px;
-  color: rgba(10, 10, 10, 0.50);
-  margin: 4px 0 16px;
-  display: block;
-}
-
 .pricing-monthly {
   font-family: var(--font-primary);
   font-size: 15px;
   font-weight: 500;
   color: #1A7A97;
-  margin-bottom: 8px;
+  margin: 4px 0 28px;  /* sits 4px under the price; 28px before
+                          features replaces the removed hairline. */
   display: block;
-}
-
-/* --- Hairline divider between pricing block and features --- */
-.pricing-divider {
-  height: 1px;
-  background: rgba(10, 10, 10, 0.08);
-  margin: 24px 0;
 }
 
 /* --- Features --- */
 .pricing-features {
   flex: 1;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .pricing-feature {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   font-family: var(--font-primary);
   font-size: 16px;
   font-weight: 400;
@@ -3372,34 +3358,24 @@ a[href*="neat.firecms"],
   flex-shrink: 0;
 }
 
-/* --- INCLUDED chip — frosted mini-card with Cold Teal accent --- */
-.included-chip {
-  background: rgba(26, 122, 151, 0.06);
-  border: 1px solid rgba(26, 122, 151, 0.15);
-  border-radius: 12px;
-  padding: 14px 18px;
-  margin-bottom: 24px;
-  display: flex;
-  flex-direction: column;
+/* --- Single-line "Includes:" — replaces the previous frosted chip
+       since the AI chatbot info is unique per tier but doesn't need
+       its own surface to read clearly. --- */
+.included-line {
+  font-family: var(--font-primary);
+  font-size: 13px;
+  line-height: 1.45;
+  color: rgba(10, 10, 10, 0.70);
+  margin: 0 0 16px;
 }
-.pricing-card--featured .included-chip {
-  background: rgba(26, 122, 151, 0.09);
-  border: 1px solid rgba(26, 122, 151, 0.20);
-}
-.included-chip-label {
+.included-line-label {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 400;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
   color: #1A7A97;
-  margin-bottom: 6px;
-}
-.included-chip-text {
-  font-family: var(--font-primary);
-  font-size: 14px;
-  color: rgba(10, 10, 10, 0.80);
-  line-height: 1.45;
+  margin-right: 6px;
 }
 
 /* --- CTA button — matches hero CTA material identity --- */
