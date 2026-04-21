@@ -2413,7 +2413,10 @@ a[href*="neat.firecms"],
   display: grid;
   grid-template-columns: 55fr 45fr;
   gap: 80px;
-  align-items: center;
+  /* Top-align so the left column's headline starts at the same
+     vertical offset as the right column's ChatGPT card rather than
+     floating centered against the taller right column's card stack. */
+  align-items: start;
   width: 100%;
   padding: 120px 120px 120px 120px;
 }
