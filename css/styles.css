@@ -349,8 +349,9 @@ input { font: inherit; }
   padding-top: 40px;
 }
 
-/* --- Neat gradient — full-vibrancy canvas + atmospheric blur (2px)
-       so foreground reads as comparatively crisper (depth cue) --- */
+/* --- Neat gradient — softened canvas (4px blur) so wave patterns
+       read as atmospheric mood rather than distinct shapes. Colors
+       preserved; shapes diffuse. --- */
 .hero-fluid {
   position: absolute;
   inset: 0;
@@ -360,13 +361,28 @@ input { font: inherit; }
   pointer-events: none;
   display: block;
   opacity: 1;
-  filter: blur(2px);
+  filter: blur(4px);
 }
 
-/* --- Noise grain overlay — softens bright gradient frames, unifies
-       the hero as a captured-image finish. Static film-grain, SVG
-       fractalNoise (no asset, scales crisp at any size). Sits above
-       gradient + bloom, below content (hero-grid z:3). --- */
+/* --- Dark tint overlay — soft-light dim at 0.12 to calm the
+       gradient's vividness without darkening it. Sits above the
+       gradient (z:0) and below the bloom (z:1) and grain (z:2),
+       so both bloom light and grain texture still read over the
+       tinted canvas. --- */
+.landing-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.12);
+  mix-blend-mode: soft-light;
+}
+
+/* --- Noise grain overlay — visible at glance (0.11) rather than
+       only on close inspection. Static SVG fractal-noise, scales
+       crisp at any size. Sits above gradient + tint + bloom, below
+       content (hero-grid z:3). --- */
 .landing-section::after {
   content: '';
   position: absolute;
@@ -374,7 +390,7 @@ input { font: inherit; }
   z-index: 2;
   pointer-events: none;
   background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  opacity: 0.06;
+  opacity: 0.11;
   mix-blend-mode: overlay;
 }
 
