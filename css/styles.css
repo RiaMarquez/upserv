@@ -1704,7 +1704,9 @@ a[href*="neat.firecms"],
   position: absolute;
   bottom: -28px;
   left: 50%;
-  transform: translateX(-50%);
+  /* Centering composed with --pill-scale so JS can animate scale
+     without clobbering translateX. */
+  transform: translateX(-50%) scale(var(--pill-scale, 1));
   display: flex;
   align-items: center;
   gap: 8px;
@@ -2054,24 +2056,25 @@ a[href*="neat.firecms"],
 }
 
 /* Internal Book Appointment — inherits main CTA craft, scaled smaller.
-   No breathing animation (secondary action, stays quiet). */
+   Alphas bumped (vs. main CTA proportions) so the ~30×20px button
+   still reads as a material object against the frosted card. */
 .bc-cta-btn {
   display: inline-block;
   font-family: var(--font-display);
   font-size: 8px;
   font-weight: 600;
   color: #fff;
-  background: linear-gradient(180deg, #0F0F12 0%, #050507 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, #1A1A20 0%, #050507 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 6px 14px;
   border-radius: 6px;
   letter-spacing: 0;
   box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.15),
-    0 4px 12px -2px rgba(0, 0, 0, 0.18),
-    0 8px 20px -4px rgba(21, 94, 117, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.10),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.20);
+    0 1px 2px rgba(0, 0, 0, 0.20),
+    0 4px 10px -2px rgba(0, 0, 0, 0.25),
+    0 6px 14px -3px rgba(21, 94, 117, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.30);
   transition:
     transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
     background 250ms ease,
@@ -2080,14 +2083,14 @@ a[href*="neat.firecms"],
 }
 .bc-cta-btn:hover {
   transform: translateY(-1px);
-  background: linear-gradient(180deg, #141418 0%, #08080A 100%);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: linear-gradient(180deg, #22222A 0%, #08080A 100%);
+  border-color: rgba(255, 255, 255, 0.22);
   box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.22),
-    0 6px 18px -3px rgba(0, 0, 0, 0.27),
-    0 12px 30px -6px rgba(21, 94, 117, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.20);
+    0 1px 3px rgba(0, 0, 0, 0.28),
+    0 6px 16px -3px rgba(0, 0, 0, 0.32),
+    0 10px 22px -4px rgba(21, 94, 117, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.30);
 }
 
 /* --- Rating --- */
@@ -2193,12 +2196,13 @@ a[href*="neat.firecms"],
   }
   .bc-lens-readout::after { display: none !important; }
 
-  /* PILL — static in flex flow, 12px below readout */
+  /* PILL — static in flex flow, 12px below readout. No translateX
+     here — just scale, so --pill-scale animation still works. */
   .bc-recommended {
     position: static !important;
     bottom: auto !important;
     left: auto !important;
-    transform: none !important;
+    transform: scale(var(--pill-scale, 1)) !important;
     margin: 12px 0 0 !important;
   }
 }

@@ -391,9 +391,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function render(idx, instant) {
       const s = STATES[idx];
+      // Drive scale via --pill-scale so the CSS `translateX(-50%) scale(...)`
+      // keeps the centering translate intact on desktop (and `scale(...)`
+      // alone on mobile where the pill is in static flow).
       if (instant) {
         pill.style.transition = 'none';
-        pill.style.transform = 'scale(1)';
+        pill.style.setProperty('--pill-scale', '1');
         pill.style.opacity = '1';
         pillTxt.textContent = s.verdict;
         because.textContent = s.because;
@@ -405,33 +408,31 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       // PHASE 1 (200ms ease-in) — shrink + dim the current state
       pill.style.transition = 'transform 200ms ease-in, opacity 200ms ease-in';
-      pill.style.transform = 'scale(0.96)';
+      pill.style.setProperty('--pill-scale', '0.96');
       pill.style.opacity = '0.4';
       because.style.opacity = '0';
 
       setTimeout(() => {
-        // PHASE 2 (50ms invisible swap) — content + start dot color morph
+        // PHASE 2 — content swap + start smooth dot color morph
         pillTxt.textContent = s.verdict;
         because.textContent = s.because;
         pill.setAttribute('data-state', String(idx + 1));
         if (pillDot) {
-          // GSAP animates smooth color morph over 200ms (bypasses the
-          // earlier stuck-color quirk with native CSS transitions)
           if (typeof gsap !== 'undefined') {
             gsap.to(pillDot, { backgroundColor: s.dotColor, duration: 0.2, ease: 'power2.out', overwrite: true });
           } else {
             pillDot.style.setProperty('background-color', s.dotColor, 'important');
           }
         }
-        // Snap to pre-arrival scale without transition, then release
+        // Snap pre-arrival scale without transition, force reflow,
+        // then release into Phase 3 spring.
         pill.style.transition = 'none';
-        pill.style.transform = 'scale(1.02)';
-        // Force reflow so the next transform takes effect
+        pill.style.setProperty('--pill-scale', '1.02');
         void pill.offsetWidth;
 
-        // PHASE 3 (300ms overshoot) — arrival with confident spring
+        // PHASE 3 (300ms overshoot) — confident spring arrival
         pill.style.transition = 'transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 300ms ease-out';
-        pill.style.transform = 'scale(1)';
+        pill.style.setProperty('--pill-scale', '1');
         pill.style.opacity = '1';
         because.style.opacity = '1';
       }, 200);
