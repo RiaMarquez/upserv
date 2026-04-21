@@ -3159,27 +3159,6 @@ a[href*="neat.firecms"],
   margin-bottom: 80px;
 }
 
-.pricing-mono-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-.pricing-mono-tag__line {
-  display: block;
-  width: 20px;
-  height: 1px;
-  background: #1A7A97;
-}
-.pricing-mono-tag__text {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #1A7A97;
-}
-
 .pricing-headline {
   font-family: var(--font-display);
   font-size: 64px;
@@ -3199,9 +3178,6 @@ a[href*="neat.firecms"],
   letter-spacing: -0.01em;
   max-width: 600px;
   margin: 0;
-}
-.intro-emphasis {
-  color: rgba(10, 10, 10, 0.95);
 }
 
 /* --- Cards grid --- */
