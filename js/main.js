@@ -310,16 +310,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const STATES = [
       {
         verdict: 'Recommended by ChatGPT',
+        dotColor: '#22C55E',  // green
         query:   "Who's the best dentist in South Yarra for Invisalign?",
         outcome: '3 businesses recommended — including City Dental Group',
       },
       {
         verdict: 'Mentioned by ChatGPT — not first choice',
+        dotColor: '#EAB308',  // yellow
         query:   'Emergency dentist near Richmond available today?',
         outcome: '5 businesses mentioned — City Dental Group not first',
       },
       {
         verdict: "Not in ChatGPT's recommendations",
+        dotColor: '#EF4444',  // red
         query:   'Affordable dental cleaning in Melbourne CBD?',
         outcome: "4 businesses recommended — City Dental Group not included",
       },
@@ -334,8 +337,10 @@ document.addEventListener('DOMContentLoaded', () => {
         qText.textContent   = s.query;
         oText.textContent   = s.outcome;
         pill.setAttribute('data-state', String(idx + 1));
-        // pulse dot scale 0.9 → 1.0 during fade-in
+        // Drive dot color via inline style (priority over any CSS cascade
+        // surprise) + pulse scale 0.9 → 1.0 during fade-in.
         if (pillDot) {
+          pillDot.style.setProperty('background-color', s.dotColor, 'important');
           pillDot.style.transform = 'scale(0.9)';
           requestAnimationFrame(() => { pillDot.style.transform = 'scale(1)'; });
         }
