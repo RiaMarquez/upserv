@@ -1325,8 +1325,24 @@ a[href*="neat.firecms"],
   flex: 1 0 auto;
 }
 
-/* Outer ring — 160px edge, 2px solid Cold Teal + 3-layer teal glow
-   + glass inner highlight. This is the defining "instrument" surface. */
+/* Ground shadow — elliptical soft shadow on the card below the lens.
+   Gives the lens optical weight so it reads as an object, not a sticker. */
+.bc-lens::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  width: 80%;          /* ~128px at 160px lens */
+  height: 14px;        /* ~9% flat ellipse */
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 70%);
+  filter: blur(12px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Outer ring — 2px Cold Teal border + naturalistic halo + rim bevel
+   so the edge reads as glass disc in a metal ring. */
 .bc-lens-ring {
   position: absolute;
   inset: 0;
@@ -1334,14 +1350,38 @@ a[href*="neat.firecms"],
   border: 2px solid #155E75;
   box-sizing: border-box;
   box-shadow:
-    /* Outer glow: tight, medium, diffuse — "active scanner" emission */
-    0 0 0 1px rgba(21, 94, 117, 0.3),
-    0 0 24px rgba(21, 94, 117, 0.35),
-    0 0 48px rgba(21, 94, 117, 0.15),
-    /* Inner highlight: glass-lens physical suggestion */
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 2px 8px rgba(255, 255, 255, 0.08);
+    /* Ambient halo — hairline contact + mid glow + bottom-biased
+       bloom (lit-from-above illusion) + subtle top white rim glow */
+    0 0 0 1px rgba(21, 94, 117, 0.4),
+    0 0 20px rgba(21, 94, 117, 0.25),
+    0 8px 32px -8px rgba(21, 94, 117, 0.35),
+    0 2px 12px rgba(255, 255, 255, 0.10),
+    /* Rim bevel — inner white ring + top glass highlight + bottom
+       inner shadow (curvature illusion) */
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+    inset 0 2px 4px rgba(255, 255, 255, 0.15),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.20);
   z-index: 3;
+}
+
+/* Specular highlight — soft angled arc at 10 o'clock position.
+   Sits inside the lens view (clipped to circle by the view's mask). */
+.bc-lens-specular {
+  position: absolute;
+  top: 18%;
+  left: 22%;
+  width: 35%;
+  height: 20%;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0) 100%);
+  filter: blur(2px);
+  border-radius: 50%;
+  transform: rotate(-30deg);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 2;  /* above .bc-lens-view (z:1), below ring (z:3) */
 }
 /* Chromatic aberration — red 1px left, blue 1px right (1px matched to new border) */
 .bc-lens-ring::before,
@@ -1400,19 +1440,20 @@ a[href*="neat.firecms"],
   transform: translate(-50%, -50%);
 }
 
-/* Center point — 4px dot */
+/* Center point — 3px active focal dot + soft teal glow.
+   Sits above crosshair + ring insets, below the rim border. */
 .bc-lens-center {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 4px;
-  height: 4px;
+  width: 3px;
+  height: 3px;
   border-radius: 50%;
   background: #155E75;
-  opacity: 0.8;
   transform: translate(-50%, -50%);
+  box-shadow: 0 0 4px rgba(21, 94, 117, 0.8);
   pointer-events: none;
-  z-index: 3;
+  z-index: 4;
 }
 
 /* Primary ticks at 12 / 3 / 6 / 9 — 10px long, inward from inner ring */
@@ -1930,6 +1971,12 @@ a[href*="neat.firecms"],
 
   /* Lens shrunk to 80px, chrome scaled to ~50% glow */
   .bc-lens { width: 80px; height: 80px; margin-left: -40px; margin-top: -40px; }
+  .bc-lens::before {
+    width: 64px;
+    height: 8px;
+    bottom: -10px;
+    filter: blur(8px);
+  }
   .bc-lens-inner { width: 74px; height: 74px; }
   .bc-lens-ring {
     box-shadow:
