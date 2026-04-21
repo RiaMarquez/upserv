@@ -817,9 +817,9 @@ a[href*="neat.firecms"],
      the layout-box/visual-size discrepancy so the pill + because-line
      don't inherit a phantom gap. */
   .browser-card-wrap {
-    transform: scale(0.8);
+    transform: scale(0.88);
     transform-origin: center top;
-    margin-bottom: -64px;
+    margin-bottom: -56px;
   }
   /* MOBILE ALIGNMENT RULE (intentional + device-appropriate):
      Left-align on desktop, center on mobile.
