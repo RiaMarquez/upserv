@@ -1576,7 +1576,10 @@ a[href*="neat.firecms"],
   background-color: #22C55E;  /* default — State 1 green; JS updates via [data-state] */
   flex-shrink: 0;
   transform: scale(1);
-  transition: background-color 500ms ease, transform 500ms ease;
+  /* No transition on background-color — snap to new state; text fade
+     carries the transition feel. A CSS transition here was getting
+     stuck and ignoring inline !important changes (browser engine quirk). */
+  transition: transform 500ms ease;
 }
 
 /* Three-state verdict cycle — JS toggles [data-state] 1/2/3 */
