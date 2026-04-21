@@ -2998,30 +2998,34 @@ a[href*="neat.firecms"],
   color: rgba(255, 255, 255, 1);
 }
 
-/* Atmospheric radial backdrop behind the body copy — dark pools
-   where text sits, feathers organically into the image at the
-   edges. Pseudo-element so no HTML restructure. Left edge flush
-   at 0 so the teal border-left bar stays fully visible (the bar
-   must read as a separate brand signal, not absorbed into a box).
-   Right/top/bottom feather further out since there's no content
-   boundary to respect there. */
+/* Atmospheric radial backdrop — dark pools where the text sits,
+   dissolves organically into the image at all feathered edges.
+   backdrop-filter REMOVED intentionally: its blur plane is bound to
+   the pseudo-element's rectangle, which re-introduces the visible
+   box even when the radial fades to transparent. Radial alone gives
+   true edgeless feathering; trades the frosted quality for the
+   atmospheric dissolve which is the actual goal here.
+   Large offsets (top -80, right -120, bottom -50) push the
+   transparent zones well past the text so there's no way for the
+   container boundary to show. Left stays 0 so the teal bar stays
+   crisp. */
 .panel--crafted .panel-fact::before {
   content: "";
   position: absolute;
-  top: -40px;
+  top: -80px;
   left: 0;
-  right: -60px;
-  bottom: -30px;
+  right: -120px;
+  bottom: -50px;
   background: radial-gradient(
-    ellipse 70% 60% at 30% 50%,
-    rgba(0, 0, 0, 0.55) 0%,
-    rgba(0, 0, 0, 0.35) 40%,
-    rgba(0, 0, 0, 0.15) 70%,
-    transparent 100%
+    ellipse 65% 55% at 28% 50%,
+    rgba(0, 0, 0, 0.70) 0%,
+    rgba(0, 0, 0, 0.45) 35%,
+    rgba(0, 0, 0, 0.20) 65%,
+    transparent 95%
   );
-  backdrop-filter: blur(36px) saturate(120%);
-  -webkit-backdrop-filter: blur(36px) saturate(120%);
   border-radius: 0;
+  border: none;
+  box-shadow: none;
   z-index: -1;
   pointer-events: none;
 }
@@ -3046,12 +3050,12 @@ a[href*="neat.firecms"],
     max-width: 280px;
   }
   .panel--crafted .panel-fact::before {
-    top: -24px;
+    top: -40px;
     left: 0;
-    right: -40px;
-    bottom: -20px;
-    /* Keep radial gradient from desktop — no border-radius, no
-       rectangular shape at mobile either. */
+    right: -60px;
+    bottom: -30px;
+    /* Same radial-only strategy as desktop — no backdrop-filter,
+       no box-edge, just the gradient dissolving outward. */
   }
 }
 
