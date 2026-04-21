@@ -2210,29 +2210,16 @@ a[href*="neat.firecms"],
   }
   .bc-ai-particle { animation: none !important; }
 
-  /* READOUT — moved out of lens via JS; sits 8px below card,
-     12px above pill in the column flex flow */
-  .bc-lens-readout {
-    position: static !important;
-    top: auto !important;
-    bottom: auto !important;
-    left: auto !important;
-    transform: none !important;
-    margin-top: 8px !important;
-    display: inline-flex !important;
-    padding: 6px 12px !important;
-    background: rgba(5, 13, 16, 0.9) !important;
-    border: 1px solid rgba(21, 94, 117, 0.4) !important;
-    border-radius: 4px !important;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-  .bc-lens-readout-text {
-    font-size: 10px !important;
-    letter-spacing: 0.10em !important;
-    color: #4BADC5 !important;
-  }
-  .bc-lens-readout::after { display: none !important; }
+  /* READOUT — hidden on mobile; duplicates Verdict Pill semantically.
+     DOM node stays so the desktop GSAP timeline that writes into it
+     isn't disrupted. */
+  .bc-lens-readout { display: none !important; }
+
+  /* Rating row — trust signal, hidden on mobile to reduce density */
+  .bc-rating { display: none !important; }
+
+  /* Category pill — redundant with title on mobile */
+  .bc-category { display: none !important; }
 
   /* PILL — static in flex flow, 12px below readout. No translateX
      here — just scale, so --pill-scale animation still works. */
