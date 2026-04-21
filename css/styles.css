@@ -805,6 +805,9 @@ a[href*="neat.firecms"],
     justify-content: flex-start;
     gap: 0;
   }
+  /* MOBILE ALIGNMENT RULE (intentional + device-appropriate):
+     Left-align on desktop, center on mobile.
+     Applies to headline, subhead, CTA, and any left-column content. */
   .hero-grid__text {
     text-align: center;
     align-items: center;
@@ -812,6 +815,10 @@ a[href*="neat.firecms"],
     padding: 0 24px;
     transform: none;
   }
+  /* Ensure CTA is actually centered even if future refactors change
+     its display type (inline-flex + parent justify-content currently
+     handles this; margin-inline: auto is the belt-and-suspenders) */
+  .hero-cta { margin-left: auto; margin-right: auto; }
   /* Card container — no transform, full width to allow card centering */
   .hero-transform {
     width: 100% !important;
