@@ -237,10 +237,21 @@ document.addEventListener('DOMContentLoaded', () => {
       bcBody.style.setProperty('--lens-offset-y', oy.toFixed(2) + 'px');
     }
 
+    // Layer B — highlight offset CSS vars (light-source coupling).
+    // The multiplier (8) is the spec's start value; with MAX_ROT ±10deg
+    // that gives ±80px offset at maximum tilt.
+    const HIGHLIGHT_MULT = 8;
+    function setHighlightOffset(rotX, rotY) {
+      // Opposite sign so the glow shifts as if the light stays fixed.
+      card.style.setProperty('--highlight-offset-x', (-rotY * HIGHLIGHT_MULT).toFixed(2) + 'px');
+      card.style.setProperty('--highlight-offset-y', ( rotX * HIGHLIGHT_MULT).toFixed(2) + 'px');
+    }
+
     function reset() {
       card.style.transition = 'transform 0.8s ease-out';
       card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)';
       setLensOffset(0, 0);
+      setHighlightOffset(0, 0);
     }
 
     document.addEventListener('mousemove', (e) => {
@@ -258,11 +269,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const ny = (e.clientY - rect.top)  / rect.height;
       const rotY = (nx - 0.5) * 2 * MAX_ROT_Y;   // -10..+10
       const rotX = (0.5 - ny) * 2 * MAX_ROT_X;   // +10..-10
-      card.style.transition = 'transform 0.1s ease-out';
+      card.style.transition = 'transform 0.1s ease-out, --highlight-offset-x 0.3s ease-out, --highlight-offset-y 0.3s ease-out';
       card.style.transform =
         `perspective(800px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.02)`;
       // Lens parallax — opposite direction to tilt
       setLensOffset(rotY * LENS_OFFSET_X_PER_DEG, rotX * LENS_OFFSET_Y_PER_DEG);
+      // Highlight-source coupling — glow shifts opposite to tilt
+      setHighlightOffset(rotX, rotY);
     }, { passive: true });
 
     document.addEventListener('mouseleave', reset);

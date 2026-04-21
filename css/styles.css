@@ -1046,31 +1046,67 @@ a[href*="neat.firecms"],
 
 
 /* --- Browser card container — frosted glass in the Neat gradient --- */
+/* ============================================================
+   CARD BREATHING + LIGHT-SOURCE COUPLING (Layers A + B)
+   @property lets keyframes and transitions interpolate custom props
+   as numbers/lengths instead of stepping discretely.
+   ============================================================ */
+@property --glow-violet-strength  { syntax: '<number>'; inherits: false; initial-value: 0.35; }
+@property --glow-magenta-strength { syntax: '<number>'; inherits: false; initial-value: 0.22; }
+@property --top-highlight-strength{ syntax: '<number>'; inherits: false; initial-value: 0.80; }
+@property --highlight-offset-x    { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --highlight-offset-y    { syntax: '<length>'; inherits: false; initial-value: 0px; }
+
+@keyframes cardBreathe {
+  0%, 100% {
+    --glow-violet-strength: 0.35;
+    --glow-magenta-strength: 0.22;
+    --top-highlight-strength: 0.80;
+  }
+  50% {
+    --glow-violet-strength: 0.45;
+    --glow-magenta-strength: 0.30;
+    --top-highlight-strength: 0.95;
+  }
+}
+
 .browser-card {
   width: 100%;
   max-width: 520px;
   border-radius: 16px;
   overflow: hidden;
-  /* Frosted glass surface — saturate(180%) blooms gradient hues at edges */
   background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(40px) saturate(180%);
   -webkit-backdrop-filter: blur(40px) saturate(180%);
-  /* Hairline edge so the card never dissolves into the gradient */
   border: 1px solid rgba(255, 255, 255, 0.5);
-  /* Layered shadows: contact / ambient / violet glow / magenta glow /
-     inset top highlight / inset bottom darkening */
+  /* Layered shadows:
+     contact / ambient / violet glow (tilt-coupled, breathing) /
+     magenta glow (tilt-coupled, breathing) / inset top highlight
+     (breathing) / inset bottom darkening */
   box-shadow:
     0 1px 2px rgba(0, 0, 0, 0.06),
     0 8px 16px rgba(0, 0, 0, 0.08),
-    0 32px 64px -16px rgba(120, 40, 160, 0.35),
-    0 24px 48px -12px rgba(220, 60, 140, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    calc(var(--highlight-offset-x, 0px)) calc(32px + var(--highlight-offset-y, 0px)) 64px -16px
+      rgba(120, 40, 160, var(--glow-violet-strength, 0.35)),
+    calc(var(--highlight-offset-x, 0px)) calc(24px + var(--highlight-offset-y, 0px)) 48px -12px
+      rgba(220, 60, 140, var(--glow-magenta-strength, 0.22)),
+    inset 0 1px 0 rgba(255, 255, 255, var(--top-highlight-strength, 0.80)),
     inset 0 -1px 0 rgba(0, 0, 0, 0.04);
-  /* 3D readiness — JS drives transform per mouse position */
   transform-style: preserve-3d;
   transform: perspective(800px) rotateX(0deg) rotateY(0deg) scale(1);
-  transition: transform 0.1s ease-out;
+  /* Tilt stays snappy (0.1s); highlight offsets lag slightly (0.3s)
+     so the glow feels like it's responding to moving light rather
+     than being rigidly attached to the card. */
+  transition:
+    transform 0.1s ease-out,
+    --highlight-offset-x 0.3s ease-out,
+    --highlight-offset-y 0.3s ease-out;
   will-change: transform;
+  animation: cardBreathe 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .browser-card { animation: none !important; }
 }
 
 /* --- Browser chrome --- */
