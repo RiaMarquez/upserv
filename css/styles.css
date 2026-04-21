@@ -1659,69 +1659,45 @@ a[href*="neat.firecms"],
 }
 
 /* ============================================================
-   HERO TICKER — three-line live query strip at bottom of hero.
-   Synced with verdict pill via shared state in JS.
+   BECAUSE LINE — subordinate clause beneath the Verdict Pill.
+   Raw text on the gradient (no background). Cycles with the pill
+   via shared state in JS.
    ============================================================ */
-.hero-ticker {
+.bc-rec-because {
   position: absolute;
-  bottom: 40px;
-  left: 0;
-  right: 0;
-  z-index: 2;
-  padding: 8px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.10);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  left: 50%;
+  bottom: -72px;    /* pill bottom -28, pill height ~36, 8px gap below */
+  transform: translateX(-50%);
+  max-width: 280px;
   text-align: center;
-  pointer-events: none;
-}
-.ht-caption {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
-  line-height: 1.4;
-  margin-bottom: 3px;
-}
-.ht-query {
-  line-height: 1.3;
-  margin-bottom: 2px;
-}
-.ht-query-text {
   font-family: var(--font-primary);
   font-weight: 400;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.85);
-  transition: opacity 500ms ease;
-  display: inline-block;
-}
-.ht-outcome {
+  font-style: italic;
+  font-size: 12px;
   line-height: 1.4;
-}
-.ht-outcome-text {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.65);
   transition: opacity 500ms ease;
-  display: inline-block;
+  pointer-events: none;
+  z-index: 4;
 }
 
-/* Mobile — tighter type, allow query to wrap */
+/* Mobile — static flow (pill is already static on mobile in flex col) */
 @media (max-width: 768px) {
-  .hero-ticker {
-    bottom: 24px;
-    padding: 8px 16px;
+  .bc-rec-because {
+    position: static;
+    margin: 8px auto 0 !important;
+    transform: none !important;
+    font-size: 11px;
+    max-width: calc(100vw - 40px);
   }
-  .ht-query-text { font-size: 12px; }
-  .ht-outcome-text { font-size: 9px; }
 }
 
-/* Reduced motion — freeze transitions (JS also skips the cycle) */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .bc-rec-text,
   .bc-rec-dot,
-  .ht-query-text,
-  .ht-outcome-text {
+  .bc-rec-because {
     transition: none !important;
   }
 }

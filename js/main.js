@@ -302,56 +302,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const pill    = document.getElementById('bcRecommended');
     const pillTxt = pill && pill.querySelector('.bc-rec-text');
     const pillDot = pill && pill.querySelector('.bc-rec-dot');
-    const ticker  = document.getElementById('heroTicker');
-    const qText   = ticker && ticker.querySelector('.ht-query-text');
-    const oText   = ticker && ticker.querySelector('.ht-outcome-text');
-    if (!pill || !pillTxt || !ticker || !qText || !oText) return;
+    const because = document.getElementById('bcRecBecause');
+    if (!pill || !pillTxt || !because) return;
 
     const STATES = [
       {
         verdict: 'Recommended by ChatGPT',
-        dotColor: '#22C55E',  // green
-        query:   "Who's the best dentist in South Yarra for Invisalign?",
-        outcome: '3 businesses recommended — including City Dental Group',
+        dotColor: '#22C55E',
+        because: "for \u2018best Invisalign dentist in South Yarra\u2019",
       },
       {
         verdict: 'Mentioned by ChatGPT — not first choice',
-        dotColor: '#EAB308',  // yellow
-        query:   'Emergency dentist near Richmond available today?',
-        outcome: '5 businesses mentioned — City Dental Group not first',
+        dotColor: '#EAB308',
+        because: "for \u2018emergency dentist near Richmond\u2019",
       },
       {
         verdict: "Not in ChatGPT's recommendations",
-        dotColor: '#EF4444',  // red
-        query:   'Affordable dental cleaning in Melbourne CBD?',
-        outcome: "4 businesses recommended — City Dental Group not included",
+        dotColor: '#EF4444',
+        because: "for \u2018affordable dental cleaning in Melbourne CBD\u2019",
       },
     ];
 
-    // Prime State 1 immediately so the pill doesn't flash the HTML default
     function render(idx, instant) {
       const s = STATES[idx];
-      // Text crossfade: fade out → swap → fade in
       const fade = () => {
         pillTxt.textContent = s.verdict;
-        qText.textContent   = s.query;
-        oText.textContent   = s.outcome;
+        because.textContent = s.because;
         pill.setAttribute('data-state', String(idx + 1));
-        // Drive dot color via inline style (priority over any CSS cascade
-        // surprise) + pulse scale 0.9 → 1.0 during fade-in.
         if (pillDot) {
           pillDot.style.setProperty('background-color', s.dotColor, 'important');
           pillDot.style.transform = 'scale(0.9)';
           requestAnimationFrame(() => { pillDot.style.transform = 'scale(1)'; });
         }
         pillTxt.style.opacity = '1';
-        qText.style.opacity   = '1';
-        oText.style.opacity   = '1';
+        because.style.opacity = '1';
       };
       if (instant) { fade(); return; }
       pillTxt.style.opacity = '0';
-      qText.style.opacity   = '0';
-      oText.style.opacity   = '0';
+      because.style.opacity = '0';
       setTimeout(fade, 500);
     }
 
