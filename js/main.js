@@ -391,22 +391,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function render(idx, instant) {
       const s = STATES[idx];
-      const fade = () => {
+      if (instant) {
+        pill.style.transition = 'none';
+        pill.style.transform = 'scale(1)';
+        pill.style.opacity = '1';
+        pillTxt.textContent = s.verdict;
+        because.textContent = s.because;
+        pill.setAttribute('data-state', String(idx + 1));
+        if (pillDot) pillDot.style.setProperty('background-color', s.dotColor, 'important');
+        pillTxt.style.opacity = '1';
+        because.style.opacity = '1';
+        return;
+      }
+      // PHASE 1 (200ms ease-in) — shrink + dim the current state
+      pill.style.transition = 'transform 200ms ease-in, opacity 200ms ease-in';
+      pill.style.transform = 'scale(0.96)';
+      pill.style.opacity = '0.4';
+      because.style.opacity = '0';
+
+      setTimeout(() => {
+        // PHASE 2 (50ms invisible swap) — content + start dot color morph
         pillTxt.textContent = s.verdict;
         because.textContent = s.because;
         pill.setAttribute('data-state', String(idx + 1));
         if (pillDot) {
-          pillDot.style.setProperty('background-color', s.dotColor, 'important');
-          pillDot.style.transform = 'scale(0.9)';
-          requestAnimationFrame(() => { pillDot.style.transform = 'scale(1)'; });
+          // GSAP animates smooth color morph over 200ms (bypasses the
+          // earlier stuck-color quirk with native CSS transitions)
+          if (typeof gsap !== 'undefined') {
+            gsap.to(pillDot, { backgroundColor: s.dotColor, duration: 0.2, ease: 'power2.out', overwrite: true });
+          } else {
+            pillDot.style.setProperty('background-color', s.dotColor, 'important');
+          }
         }
-        pillTxt.style.opacity = '1';
+        // Snap to pre-arrival scale without transition, then release
+        pill.style.transition = 'none';
+        pill.style.transform = 'scale(1.02)';
+        // Force reflow so the next transform takes effect
+        void pill.offsetWidth;
+
+        // PHASE 3 (300ms overshoot) — arrival with confident spring
+        pill.style.transition = 'transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 300ms ease-out';
+        pill.style.transform = 'scale(1)';
+        pill.style.opacity = '1';
         because.style.opacity = '1';
-      };
-      if (instant) { fade(); return; }
-      pillTxt.style.opacity = '0';
-      because.style.opacity = '0';
-      setTimeout(fade, 500);
+      }, 200);
     }
 
     // Initial render to State 1 without fade
