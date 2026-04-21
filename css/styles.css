@@ -2998,21 +2998,30 @@ a[href*="neat.firecms"],
   color: rgba(255, 255, 255, 1);
 }
 
-/* Frosted dark backdrop behind the body copy zone — sits just
-   behind the text as a pseudo-element so copy reads as "on its
-   own surface" without adding HTML structure. Extends 20px beyond
-   the text box on all sides; clips cleanly at the rounded corners. */
+/* Atmospheric radial backdrop behind the body copy — dark pools
+   where text sits, feathers organically into the image at the
+   edges. Pseudo-element so no HTML restructure. Left edge flush
+   at 0 so the teal border-left bar stays fully visible (the bar
+   must read as a separate brand signal, not absorbed into a box).
+   Right/top/bottom feather further out since there's no content
+   boundary to respect there. */
 .panel--crafted .panel-fact::before {
   content: "";
   position: absolute;
-  top: -20px;
-  left: -22px;  /* -20 + 2px border-left compensation */
-  right: -20px;
-  bottom: -20px;
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(24px) saturate(120%);
-  -webkit-backdrop-filter: blur(24px) saturate(120%);
-  border-radius: 12px;
+  top: -40px;
+  left: 0;
+  right: -60px;
+  bottom: -30px;
+  background: radial-gradient(
+    ellipse 70% 60% at 30% 50%,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.35) 40%,
+    rgba(0, 0, 0, 0.15) 70%,
+    transparent 100%
+  );
+  backdrop-filter: blur(36px) saturate(120%);
+  -webkit-backdrop-filter: blur(36px) saturate(120%);
+  border-radius: 0;
   z-index: -1;
   pointer-events: none;
 }
@@ -3037,11 +3046,12 @@ a[href*="neat.firecms"],
     max-width: 280px;
   }
   .panel--crafted .panel-fact::before {
-    top: -14px;
-    left: -14px;
-    right: -14px;
-    bottom: -14px;
-    border-radius: 10px;
+    top: -24px;
+    left: 0;
+    right: -40px;
+    bottom: -20px;
+    /* Keep radial gradient from desktop — no border-radius, no
+       rectangular shape at mobile either. */
   }
 }
 
