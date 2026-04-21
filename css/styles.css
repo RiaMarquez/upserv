@@ -1573,16 +1573,16 @@ a[href*="neat.firecms"],
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #22C55E;  /* default — State 1 green; JS updates via [data-state] */
+  background-color: #22C55E;  /* default — State 1 green; JS updates via [data-state] */
   flex-shrink: 0;
   transform: scale(1);
-  transition: background 500ms ease, transform 500ms ease;
+  transition: background-color 500ms ease, transform 500ms ease;
 }
 
 /* Three-state verdict cycle — JS toggles [data-state] 1/2/3 */
-.bc-recommended[data-state="1"] .bc-rec-dot { background: #22C55E; }  /* green */
-.bc-recommended[data-state="2"] .bc-rec-dot { background: #EAB308; }  /* yellow */
-.bc-recommended[data-state="3"] .bc-rec-dot { background: #EF4444; }  /* red */
+.bc-recommended[data-state="1"] .bc-rec-dot { background-color: #22C55E; }  /* green */
+.bc-recommended[data-state="2"] .bc-rec-dot { background-color: #EAB308; }  /* yellow */
+.bc-recommended[data-state="3"] .bc-rec-dot { background-color: #EF4444; }  /* red */
 .bc-rec-text { transition: opacity 500ms ease; }
 
 .bc-rec-ring {
