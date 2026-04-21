@@ -807,44 +807,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ================================================================
-     S04: STICKY MEDIA SECTIONS — scroll-pinned stacking cards
+     S04: INDUSTRY CARDS — simple full-bleed, no JS required
      ================================================================ */
-  const productsSection = document.querySelector('.products-section');
-  const mediaPanels = document.querySelectorAll('.nectar-sticky-media-section');
-  const stickyNav = document.querySelector('.nectar-sticky-media-section__navigation');
-  const stickyNavBtns = document.querySelectorAll('.nectar-sticky-media-section__navigation-button');
-
-  if (productsSection && mediaPanels.length > 0) {
-    ScrollTrigger.create({
-      trigger: productsSection, start: 'top 30%', end: 'bottom 70%',
-      onEnter: () => stickyNav?.classList.add('visible'),
-      onLeave: () => stickyNav?.classList.remove('visible'),
-      onEnterBack: () => stickyNav?.classList.add('visible'),
-      onLeaveBack: () => stickyNav?.classList.remove('visible'),
-    });
-
-    mediaPanels.forEach((panel, i) => {
-      ScrollTrigger.create({
-        trigger: panel, start: 'top 50%', end: 'bottom 50%',
-        onEnter: () => updateNavBtn(i),
-        onEnterBack: () => updateNavBtn(i),
-      });
-    });
-
-    function updateNavBtn(idx) {
-      stickyNavBtns.forEach((btn, i) => btn.classList.toggle('active', i === idx));
-    }
-
-    stickyNavBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const idx = parseInt(btn.getAttribute('data-target'));
-        if (mediaPanels[idx]) {
-          if (typeof lenis !== 'undefined' && lenis) lenis.scrollTo(mediaPanels[idx], { offset: -100 });
-          else mediaPanels[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      });
-    });
-  }
 
   /* ================================================================
      S05: ROTATING WORDS
@@ -895,7 +859,7 @@ document.addEventListener('DOMContentLoaded', () => {
      threshold: 0.25
      ================================================================ */
   const revealSections = document.querySelectorAll(
-    '.hero-text-section, .products-section, .trusted-section, .faq-section, .site-footer'
+    '.hero-text-section, .industry-cards, .trusted-section, .faq-section, .site-footer'
   );
   const sectionObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
