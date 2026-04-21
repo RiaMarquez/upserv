@@ -302,10 +302,13 @@
           <!-- Left column: text -->
           <div class="s3-left s3-reveal">
             <div class="s3-headline">
-              <h2>The internet changed.<br>Most websites didn't.</h2>
+              <h2>
+                <span class="s3-line s3-whisper">The internet changed.</span>
+                <span class="s3-line s3-shout">Most websites didn't.</span>
+              </h2>
             </div>
             <div class="s3-body">
-              <p>Search used to show lists. AI gives answers. And it doesn't include everyone. Only the businesses it understands get recommended.</p>
+              <p>Search used to show lists. AI gives answers.<br>And it doesn't include everyone.<br><span class="subhead-emphasis">Only the businesses it understands get recommended.</span></p>
             </div>
           </div>
 
@@ -353,13 +356,15 @@
                     </div>
                   </div>
                 </div>
-                <div class="terminal-missing" id="terminalMissing">
-                  <span class="missing-pulse"></span>
-                  <span class="missing-label">Your business</span>
-                  <p class="missing-not-rec">Not recommended.</p>
-                  <p class="missing-body">Your website exists. But AI cannot confidently understand it — so it does not include you in results. Your competitors are being chosen instead.</p>
-                </div>
               </div>
+            </div>
+            <!-- Missing card — moved out of .terminal so its climax
+                 shadow can bloom freely, not clipped by terminal overflow -->
+            <div class="terminal-missing" id="terminalMissing">
+              <span class="missing-pulse"></span>
+              <span class="missing-label">Your business</span>
+              <p class="missing-not-rec">Not recommended.</p>
+              <p class="missing-body">Your website exists. But AI cannot confidently understand it, so it does not include you in results. Your competitors are being chosen instead.</p>
             </div>
           </div>
         </div>
