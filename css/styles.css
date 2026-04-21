@@ -942,14 +942,15 @@ a[href*="neat.firecms"],
   .bc-chrome { padding: 10px 12px; }
   .bc-site-nav { padding: 8px 12px; }
 
-  /* Hero image — landscape 16/9 crop saves ~100px vs square.
-     Tighter top margin on mobile (10px → 2px) shifts card content
-     up ~8px, giving more card visible above the fold. */
+  /* Hero image — shorter 2.2:1 banner crop on mobile so the photo
+     reads as a banner, not a dominant block. Face + upper body stay
+     in frame; operatory stays behind. Tighter top margin (2px)
+     pulls card content up so more is visible above the fold. */
   .bc-hero-img {
     margin: 2px 12px 0 !important;
     width: calc(100% - 24px) !important;
     height: auto !important;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 2.2 / 1;
   }
   .bc-hero-img img {
     width: 100% !important;
@@ -962,15 +963,17 @@ a[href*="neat.firecms"],
   .bc-category { padding: 10px 12px 0 !important; }
   .bc-category-text { font-size: 10px !important; }
 
-  /* Title — 16px, wraps freely */
+  /* Title — 16px, wraps freely. Desktop variant hidden; mobile
+     variant (short identity + location) shown. */
   .bc-title {
     padding: 10px 12px 0 !important;
     font-size: 16px !important;
     line-height: 1.35 !important;
-    display: block !important;
     -webkit-line-clamp: unset !important;
     overflow: visible !important;
   }
+  .bc-title--desktop { display: none !important; }
+  .bc-title--mobile  { display: block !important; }
 
   /* Meta — caption-over-list, unboxed. SERVICES label above, values
      on a single nowrap line below. (Locations already hidden above.) */
@@ -2032,7 +2035,12 @@ a[href*="neat.firecms"],
   color: #155E75;
 }
 
-/* --- Title --- */
+/* --- Title — desktop shows full version, mobile shows identity-only.
+       Toggled via --desktop / --mobile modifier classes (mobile rule
+       lives in the 768px breakpoint). --- */
+.bc-title--desktop { display: block; }
+.bc-title--mobile  { display: none; }
+
 .bc-title {
   font-family: var(--font-display);
   font-size: 13px;
