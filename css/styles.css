@@ -2881,6 +2881,131 @@ a[href*="neat.firecms"],
 }
 
 /* ============================================================
+   S04 CRAFTED PANELS — Tier 1 cohesion + Tier 2 craft
+   Applied via .panel--crafted modifier so only chosen panels
+   inherit the atmospheric treatments. Scoped tight so other
+   panels stay untouched until the next pass.
+   ============================================================ */
+
+/* C1 — gradient overlay replaces flat black. Top of image breathes,
+   bottom anchors dark for copy contrast. */
+.panel--crafted .panel-bg-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.25) 0%,
+    rgba(0, 0, 0, 0.40) 40%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+}
+
+/* C2 — upper-left warm bloom, matches hero's moonlight direction.
+   soft-light blend keeps bloom from lifting too bright. */
+.panel--crafted::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 15% 20%,
+    rgba(255, 245, 235, 0.12) 0%,
+    rgba(255, 245, 235, 0.04) 30%,
+    transparent 60%
+  );
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* C3 — static fractal-noise grain, same SVG technique as hero.
+   Sits above bloom, below content. */
+.panel--crafted::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Keep content (badge, panel-fact, scrolling-text) above the
+   bloom + grain overlays we just added. */
+.panel--crafted .nectar-badge,
+.panel--crafted .panel-fact,
+.panel--crafted .nectar-sticky-media-section__content-section-inner {
+  z-index: 4;
+}
+
+/* C4 — industry pill upgrade: frosted glass, teal-tinted border,
+   breathing teal dot, mono type. Overrides the plain outline style. */
+.panel--crafted .nectar-badge__inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 100px;
+  background: rgba(0, 0, 0, 0.40);
+  border: 1px solid rgba(26, 122, 151, 0.30);
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+}
+.panel--crafted .pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1A7A97;
+  box-shadow: 0 0 6px rgba(26, 122, 151, 0.6);
+  animation: pillDotBreathe 3s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.panel--crafted .pill-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+@keyframes pillDotBreathe {
+  0%, 100% { opacity: 0.7; box-shadow: 0 0 6px rgba(26, 122, 151, 0.6); }
+  50%      { opacity: 1;   box-shadow: 0 0 10px rgba(26, 122, 151, 0.9); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .panel--crafted .pill-dot { animation: none; }
+}
+
+/* C5 — Cold Teal vertical accent bar on the body copy, acting as
+   a pull-quote cue. Bar length follows body text naturally. */
+.panel--crafted .panel-fact {
+  border-left: 2px solid #1A7A97;
+  padding-left: 24px;
+}
+
+/* C6 — semantic emphasis: setup stays muted (0.6α), payoff clause
+   brightens (0.95α). Same pattern as hero + Section 4 subhead. */
+.panel--crafted .panel-fact {
+  color: rgba(255, 255, 255, 0.60);
+}
+.panel--crafted .panel-fact-emphasis {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* C7 — marquee dividers rendered in Cold Teal at 0.7α so the "·"
+   punctuates without shouting. */
+.panel--crafted .marquee-divider {
+  color: #1A7A97;
+  opacity: 0.7;
+}
+
+/* Mobile — keep pill compact, reduce body padding-left so the
+   accent bar doesn't push copy off the card. */
+@media (max-width: 690px) {
+  .panel--crafted .nectar-badge__inner { padding: 6px 12px; }
+  .panel--crafted .pill-text { font-size: 10px; }
+  .panel--crafted .panel-fact { padding-left: 16px; }
+}
+
+/* ============================================================
    S05: TRUSTED BY
    ============================================================ */
 .trusted-section {
