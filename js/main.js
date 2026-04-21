@@ -569,9 +569,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mobile: slow the whole cycle ~1.65× → ~18s total (was ~11s on desktop)
     if (isMobile) tl.timeScale(0.6);
 
+    // Mobile lens path — constrained to y 10-40 so the lens never
+    // overlaps the card title or services row. Desktop path unchanged.
+    // Each entry is [desktopCoord, mobileCoord].
+    const P = (dx, dy, mx, my) => ({ x: isMobile ? mx : dx, y: isMobile ? my : dy });
+    const p1 = P(15, 10, 20, 15);
+    const p2 = P(85, 15, 70, 20);
+    const p3 = P(15, 50, 40, 30);
+    const p4 = P(50, 65, 75, 35);
+    const p5a = P(10, 82, 25, 38);
+    const p5b = P(90, 82, 25, 38);   // on mobile collapse sweep to single point
+    const p6 = P(50, 91, 55, 30);
+    const p7y = isMobile ? 40 : 98;  // mobile Phase 7 stays in safe zone
+
     // ---------- PHASE 1 — ENTRY (0.8s) ----------
     tl.call(() => {
-        state.x = 15; state.y = 10; state.r = 0;
+        state.x = p1.x; state.y = p1.y; state.r = 0;
         writeState();
         setReadout('AI_VISION: ACTIVE');
       })
@@ -586,19 +599,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- PHASE 2 — NAV SCAN (1.5s, linear) ----------
     tl.call(() => setReadout('STRUCTURE: INDEXED'))
       .to(state, {
-        x: 85, y: 15, duration: 1.5, ease: 'none', onUpdate: writeState
+        x: p2.x, y: p2.y, duration: 1.5, ease: 'none', onUpdate: writeState
       });
 
     // ---------- PHASE 3 — IMAGE DIAGONAL (2s) ----------
     tl.call(() => setReadout('CONTEXT: PARSED'))
       .to(state, {
-        x: 15, y: 50, duration: 2, ease: 'power1.inOut', onUpdate: writeState
+        x: p3.x, y: p3.y, duration: 2, ease: 'power1.inOut', onUpdate: writeState
       });
 
     // ---------- PHASE 4 — TITLE FOCUS (1.5s: 0.7 travel + 0.8 pulse) ----------
     tl.call(() => setReadout('ENTITY: IDENTIFIED'))
       .to(state, {
-        x: 50, y: 65, duration: 0.7, ease: 'power1.inOut', onUpdate: writeState
+        x: p4.x, y: p4.y, duration: 0.7, ease: 'power1.inOut', onUpdate: writeState
       })
       .to(lens, { scale: 1.05, duration: 0.4, ease: 'power1.inOut' })
       .to(lens, { scale: 1.00, duration: 0.4, ease: 'power1.inOut' });
@@ -606,23 +619,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- PHASE 5 — SERVICES SWEEP (1.5s) ----------
     tl.call(() => setReadout('CATALOG: MAPPED'))
       .to(state, {
-        x: 10, y: 82, duration: 0.5, ease: 'power1.inOut', onUpdate: writeState
+        x: p5a.x, y: p5a.y, duration: 0.5, ease: 'power1.inOut', onUpdate: writeState
       })
       .to(state, {
-        x: 90, y: 82, duration: 1.0, ease: 'power1.inOut', onUpdate: writeState
+        x: p5b.x, y: p5b.y, duration: 1.0, ease: 'power1.inOut', onUpdate: writeState
       });
 
     // ---------- PHASE 6 — CTA SETTLE (1s: 0.5 travel + 0.5 hold) ----------
     tl.call(() => setReadout('ACTION: REGISTERED'))
       .to(state, {
-        x: 50, y: 91, duration: 0.5, ease: 'power1.inOut', onUpdate: writeState
+        x: p6.x, y: p6.y, duration: 0.5, ease: 'power1.inOut', onUpdate: writeState
       })
       .to({}, { duration: 0.5 });
 
     // ---------- PHASE 7 — RECOMMENDATION (1.75s: 1.0 travel + 0.25 dwell + pulse + 0.5 hold) ----------
+    // Desktop: lens descends to y 98 (exits card bottom toward pill).
+    // Mobile: lens stays in safe zone (y 40) — pill pulse still fires via callback.
     tl.call(() => setReadout('RECOMMENDATION: SENT'))
       .to(state, {
-        x: pillXPercent, y: 98,
+        x: isMobile ? 50 : pillXPercent, y: p7y,
         duration: 1.0, ease: 'power1.inOut', onUpdate: writeState
       })
       .to({}, { duration: 0.25 })   // 250ms thinking-beat before pulse

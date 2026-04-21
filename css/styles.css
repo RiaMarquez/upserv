@@ -942,9 +942,11 @@ a[href*="neat.firecms"],
   .bc-chrome { padding: 10px 12px; }
   .bc-site-nav { padding: 8px 12px; }
 
-  /* Hero image — landscape 16/9 crop saves ~100px vs square */
+  /* Hero image — landscape 16/9 crop saves ~100px vs square.
+     Tighter top margin on mobile (10px → 2px) shifts card content
+     up ~8px, giving more card visible above the fold. */
   .bc-hero-img {
-    margin: 10px 12px 0 !important;
+    margin: 2px 12px 0 !important;
     width: calc(100% - 24px) !important;
     height: auto !important;
     aspect-ratio: 16 / 9;
@@ -2222,13 +2224,16 @@ a[href*="neat.firecms"],
   .bc-category { display: none !important; }
 
   /* PILL — static in flex flow, 12px below readout. No translateX
-     here — just scale, so --pill-scale animation still works. */
+     here — just scale, so --pill-scale animation still works.
+     Constrained to 320px max + centered so it reads as a discrete
+     verdict rather than a full-width banner. */
   .bc-recommended {
     position: static !important;
     bottom: auto !important;
     left: auto !important;
     transform: scale(var(--pill-scale, 1)) !important;
-    margin: 12px 0 0 !important;
+    margin: 12px auto 0 !important;
+    max-width: 320px !important;
   }
 }
 
