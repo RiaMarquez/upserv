@@ -2888,13 +2888,13 @@ a[href*="neat.firecms"],
    ============================================================ */
 
 /* C1 — gradient overlay replaces flat black. Top of image breathes,
-   bottom anchors dark for copy contrast. */
+   middle + bottom darkened further for copy contrast (Tim feedback). */
 .panel--crafted .panel-bg-overlay {
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0.25) 0%,
-    rgba(0, 0, 0, 0.40) 40%,
-    rgba(0, 0, 0, 0.75) 100%
+    rgba(0, 0, 0, 0.55) 40%,
+    rgba(0, 0, 0, 0.88) 100%
   );
 }
 
@@ -2981,13 +2981,40 @@ a[href*="neat.firecms"],
   padding-left: 24px;
 }
 
-/* C6 — semantic emphasis: setup stays muted (0.6α), payoff clause
-   brightens (0.95α). Same pattern as hero + Section 4 subhead. */
+/* C6 — typography refinement + raised opacity for readability.
+   Setup 0.80α, payoff 1.0α — still a visible delta, both bright
+   enough to read cleanly over the darker gradient + copy backdrop.
+   Font-family uses var(--font-primary) which correctly resolves to
+   the registered 'Sohne' family (weight 400 = Buch). */
 .panel--crafted .panel-fact {
-  color: rgba(255, 255, 255, 0.60);
+  font-family: var(--font-primary);
+  font-size: 18px;
+  line-height: 1.55;
+  letter-spacing: -0.015em;
+  color: rgba(255, 255, 255, 0.80);
+  max-width: 560px;
 }
 .panel--crafted .panel-fact-emphasis {
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(255, 255, 255, 1);
+}
+
+/* Frosted dark backdrop behind the body copy zone — sits just
+   behind the text as a pseudo-element so copy reads as "on its
+   own surface" without adding HTML structure. Extends 20px beyond
+   the text box on all sides; clips cleanly at the rounded corners. */
+.panel--crafted .panel-fact::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: -22px;  /* -20 + 2px border-left compensation */
+  right: -20px;
+  bottom: -20px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
+  border-radius: 12px;
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* C7 — marquee dividers rendered in Cold Teal at 0.7α so the "·"
@@ -2998,11 +3025,24 @@ a[href*="neat.firecms"],
 }
 
 /* Mobile — keep pill compact, reduce body padding-left so the
-   accent bar doesn't push copy off the card. */
+   accent bar doesn't push copy off the card. Tighten the copy
+   backdrop offsets so the frosted surface doesn't extend past
+   the card edge at narrow widths. */
 @media (max-width: 690px) {
   .panel--crafted .nectar-badge__inner { padding: 6px 12px; }
   .panel--crafted .pill-text { font-size: 10px; }
-  .panel--crafted .panel-fact { padding-left: 16px; }
+  .panel--crafted .panel-fact {
+    padding-left: 16px;
+    font-size: 15px;
+    max-width: 280px;
+  }
+  .panel--crafted .panel-fact::before {
+    top: -14px;
+    left: -14px;
+    right: -14px;
+    bottom: -14px;
+    border-radius: 10px;
+  }
 }
 
 /* ============================================================
