@@ -3098,27 +3098,42 @@ a[href*="neat.firecms"],
   overflow: hidden;
   z-index: 100;
   padding: 120px 0;
+  /* Saturation lifted at every stop so the lavender canvas reads as
+     present rather than near-white. Still firmly in the light
+     register — no value below ~0.7 lightness. */
   background: linear-gradient(
     165deg,
-    #F8F7FA 0%,
-    #EEEBF2 25%,
-    #E4DFEB 55%,
-    #D9D3E3 80%,
-    #CDC5DB 100%
+    #F3F0F8 0%,
+    #E4DFEB 25%,
+    #D4CCE0 55%,
+    #C0B5D2 80%,
+    #B0A3C6 100%
   );
 }
 
-/* Atmospheric warm bloom in the upper-left (matches hero moonlight) */
+/* Directional lighting: warm bloom in the upper-left + cool shadow
+   pooled in the bottom-right. Two radial gradients stacked on a
+   single pseudo-element so soft-light blend applies to the composite.
+   This gives the canvas a clear light direction rather than diffuse
+   even illumination. */
 .pricing-section::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse at 20% 25%,
-    rgba(255, 245, 235, 0.50) 0%,
-    rgba(255, 245, 235, 0.15) 35%,
-    transparent 65%
-  );
+  background:
+    radial-gradient(
+      ellipse at 85% 90%,
+      rgba(30, 20, 60, 0.20) 0%,
+      rgba(30, 20, 60, 0.08) 30%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 15% 20%,
+      rgba(255, 240, 220, 0.85) 0%,
+      rgba(255, 240, 220, 0.35) 25%,
+      rgba(255, 240, 220, 0.10) 50%,
+      transparent 75%
+    );
   mix-blend-mode: soft-light;
   pointer-events: none;
   z-index: 1;
